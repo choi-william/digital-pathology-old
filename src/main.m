@@ -1,22 +1,21 @@
 close all;
 
 run('init.m');
-im = DPImage('A.tif');
+A = DPImage('A.tif');
+B = DPImage('B.tif');
+C = DPImage('C.tif');
+D = DPImage('D.tif');
+E = DPImage('E.tif');
 
-% converting image to grayscale
-grayIm = rgb2gray(im.image);
-%A = size(grayIm);
-%figure, imhist(grayIm);
-%figure, imshow(grayIm);
+figure; prepare.extractSoma(A);
+figure; prepare.extractSoma(B);
+figure; prepare.extractSoma(C);
+figure; prepare.extractSoma(D);
+figure; prepare.extractSoma(E);
 
-seg = prepare.mumford.chenvese(im.image,'whole',400,0.1,'multiphase'); % ability on gray image
 
-%T = adaptthresh(grayIm);
-% global thresholding Otsu's Method
-%BW = imbinarize(grayIm,60/255);
-%figure, imshow(BW);
-%thresIm = imregionalmax(I,26);
-%imshow(thresIm);
+
+%seg = prepare.mumford.chenvese(adjusted,'whole',1000,1,'multiphase'); % ability on gray image
 
 %-- End 
 

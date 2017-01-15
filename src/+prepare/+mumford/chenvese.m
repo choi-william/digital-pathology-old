@@ -159,9 +159,9 @@ switch lower(method)
 
         %-- Display settings
           figure();
-          subplot(2,2,1); imshow(I); title('Input Image');
-          subplot(2,2,2); contour(flipud(phi0), [0 0], 'r','LineWidth',1); title('initial contour');
-          subplot(2,2,3); title('Segmentation');
+          %subplot(2,2,1); imshow(I); title('Input Image');
+          %subplot(2,2,2); contour(flipud(phi0), [0 0], 'r','LineWidth',1); title('initial contour');
+          %subplot(2,2,3); title('Segmentation');
         %-- End Display original image and mask
 
         %-- Main loop

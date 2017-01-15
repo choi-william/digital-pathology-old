@@ -1,0 +1,17 @@
+close all;
+
+run('init.m');
+A = DPImage('A.tif');
+B = DPImage('A.tif');
+C = DPImage('A.tif');
+D = DPImage('A.tif');
+A = DPImage('A.tif');
+
+prepare.extractSoma(im);
+
+
+
+%seg = prepare.mumford.chenvese(adjusted,'whole',1000,1,'multiphase'); % ability on gray image
+
+%-- End 
+
