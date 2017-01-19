@@ -48,5 +48,5 @@ function [out_image] = fastms(in_image, varargin)
         end
     end
 
-    out_image = prepare.mumford_shah.fastms_mex(in_image, options);
+    out_image = fastms_mex(in_image, options);
 end
