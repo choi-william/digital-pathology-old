@@ -1,0 +1,40 @@
+function [ fp,fn,matchings ] = evaluate(somaList)
+    % Performs a comparison between automatic soma segmentation and manual soma
+    % segmentation
+    
+    dp = somaList{1}.referenceDPImage;
+    
+    fp = ones(size(dp.testPoints,1),1);
+    fn = ones(size(somaList,1),1);
+    matchings = (-1)*ones(size(somaList,1),2);
+    
+    for i =1:size(dp.testPoints)
+        tp = dp.testPoints(i,:);
+        flag = 0;
+        for j=1:size(somaList,1)
+            soma = somaList{j};
+            d = CalcDistance(tp,soma.centroid);
+            if (d < soma.maxRadius)
+                for k = soma.pixelList
+                    if (k(1) == tp(1) && k(2) == tp(2))
+                       matchings{j} = tp;   
+                       fp(i) = 0;
+                       fn(j) = 0;
+                       flag = 1;
+                       break;   
+                    end
+                end
+                if (flag == 1)
+                   break; 
+                end
+            end
+        end
+    end
+    a = size(dp.testPoints,1); %number to find
+    b = size(fp,1)-cumsum(fp); %number found
+    c = b/a; %percentage found
+    d = cumsum(fp); %false positives
+    
+    sprintf('For image %s : Out of %d soma to extract, %d were found (%d \%), with %d false positives ',dp.filename,a,b,c,d);
+end
+
