@@ -7,6 +7,8 @@ classdef DPSoma
         
         referenceDPImage
         
+        subImage
+        
         %file metadata
         centroid %centroid of pixels
         maxRadius; %largest containing radius
@@ -31,7 +33,7 @@ classdef DPSoma
             obj.maxRadius = 0;
             for j=1:size(obj.pixelList,1)
                 p = obj.pixelList(j,:);
-                r = CalcDistance(obj.centroid,p);
+                r = Helper.CalcDistance(obj.centroid,p);
                 if (r > obj.maxRadius)
                     obj.maxRadius = r;
                 end

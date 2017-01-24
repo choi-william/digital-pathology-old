@@ -3,7 +3,7 @@
 % alg - algorithm type parameter. 0 for opening and closing by
 % reconstruction. 1 for mumford-shah.
 %
-function [ mask,list ] = extractSoma( dpimage, alg )
+function [list] = extractSoma( dpimage, alg )
     if alg == 0
         %EXTRACTSOMA Summary of this function goes here
         %   Detailed explanation goes here
@@ -88,6 +88,7 @@ function [ mask,list ] = extractSoma( dpimage, alg )
     for i=1:comp.NumObjects
         [X,Y] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         list{i} = DPSoma([Y,X],dpimage); %transposed for some reason
+        list{i}.subImage = getSomaBox(list{i});
     end
 end
 
