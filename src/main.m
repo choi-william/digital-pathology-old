@@ -7,5 +7,6 @@ C = DPImage('C.tif');
 D = DPImage('D.tif');
 E = DPImage('E.tif');
 
-[mask, list] = prepare.extractSoma(A, 1);
-prepare.testPoints.evaluate(list);
+list = prepare.extractSoma(A, 0);
+Display.displaySomas(list);
+%prepare.testPoints.evaluate(list);
