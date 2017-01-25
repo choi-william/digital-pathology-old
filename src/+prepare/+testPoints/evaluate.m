@@ -12,7 +12,7 @@ function [ fp,fn,matchings ] = evaluate(somaList)
         flag = 0;
         for j=1:size(somaList,1)
             soma = somaList{j};
-            d = CalcDistance(tp,soma.centroid);
+            d = Helper.CalcDistance(tp,soma.centroid);
             if (d < soma.maxRadius)
                 for k =1:size(soma.pixelList)
                     pixel = soma.pixelList(k,:);
