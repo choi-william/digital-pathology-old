@@ -11,5 +11,10 @@ E = DPImage('E.tif');
 %list = prepare.extractSoma(A, 0);
 %figure; imshow(A.image);
 %Display.displaySomas(list);
-%prepare.testPoints.evaluate(list);
+
+prepare.testPoints.evaluate(prepare.extractSoma(A, 0));
+prepare.testPoints.evaluate(prepare.extractSoma(B, 0));
+prepare.testPoints.evaluate(prepare.extractSoma(C, 0));
+prepare.testPoints.evaluate(prepare.extractSoma(D, 0));
+prepare.testPoints.evaluate(prepare.extractSoma(E, 0));
 

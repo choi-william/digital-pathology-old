@@ -26,7 +26,10 @@ function [list] = extractSoma( dpimage, alg )
 
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,0.5);
-
+        
+        %Filter Image
+        somaIm = prepare.sizeFilter(somaIm,40,700);
+        
         %DISPLAY SEGMENTATION%
         boundaries = bwperim(somaIm);
         boundaries = imdilate(boundaries,strel('disk',1));
@@ -57,17 +60,13 @@ function [list] = extractSoma( dpimage, alg )
         bwIm = imbinarize(mumfordIm, 0.35);
         
         % Filtering by object size
-        compIm = imcomplement(bwIm);
-        lb_pixel = 40;
-        ub_pixel = 700;
-        boundedIm = xor(bwareaopen(compIm,lb_pixel),bwareaopen(compIm,ub_pixel));
+        somaIm = prepare.sizeFilter(bwIm,40,700);
 
         % Resulting binary image of the soma
-        somaIm = imcomplement(boundedIm);
         figure, imshow(somaIm);
 
         % Soma image overlayed with the original grayscale image
-        finalIm = imoverlay(grayIm, boundedIm,'yellow');
+        finalIm = imoverlay(grayIm, imcomplement(boundedIm),'yellow');
         figure, imshow(finalIm);
 
         figure

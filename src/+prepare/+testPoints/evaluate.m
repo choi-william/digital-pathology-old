@@ -63,7 +63,8 @@ function [ fp,fn,matchings ] = evaluate(somaList)
     b = size(fn,1)-sum(fn); %number found
     c = 100*b/a; %percentage found
     d = sum(fp); %false positives
+    score = 100*(sum(fp)+sum(fn))/a;
     
-    fprintf('For image %s : Out of %d soma to extract, %d were found (%.0f%%), with %d false positives ',dp.filename,a,b,c,d);
+    fprintf('For image %s : %d soma to extract, %d were found (%.0f%%), with %d false positives. Score: %.0f\n',dp.filename,a,b,c,d,score);
 end
 
