@@ -1,4 +1,5 @@
 close all;
+clear;
 
 run('init.m');
 A = DPImage('A.tif');
@@ -12,4 +13,3 @@ E = DPImage('E.tif');
 %Display.displaySomas(list);
 %prepare.testPoints.evaluate(list);
 
-prepare.testPoints.testCellLocations(B);
