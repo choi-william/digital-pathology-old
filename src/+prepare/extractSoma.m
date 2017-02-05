@@ -80,15 +80,15 @@ function [list] = extractSoma( dpimage, alg )
         error(msg);
     end
     
-    mask = somaIm;
-    dpimage.somaMask = mask;
+    dpimage.somaMask = somaIm;
     comp = bwconncomp(imcomplement(somaIm));
 
-    list = cell(comp.NumObjects);
+    list = cell([comp.NumObjects,1]);
     for i=1:comp.NumObjects
-        [X,Y] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
-        list{i} = DPSoma([Y,X],dpimage); %transposed for some reason
+        [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
+        list{i} = DPSoma([col,row],dpimage); % flipped to conform to cartesian coordinates
         list{i}.subImage = getSomaBox(list{i});
     end
+  
 end
 
