@@ -1,5 +1,5 @@
 function [] = displayOverlay(dp)
-    boundaries = bwperim(dp_im.somaMask);
+    boundaries = bwperim(dp.somaMask);
     boundaries = imdilate(boundaries,strel('disk',1));
     
     overlay = dp.image;

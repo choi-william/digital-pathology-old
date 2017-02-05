@@ -8,13 +8,12 @@ C = DPImage('C.tif');
 D = DPImage('D.tif');
 E = DPImage('E.tif');
 
-%list = prepare.extractSoma(A, 0);
-%figure; imshow(A.image);
-%Display.displaySomas(list);
+[list,dp] = Prepare.extractSoma(A, 0);
+Display.displayOverlay(dp);
 
-prepare.testPoints.evaluate(prepare.extractSoma(A, 0));
-prepare.testPoints.evaluate(prepare.extractSoma(B, 0));
-prepare.testPoints.evaluate(prepare.extractSoma(C, 0));
-prepare.testPoints.evaluate(prepare.extractSoma(D, 0));
-prepare.testPoints.evaluate(prepare.extractSoma(E, 0));
+%Verify.evaluate(prepare.extractSoma(A, 0));
+%Verify.evaluate(prepare.extractSoma(B, 0));
+%Verify.evaluate(prepare.extractSoma(C, 0));
+%Verify.evaluate(prepare.extractSoma(D, 0));
+%Verify.evaluate(prepare.extractSoma(E, 0));
 

@@ -1,4 +1,4 @@
-function [ output_args ] = testCellLocations( dpimage )
+function [] = create( dpimage )
     % creates an image, and allows a user to generate an array of points that
     % define microlgia locations
     
