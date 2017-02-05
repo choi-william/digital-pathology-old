@@ -13,38 +13,15 @@ function [list] = extractSoma( dpimage, alg )
         grayIm = imadjust(grayIm);
         adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
 
-        se = strel('disk', 3);
-
-        %OPEN BY RECONSTRUCTION%
-        Ie = imerode(adjusted, se);
-        Iobr = imreconstruct(Ie, adjusted);
-
-        %CLOSE BY RECONSTRUCTION%
-        Iobrd = imdilate(Iobr, se);
-        Iobrcbr = imreconstruct(imcomplement(Iobrd), imcomplement(Iobr));
-        Iobrcbr = imcomplement(Iobrcbr);
-
+        % open and close by reconstruction
+        Iobrcbr = prepare.smooth_ocbrc(adjusted,3);
+        
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,0.5);
         
         %Filter Image
         somaIm = prepare.sizeFilter(somaIm,40,700);
         
-        %DISPLAY SEGMENTATION%
-        boundaries = bwperim(somaIm);
-        boundaries = imdilate(boundaries,strel('disk',1));
-
-        overlay = dpimage.image;
-
-        r = overlay(:,:,1);
-        g = overlay(:,:,2);
-        b = overlay(:,:,3);
-        r(boundaries) = 0;
-        g(boundaries) = 255;
-        b(boundaries) = 0;
-        overlay(:,:,1) = r;
-        overlay(:,:,2) = g;
-        overlay(:,:,3) = b;
     elseif alg == 1
         input_image = dpimage.image;
         
@@ -53,7 +30,7 @@ function [list] = extractSoma( dpimage, alg )
         grayIm = imadjust(grayIm);
         
         % Mumford-Shah smoothing
-        mumfordIm = prepare.mumford_shah.fastms(grayIm, 'lambda', 0.6, 'alpha', 300);
+        mumfordIm = prepare.smooth_ms(grayIm, 0.6, 300);
         figure, imshow(mumfordIm);
 
         % Global Thresholding 
@@ -82,12 +59,15 @@ function [list] = extractSoma( dpimage, alg )
     mask = somaIm;
     dpimage.somaMask = mask;
     comp = bwconncomp(imcomplement(somaIm));
-
+    
+    
     list = cell(comp.NumObjects);
     for i=1:comp.NumObjects
         [X,Y] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         list{i} = DPSoma([Y,X],dpimage); %transposed for some reason
         list{i}.subImage = getSomaBox(list{i});
     end
+    
+
 end
 
