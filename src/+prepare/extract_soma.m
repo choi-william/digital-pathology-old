@@ -3,7 +3,7 @@
 % alg - algorithm type parameter. 0 for opening and closing by
 % reconstruction. 1 for mumford-shah.
 %
-function [list,dp] = extractSoma( dpimage, alg )
+function [list,dp] = extract_soma( dpimage, alg )
     if alg == 0
         %EXTRACTSOMA Summary of this function goes here
         %   Detailed explanation goes here
@@ -55,17 +55,15 @@ function [list,dp] = extractSoma( dpimage, alg )
         error('Incorrect Parameter: Specify 0 or 1 for the alg parameter.');
     end
     
-    mask = somaIm;
-    dpimage.somaMask = mask;
+    dpimage.somaMask = somaIm;
     comp = bwconncomp(imcomplement(somaIm));
+    list = cell([comp.NumObjects,1]);
     
-    list = cell(comp.NumObjects);
     for i=1:comp.NumObjects
-        [X,Y] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
-        list{i} = DPSoma([Y,X],dpimage); %transposed for some reason
+        [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
+        list{i} = DPSoma([col,row],dpimage); % flipped to conform to cartesian coordinates
         list{i}.subImage = getSomaBox(list{i});
-    end
-    
+    end    
     dp = dpimage;
 end
 
