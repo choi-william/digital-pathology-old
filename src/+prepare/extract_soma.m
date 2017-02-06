@@ -27,6 +27,7 @@ function [list,dp] = extract_soma( dpimage, alg )
         
         % Converting image to grayscale, increasing contrast.
         grayIm = rgb2gray(input_image);
+%         grayIm = input_image(:,:,1);
         grayIm = imadjust(grayIm);
         
         % Mumford-Shah smoothing
@@ -57,6 +58,8 @@ function [list,dp] = extract_soma( dpimage, alg )
     
     dpimage.somaMask = somaIm;
     comp = bwconncomp(imcomplement(somaIm));
+    figure, imshow(somaIm);
+
     list = cell([comp.NumObjects,1]);
     
     for i=1:comp.NumObjects
