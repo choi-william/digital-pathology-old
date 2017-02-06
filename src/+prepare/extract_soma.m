@@ -3,7 +3,7 @@
 % alg - algorithm type parameter. 0 for opening and closing by
 % reconstruction. 1 for mumford-shah.
 %
-function [list] = extractSoma( dpimage, alg )
+function [list,dp] = extract_soma( dpimage, alg )
     if alg == 0
         %EXTRACTSOMA Summary of this function goes here
         %   Detailed explanation goes here
@@ -13,35 +13,15 @@ function [list] = extractSoma( dpimage, alg )
         grayIm = imadjust(grayIm);
         adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
 
-        se = strel('disk', 3);
-
-        %OPEN BY RECONSTRUCTION%
-        Ie = imerode(adjusted, se);
-        Iobr = imreconstruct(Ie, adjusted);
-
-        %CLOSE BY RECONSTRUCTION%
-        Iobrd = imdilate(Iobr, se);
-        Iobrcbr = imreconstruct(imcomplement(Iobrd), imcomplement(Iobr));
-        Iobrcbr = imcomplement(Iobrcbr);
-
+        % open and close by reconstruction
+        Iobrcbr = smooth_ocbrc(adjusted,3);
+        
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,0.5);
-
-        %DISPLAY SEGMENTATION%
-        boundaries = bwperim(somaIm);
-        boundaries = imdilate(boundaries,strel('disk',1));
-
-        overlay = dpimage.image;
-
-        r = overlay(:,:,1);
-        g = overlay(:,:,2);
-        b = overlay(:,:,3);
-        r(boundaries) = 0;
-        g(boundaries) = 255;
-        b(boundaries) = 0;
-        overlay(:,:,1) = r;
-        overlay(:,:,2) = g;
-        overlay(:,:,3) = b;
+        
+        %Filter Image
+        somaIm = sizeFilter(somaIm,40,700);
+        
     elseif alg == 1
         input_image = dpimage.image;
         
@@ -50,24 +30,20 @@ function [list] = extractSoma( dpimage, alg )
         grayIm = imadjust(grayIm);
         
         % Mumford-Shah smoothing
-        mumfordIm = prepare.mumford_shah.fastms(grayIm, 'lambda', 0.6, 'alpha', 300);
+        mumfordIm = smooth_ms(grayIm, 0.6, 300);
         figure, imshow(mumfordIm);
 
         % Global Thresholding 
         bwIm = imbinarize(mumfordIm, 0.35);
         
         % Filtering by object size
-        compIm = imcomplement(bwIm);
-        lb_pixel = 40;
-        ub_pixel = 700;
-        boundedIm = xor(bwareaopen(compIm,lb_pixel),bwareaopen(compIm,ub_pixel));
+        somaIm = sizeFilter(bwIm,40,700);
 
         % Resulting binary image of the soma
-        somaIm = imcomplement(boundedIm);
         figure, imshow(somaIm);
 
         % Soma image overlayed with the original grayscale image
-        finalIm = imoverlay(grayIm, boundedIm,'yellow');
+        finalIm = imoverlay(grayIm, imcomplement(boundedIm),'yellow');
         figure, imshow(finalIm);
 
         figure
@@ -76,19 +52,18 @@ function [list] = extractSoma( dpimage, alg )
         subplot(2,2,3), imshow(bwIm);
         subplot(2,2,4), imshow(finalIm);
     else
-        msg = 'Incorrect Parameter: Specify 0 or 1 for the alg parameter.';
-        error(msg);
+        error('Incorrect Parameter: Specify 0 or 1 for the alg parameter.');
     end
     
     dpimage.somaMask = somaIm;
     comp = bwconncomp(imcomplement(somaIm));
-
     list = cell([comp.NumObjects,1]);
+    
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         list{i} = DPSoma([col,row],dpimage); % flipped to conform to cartesian coordinates
         list{i}.subImage = getSomaBox(list{i});
-    end
-  
+    end    
+    dp = dpimage;
 end
 
