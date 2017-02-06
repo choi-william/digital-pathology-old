@@ -1,8 +1,10 @@
-function [ list ] = cell_pipeline( soma_list )
+function [ list, cell_count ] = cell_pipeline( soma_list )
 %
 %
 %
-import prepare.*;
+    import prepare.*;
+    import prepare.fractalDim.*;
+    
     length = size(soma_list,1);
     list = cell([length, 1]);
     
@@ -12,13 +14,18 @@ import prepare.*;
         somaIm = soma_list{i}.subImage;
         
         % Processes Segmentation
-        [bwIm, skelIm] = extract_processes(somaIm);
+        bwIm = extract_processes(somaIm, struct('vesselness', false));
         list{i}.binaryIm = bwIm;
-        list{i}.skelIm = skelIm;
         
         % Feature Extraction
+        [endpoints, junctions, skelIm] = skeleton_analysis(bwIm);
+        list{i}.skelIm = skelIm;
+        list{i}.numEndpoints = endpoints;
+        list{i}.numJunctions = junctions;
         
+        list{i}.fractalDim = hausDim(bwIm);
         
     end 
+    
 end
 

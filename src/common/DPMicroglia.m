@@ -5,9 +5,17 @@ classdef DPMicroglia
     properties
        referenceDPSoma
        
+       binaryIm     % binary image of the cell
+         
        skelIm     % skeletonized image of the cell
        
-       binaryIm     % binary image of the cell
+       % Skeleton Analysis
+       numJunctions   % number of junctions in a skeletonized image
+       
+       numEndpoints    % number of endpoints in a skeletonized image
+       
+       % Fractal Analysis
+       fractalDim
        
        morphology
        

@@ -3,6 +3,7 @@ clear;
 
 import prepare.*;
 import Display.*;
+import prepare.fractalDim.*
 
 run('init.m');
 A = DPImage('A.tif');
@@ -12,7 +13,9 @@ D = DPImage('D.tif');
 E = DPImage('E.tif');
 
 [soma_list,dp] = extract_soma(A, 0);
+
 display_overlay(dp);
+
 microglia_list = cell_pipeline(soma_list);
 
 %Verify.evaluate_soma(prepare.extractSoma(A, 0));

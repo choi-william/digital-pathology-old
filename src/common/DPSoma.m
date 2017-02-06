@@ -9,6 +9,8 @@ classdef DPSoma
         
         subImage
         
+        isMultiCell  % true if the component contains multiple cells
+        
         %file metadata
         centroid %centroid of pixels
         maxRadius; %largest containing radius
