@@ -2,20 +2,23 @@
 path = uigetdir('../../data/images','Open folder to organize');
 out_path = uigetdir('../../data/output','Choose destination');
 
+mkdir(out_path,'verification')
+v_path = strcat(out_path,'\verification');
+
 all_images = dir(strcat(path,'/**/*.tif'))
 
 metaData = [];
+testMetaData = [];
 id = 0;
 th_id = 0;
 
 for i = 1:size(all_images,1)
     
-    fprintf('%d% out of %d\n',i,round(size(all_images,1)));
+    fprintf('%d out of %d\n',i,round(size(all_images,1)));
     
     im = all_images(i);
     %META DATA PROCESSING
     
-    id = id + 1;
     newObj = [];
     impath = im.folder;
     impath = impath((size(path,2)+2):end);
@@ -27,6 +30,7 @@ for i = 1:size(all_images,1)
     end
     
     %CREATE METADATA
+    id = id + 1;
     newObj.id = id;
     newObj.originalName = im.name;
     newObj.time = C{1};
@@ -67,13 +71,14 @@ for i = 1:size(all_images,1)
             
             th_im = imread(strcat(th.folder,'\',th.name));
             pointArray = convert_soma_data(th_im);
-            save(strcat(out_path,'\TH',num2str(th_id),'.mat'),'pointArray');
+            save(strcat(v_path,'\TH',num2str(th_id),'.mat'),'pointArray');
             
-            metaData = [metaData; newTh];
+            testMetaData = [testMetaData; newTh];
             break;
         end
     end
     metaData = [metaData; newObj];
 end
 
+save(strcat(v_path,'\','metaTest.mat'),'testMetaData');
 save(strcat(out_path,'\','meta.mat'),'metaData');
