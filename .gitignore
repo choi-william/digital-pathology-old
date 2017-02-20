@@ -1,3 +1,4 @@
 *.asv
 *~
-data/soma_verification
+data/
+!data/test/*
