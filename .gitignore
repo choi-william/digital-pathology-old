@@ -1,4 +1,4 @@
 *.asv
 *~
 data/
-!data/test/
+!data/test/*
