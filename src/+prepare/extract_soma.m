@@ -43,7 +43,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         bwIm = imbinarize(mumfordIm, th);
         
         % Filtering by object size
-        somaIm = sizeFilter(bwIm,lsb,700);
+        somaIm = sizeFilter(bwIm,lsb, 3000);
 
         % Resulting binary image of the soma
         figure, imshow(somaIm);

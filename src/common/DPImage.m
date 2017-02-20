@@ -37,8 +37,6 @@ classdef DPImage
         function obj = DPImage(type,id)
             global config;
 
-            
-
             filename = strcat(id,'.tif');
             
             if strcmp(type,'test')

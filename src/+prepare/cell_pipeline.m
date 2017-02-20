@@ -14,7 +14,7 @@ function [ list, cell_count ] = cell_pipeline( soma_list )
         somaIm = soma_list{i}.subImage;
         
         % Processes Segmentation
-        bwIm = extract_processes(somaIm, struct('mumfordshah', true));
+        bwIm = extract_processes(somaIm, struct('vesselness', true));
         list{i}.binaryIm = bwIm;
         
         % Feature Extraction

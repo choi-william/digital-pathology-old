@@ -29,10 +29,23 @@ function bwIm = extract_processes( soma_image, options )
     adjustedIm = imsharpen(adjustedIm);
 
     if options.vesselness
+        downscaledIm = double(grayIm)/255;
+        fastguidedIm = fastguidedfilter(downscaledIm,downscaledIm, 4, 0.1^2, 4);
+        sharpenedIm = imadjust(fastguidedIm);
+        sharpenedIm = imsharpen(sharpenedIm, 'Threshold',0, 'Amount', 2);
+        
         % Vesselness; frangi filter applied
-        I = double(adjustedIm);
+        I = sharpenedIm*255;
         vesselIm = FrangiFilter2D(I);
-        bwIm = imcomplement(vesselIm);
+        bwIm = imbinarize(imcomplement(vesselIm),0.75);
+        
+        % Size filter
+        bwIm = sizeFilter(bwIm, 25, 1500);
+        
+        figure, 
+        subplot(1,3,1), imshow(grayIm);
+        subplot(1,3,2), imshow(vesselIm);
+        subplot(1,3,3), imshow(bwIm);
     elseif options.kmeans
         % Kmeans on lab color space
         imsegkmeans(soma_image, 2);
@@ -47,36 +60,40 @@ function bwIm = extract_processes( soma_image, options )
         
         % Supressing regions with low gradients
         minsupress = imhmin(im2uint8(sharpenedIm), 35);
-        figure, imshow([minsupress, imsharpen(minsupress)]);
-        minsupress = imadjust(minsupress,[0; 0.6],[0; 1], 1.1);
-        enhancedIm = downscaledIm - (downscaledIm-sharpenedIm)*0.5;
+        adjustedMinIm = imadjust(minsupress,[0; 0.5],[0; 1], 1.5);
+        
+        enhancedIm = (downscaledIm-sharpenedIm)*3 + downscaledIm;
         figure, imshow([downscaledIm, fastguidedIm, sharpenedIm, mumfordIm, enhancedIm]);
-        figure, imshow(minsupress), title('adjust');
-        binaryIm = imbinarize(imsharpen(minsupress), 0.75);
-        figure, imshow(binaryIm), title('binarize');
+     
+        binaryIm = imbinarize(adjustedMinIm, 0.75);
+        binaryIm = imcomplement(imclearborder(imcomplement(binaryIm), 4));
+        figure, subplot(1,2,1), imshow([minsupress, adjustedMinIm]);
+        subplot(1,2,2), imshow(binaryIm);
+        
+        % Dilating the binary image to fill the gaps
         se1 = strel('rectangle', [1 2]);
         se2 = strel('rectangle', [2,1]);
         bwIm = imdilate(imcomplement(binaryIm), [se1 se2]);
         bwIm = imcomplement(imfill(bwIm, 'holes'));
-        figure, imshow(bwIm), title('dilated gradient mask');
-
-        outline = bwperim(bwIm);
-        outlinedIm = grayIm;
-        outlinedIm(outline) = 255;
-        figure, imshow([grayIm, bwIm, outlinedIm]);
 
     elseif options.mumfordshah
         % Mumford-Shah applied to the grayscale image
-        mumfordIm = prepare.mumford_shah.fastms(adjustedIm, 'lambda', 0.07, 'alpha', 1);
-%         mumfordIm = prepare.mumford_shah.fastms(mumfordIm, 'lambda', 0.07, 'alpha', 1000);
-        mumfordIm = imadjust(mumfordIm,[0; 0.6],[0; 1], 1.1); % remove the blurred regions
+        mumfordIm = prepare.mumford_shah.fastms(adjustedIm, 'lambda', 0.01, 'alpha', 0.1);
+        mumfordIm = imadjust(mumfordIm,[0; 0.6],[0; 1], 1.5); % remove the blurred regions
         figure, imshow(mumfordIm);
+        
+        % Increasing the contrast of the smoothed image
         mumfordIm = imadjust(mumfordIm);
         guidedIm = imguidedfilter(mumfordIm);
-        bwIm = imbinarize(guidedIm, 0.75);
-        figure, imshow(grayIm);
-        figure, imshow(bwIm);
-        figure, imshow(guidedIm);
+        bwIm = imbinarize(guidedIm, 0.9);
+        figure, imshow([grayIm,guidedIm,bwIm]);
+        
+        % Dilating the binary image to fill the gaps
+        se1 = strel('rectangle', [1 2]);
+        se2 = strel('rectangle', [2,1]);
+        bwIm = imdilate(imcomplement(bwIm), [se1 se2]);
+        bwIm = imcomplement(imfill(bwIm, 'holes'));
+        
     elseif options.openclose
         % Opening and Closing by reconstruction 
         ocbrIm = smooth_ocbrc(adjustedIm,5);
@@ -114,8 +131,27 @@ function bwIm = extract_processes( soma_image, options )
         [bwIm, D] = imsegfmm(W, mask, 0.1);
         figure, imshow(bwIm);
         figure, imshow(D);
-        figure, imshow(guidedIm);f
+        figure, imshow(guidedIm);
+    else
+        adjustedColorIm = imadjust(soma_image,[0; 0.6],[0; 1], 1.5);
+        bwIm = imbinarize(rgb2gray(adjustedColorIm), 0.9);
+        bwIm = sizeFilter( bwIm, 10, 3000 );
+        
+        % Dilating the binary image to fill the gaps
+        se1 = strel('rectangle', [1 2]);
+        se2 = strel('rectangle', [2,1]);
+        bwIm = imdilate(imcomplement(bwIm), [se1 se2]);
+        bwIm = imcomplement(imfill(bwIm, 'holes'));
     end
+    
+    % Outlining the original grayscale image with the binary mask.
+    outline = bwperim(bwIm);
+    outlinedIm = grayIm;
+    outlinedIm(outline) = 255;
+    
+    figure, subplot(1,3,1), imshow(grayIm);
+    subplot(1,3,2), imshow(bwIm);
+    subplot(1,3,3), imshow(outlinedIm);
 
 end
 

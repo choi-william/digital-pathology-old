@@ -15,13 +15,12 @@ C = DPImage('test','C');
 D = DPImage('test','D');
 E = DPImage('test','E');
 
-[soma_list,dp] = extract_soma(A, 0);
+[soma_list,dp] = extract_soma(A, 0, 0.4, 100);
 microglia_list = cell_pipeline(soma_list);
 
-% extract_processes(cellA.image, struct('mumfordshah', true));
 
 
-Verify.Learn.learn(100, 0.005, [0 0; 1 1000 ], [0.02 5], [0.6 350] );
+% Verify.Learn.learn(100, 0.005, [0 0; 1 1000 ], [0.02 5], [0.6 350] );
 
 
 %dps = Pipeline.import_dp([],'allver');
