@@ -3,7 +3,7 @@ function [im] = getSomaBox( soma )
     bigImage = soma.referenceDPImage.image;
     [maxh,maxw] = size(bigImage);
     
-    factor = 2.5;
+    factor = 4;
     TL = soma.centroid - ones(1,2)*soma.maxRadius*factor;
     BR = soma.centroid + ones(1,2)*soma.maxRadius*factor;
     

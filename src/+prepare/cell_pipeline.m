@@ -1,20 +1,20 @@
 function [ list, cell_count ] = cell_pipeline( soma_list )
 %
-%
+%   Handles cell analysis following soma segmentation
 %
     import prepare.*;
     import prepare.fractalDim.*;
     
     length = size(soma_list,1);
     list = cell([length, 1]);
-    
+    length =10;
     for i=1:length
         list{i} = DPMicroglia(soma_list{i});
         
         somaIm = soma_list{i}.subImage;
         
         % Processes Segmentation
-        bwIm = extract_processes(somaIm, struct('vesselness', false));
+        bwIm = extract_processes(somaIm, struct('mumfordshah', true));
         list{i}.binaryIm = bwIm;
         
         % Feature Extraction

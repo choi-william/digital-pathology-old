@@ -12,15 +12,17 @@ function [list,dp] = extract_soma( dpimage, alg )
         grayIm = rgb2gray(dpimage.image);
         grayIm = imadjust(grayIm);
         adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
+        adjusted = imsharpen(adjusted);
+        figure, imshow(adjusted);
 
         % open and close by reconstruction
         Iobrcbr = smooth_ocbrc(adjusted,3);
-        
+        figure, imshow(Iobrcbr);
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,0.5);
         
         %Filter Image
-        somaIm = sizeFilter(somaIm,40,700);
+        somaIm = sizeFilter(somaIm,80,900);
         
     elseif alg == 1
         input_image = dpimage.image;
@@ -29,6 +31,7 @@ function [list,dp] = extract_soma( dpimage, alg )
         grayIm = rgb2gray(input_image);
 %         grayIm = input_image(:,:,1);
         grayIm = imadjust(grayIm);
+        grayIm = imsharpen(grayIm);
         
         % Mumford-Shah smoothing
         mumfordIm = smooth_ms(grayIm, 0.6, 300);
@@ -44,7 +47,7 @@ function [list,dp] = extract_soma( dpimage, alg )
         figure, imshow(somaIm);
 
         % Soma image overlayed with the original grayscale image
-        finalIm = imoverlay(grayIm, imcomplement(boundedIm),'yellow');
+        finalIm = imoverlay(grayIm, imcomplement(somaIm),'yellow');
         figure, imshow(finalIm);
 
         figure
