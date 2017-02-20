@@ -62,7 +62,7 @@ function [list,dp] = extract_soma( dpimage, alg )
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         list{i} = DPSoma([col,row],dpimage); % flipped to conform to cartesian coordinates
-        list{i}.subImage = getSomaBox(list{i});
+        list{i}.subImage = getSomaBox(list{i},1);
     end    
     dp = dpimage;
 end
