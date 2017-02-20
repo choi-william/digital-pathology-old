@@ -1,4 +1,4 @@
-function [] = displaySomas( somaList )
+function [] = display_somas( somaList )
     %Displays soma subarray
     
     length = size(somaList,1);
