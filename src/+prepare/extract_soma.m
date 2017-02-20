@@ -24,7 +24,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         somaIm = imbinarize(Iobrcbr,th);
         
         %Filter Image
-        somaIm = sizeFilter(somaIm,lsb,1500);
+        somaIm = sizeFilter(somaIm,lsb,5000);
 
     elseif alg == 1
         input_image = dpimage.image;
@@ -52,7 +52,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         finalIm = imoverlay(grayIm, imcomplement(somaIm),'yellow');
         figure, imshow(finalIm);
 
-        figure
+        figure;
         subplot(2,2,1), imshow(input_image);
         subplot(2,2,2), imshow(mumfordIm);
         subplot(2,2,3), imshow(bwIm);
@@ -70,7 +70,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         list{i} = DPSoma([col,row],dpimage); % flipped to conform to cartesian coordinates
-        list{i}.subImage = getSomaBox(list{i},1);
+        list{i}.subImage = getSomaBox(list{i},0);
     end    
     dp = dpimage;
 end

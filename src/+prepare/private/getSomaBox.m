@@ -36,7 +36,6 @@ function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
         im = imcrop(bigImage,[TL, C(1), C(2)]);
         in = im(:,:,3);
 
-        hold on;
         relCentroid = soma.centroid - TL;
 
         if (basicOrAdvanced == 0)
