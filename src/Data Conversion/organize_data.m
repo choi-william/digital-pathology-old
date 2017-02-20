@@ -10,7 +10,7 @@ all_images = dir(strcat(path,'/**/*.tif'))
 metaData = [];
 testMetaData = [];
 id = 0;
-th_id = 0;
+
 
 for i = 1:size(all_images,1)
     
@@ -40,6 +40,7 @@ for i = 1:size(all_images,1)
     newObj.type = 'image';
     newObj.stain = 'iba1';
     newObj.test = 0;
+    newObj.roi = 0;
     
     im_im = imread(strcat(im.folder,'\',im.name));
     imwrite(im_im,strcat(out_path,'\',num2str(id),'.tif'));
@@ -54,31 +55,34 @@ for i = 1:size(all_images,1)
     
     for j=1:size(all_th)
         th = all_th(j);
-        if (size(strfind(th.name,key),1) ~= 0)
+        if (size(strfind(lower(th.name),lower(key)),1) ~= 0)
 
+            %FIND ROI (only if verification file is found)
+            all_roi = dir(strcat(path,'\',C{1},'\',C{2},'\',C{3},'\',C{4},'\','roi','\*.roi')); %possibly a problem on mac
+            for j=1:size(all_roi)
+                ro = all_roi(j);
+                
+                if (size(strfind(lower(ro.name),lower(key)),1) ~= 0)
+                    %found the roi file.
+                    
+                    newObj.roi = 1; %TODO replace X
+
+                    [roi_obj] = read_roi(strcat(ro.folder,'\',ro.name));
+                    data = poly2mask(roi_obj.mnCoordinates(:,1),roi_obj.mnCoordinates(:,2), size(im_im,1), size(im_im,2));  %roi mask        
+                    save(strcat(v_path,'\ROI',num2str(id),'.mat'),'data');               
+                    break;
+                end
+            end
             
-            th_id = th_id + 1;            
-            newTh.id = th_id;
-            newTh.originalName = th.name;
-            newTh.time = C{1};
-            newTh.age = C{2};
-            newTh.date = C{3};
-            newTh.group = C{4};
-            newTh.type = 'test';
-            newTh.stain = 'iba1';
-            newTh.test = -1;
-            newObj.test = th_id;
+            newObj.test = 1;
             
             th_im = imread(strcat(th.folder,'\',th.name));
-            pointArray = convert_soma_data(th_im);
-            save(strcat(v_path,'\TH',num2str(th_id),'.mat'),'pointArray');
-            
-            testMetaData = [testMetaData; newTh];
+            data = convert_soma_data(th_im); %array of points
+            save(strcat(v_path,'\TH',num2str(id),'.mat'),'data');
             break;
         end
     end
     metaData = [metaData; newObj];
 end
 
-save(strcat(v_path,'\','metaTest.mat'),'testMetaData');
 save(strcat(out_path,'\','meta.mat'),'metaData');

@@ -14,8 +14,10 @@ classdef DPImage
 
         %verification data
         testPoints = 0;
+        roiMask = 0;
         
         %soma
+        intermediate;
         somaMask;
         
         %slide metadata
@@ -53,10 +55,6 @@ classdef DPImage
                 meta = meta.metaData;
                 imData = meta(str2num(id));
                 
-                if (imData.test == -1)
-                    error('trying to open a verification file');
-                end
-                
                 %mag = imData.mag; %no magnification info yet
                 obj.stain = imData.stain;
                 obj.elapsedTime = imData.time;
@@ -64,10 +62,17 @@ classdef DPImage
                 obj.date = imData.date;
                 obj.group = imData.group;
                 
-                if (imData.test > 0)
-                    verName = strcat('TH',num2str(imData.test),'.mat');
+                if (imData.test == 1)
+                    verName = strcat('TH',num2str(imData.id),'.mat');
                     obj.testPoints = load(strcat(config.GetValues('paths', 'verPath'),verName));
-                    obj.testPoints = obj.testPoints.pointArray; %TODO, this is unnecessary, needs to be corrected in data conversion function
+                    obj.testPoints = obj.testPoints.data;
+                end
+                if (imData.roi == 1)
+                    roiName = strcat('ROI',num2str(imData.id),'.mat');
+                    obj.roiMask = load(strcat(config.GetValues('paths', 'verPath'),roiName));
+                    %TODO, roi's should not be saved as masks, but rather
+                    %as poloygons (way less memory intensive)
+                    obj.roiMask = obj.roiMask.data;
                 end
             end
             

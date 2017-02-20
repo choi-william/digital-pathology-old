@@ -3,7 +3,7 @@
 % alg - algorithm type parameter. 0 for opening and closing by
 % reconstruction. 1 for mumford-shah.
 %
-function [list,dp] = extract_soma( dpimage, alg )
+function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     if alg == 0
         %EXTRACTSOMA Summary of this function goes here
         %   Detailed explanation goes here
@@ -14,13 +14,14 @@ function [list,dp] = extract_soma( dpimage, alg )
         adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
 
         % open and close by reconstruction
-        Iobrcbr = smooth_ocbrc(adjusted,3);
+        Iobrcbr = smooth_ocbrc(adjusted,2);
+        dpimage.intermediate = Iobrcbr;
         
         %THRESHOLD RESULT%
-        somaIm = imbinarize(Iobrcbr,0.5);
+        somaIm = imbinarize(Iobrcbr,th);
         
         %Filter Image
-        somaIm = sizeFilter(somaIm,40,700);
+        somaIm = sizeFilter(somaIm,lsb,1500);
         
     elseif alg == 1
         input_image = dpimage.image;
@@ -34,10 +35,10 @@ function [list,dp] = extract_soma( dpimage, alg )
         figure, imshow(mumfordIm);
 
         % Global Thresholding 
-        bwIm = imbinarize(mumfordIm, 0.35);
+        bwIm = imbinarize(mumfordIm, th);
         
         % Filtering by object size
-        somaIm = sizeFilter(bwIm,40,700);
+        somaIm = sizeFilter(bwIm,lsb,700);
 
         % Resulting binary image of the soma
         figure, imshow(somaIm);
