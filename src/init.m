@@ -1,3 +1,4 @@
+addpath(genpath('library'))
 addpath common;
 
 %initialize config

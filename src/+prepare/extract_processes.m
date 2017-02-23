@@ -2,9 +2,6 @@ function bwIm = extract_processes( soma_image, options )
 %EXTRACTPROCESSES Summary of this function goes here
 %   Detailed explanation goes here
 %
-    import prepare.frangi_filter.*;
-    import prepare.bfilter2.*;
-    import prepare.guided_filter.*;
     
     default_options = struct('vesselness', false, 'kmeans', false, 'guidedfilter', false, 'mumfordshah', false, 'openclose', false, 'watershed', false, 'fastmarching', false);
 

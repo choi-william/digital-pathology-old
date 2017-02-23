@@ -2,8 +2,7 @@ function [ list, cell_count ] = cell_pipeline( soma_list )
 %
 %   Handles cell analysis following soma segmentation
 %
-    import prepare.*;
-    import prepare.fractalDim.*;
+    import Prepare.*;
     
     length = size(soma_list,1);
     list = cell([length, 1]);
@@ -14,7 +13,7 @@ function [ list, cell_count ] = cell_pipeline( soma_list )
         somaIm = soma_list{i}.subImage;
         
         % Processes Segmentation
-        bwIm = extract_processes(somaIm, struct('vesselness', true));
+        bwIm = extract_processes(somaIm, struct('fastmarching', true));
         list{i}.binaryIm = bwIm;
         
         % Feature Extraction

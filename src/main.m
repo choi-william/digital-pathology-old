@@ -1,11 +1,8 @@
 close all;
 clear;
 
-import prepare.*;
+import Prepare.*;
 import Display.*;
-import prepare.fractalDim.*
-import prepare.bfilter2.*;
-import prepare.guided_filter.*;
 
 run('init.m');
 
@@ -15,10 +12,19 @@ C = DPImage('test','C');
 D = DPImage('test','D');
 E = DPImage('test','E');
 
+% orgGrayIm = rgb2gray(A.image);
+% grayIm = orgGrayIm;
+% averageIntensity = sum(sum(grayIm))/(size(grayIm,1)*size(grayIm,2));
+% grayIm(grayIm > averageIntensity) = 255;
+% figure, 
+% subplot(1,2,1), imshow(orgGrayIm);
+% subplot(1,2,2), imshow(grayIm);
+
+
 [soma_list,dp] = extract_soma(A, 0, 0.4, 100);
-microglia_list = cell_pipeline(soma_list);
+% microglia_list = cell_pipeline(soma_list);
 
-
+extract_processes(soma_list{35}.subImage,struct('vesselness',true));
 
 % Verify.Learn.learn(100, 0.005, [0 0; 1 1000 ], [0.02 5], [0.6 350] );
 
