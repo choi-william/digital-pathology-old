@@ -1,7 +1,7 @@
 function [] = display_somas( somaList )
     %Displays soma subarray
     
-    length = size(somaList,1);
+    length = size(somaList,2);
     width = ceil(sqrt(length));
     height = ceil(length/width);
     
