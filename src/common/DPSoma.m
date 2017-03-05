@@ -7,13 +7,18 @@ classdef DPSoma
         
         referenceDPImage
         
+        TL %top left coordinate of subImage box wrt dpiamge. In (x,y)
         subImage
+        oImage %ocbrc image
+        rCentroid
         
-        isMultiCell  % true if the component contains multiple cells
+        area
+        
+        isClump = 0;  % true if the component contains multiple cells
         
         %file metadata
         centroid %centroid of pixels
-        maxRadius; %largest containing radius
+        maxRadius %largest containing radius
 
     end
     
@@ -21,6 +26,8 @@ classdef DPSoma
         function obj = DPSoma(L,RDPI)
             obj.pixelList = L;
             obj.referenceDPImage = RDPI;
+            
+            obj.area = size(obj.pixelList,1);
             
             sumX = 0;
             sumY = 0;
@@ -30,7 +37,7 @@ classdef DPSoma
                 sumY = sumY + p(2);
             end
             
-            obj.centroid = [sumX,sumY]/size(obj.pixelList,1);
+            obj.centroid = [sumX,sumY]/obj.area;
             
             obj.maxRadius = 0;
             for j=1:size(obj.pixelList,1)

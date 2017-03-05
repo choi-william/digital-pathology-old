@@ -1,7 +1,9 @@
-function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
+function [soma] = somaBoundBox( soma, basicOrAdvanced )
 
     %0 is basic, 1 is advanced
     bigImage = soma.referenceDPImage.image;
+    ocbrcImage = soma.referenceDPImage.ocbrc;
+    
     [maxh,maxw] = size(bigImage);
 
     factor = 2.5;
@@ -31,27 +33,22 @@ function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
         end
         TL = newTL;
         BR = newBR;
-        
         C = round(BR-TL);
-        im = imcrop(bigImage,[TL, C(1), C(2)]);
-        in = im(:,:,3);
-
         relCentroid = soma.centroid - TL;
+        oim = imcrop(ocbrcImage,[TL, C(1), C(2)]);
 
         if (basicOrAdvanced == 0)
+           soma.subImage = imcrop(bigImage,[TL, C(1), C(2)]);
+           soma.oImage = oim;
+           soma.rCentroid = relCentroid;
+           soma.TL = TL;
            return; %basic mode
         end
         
         se = strel('disk', 3);
+        
         %OPEN BY RECONSTRUCTION%
-        Ie = imerode(in, se);
-        Iobr = imreconstruct(Ie, in);
-
-        %CLOSE BY RECONSTRUCTION%
-        Iobrd = imdilate(Iobr, se);
-        Iobrcbr = imreconstruct(imcomplement(Iobrd), imcomplement(Iobr));
-        out = imcomplement(Iobrcbr);
-        bb = imbinarize(out,0.5);
+        bb = imbinarize(oim,0.5);
 
         %close all;
         %imshow(bb);
@@ -109,5 +106,10 @@ function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
         
         numIter = numIter+1;
     end
+    
+    soma.subImage = imcrop(bigImage,[TL, C(1), C(2)]);
+    soma.oImage = oim;
+    soma.rCentroid = relCentroid;
+    soma.TL = TL;
 end
 

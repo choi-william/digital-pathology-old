@@ -1,7 +1,7 @@
 function [ score ] = evaluate_soma(somaList,shouldPlot)
     % Performs a comparison between automatic soma segmentation and manual soma
     % segmentation
-    if (size(somaList,1) == 0)
+    if (size(somaList,2) == 0)
         score = 100;
         return
         %TODO, this is bad but I am lazy. We should pass the dpimage
@@ -14,9 +14,9 @@ function [ score ] = evaluate_soma(somaList,shouldPlot)
        RM = ones(size(dp.image(:,:,1)));
     end
         
-    fp = ones(size(somaList,1),1);
+    fp = ones(size(somaList,2),1);
     fn = ones(size(dp.testPoints,1),1);
-    matchings = (-1)*ones(size(somaList,1),2);
+    matchings = (-1)*ones(size(somaList,2),2);
     
     
     for i=1:size(dp.testPoints)
@@ -25,7 +25,7 @@ function [ score ] = evaluate_soma(somaList,shouldPlot)
             fn(i) = -1;
         end    
     end
-    for j=1:size(somaList,1)
+    for j=1:size(somaList,2)
         soma = somaList{j};
         if (isInROI(soma.centroid,RM) == 0)
             fp(j) = -1;
@@ -39,7 +39,7 @@ function [ score ] = evaluate_soma(somaList,shouldPlot)
         
         tp = round(dp.testPoints(i,:));
         flag = 0;
-        for j=1:size(somaList,1)  
+        for j=1:size(somaList,2)  
             if (fp(j) == -1)
                continue; 
             end
@@ -74,11 +74,13 @@ function [ score ] = evaluate_soma(somaList,shouldPlot)
     %PLOT SUCCESS VISUALISATION
     if (shouldPlot == 2)
         figure('units','normalized','outerposition',[0 0 1 1]);
-        subplot(1,3,1);
-        imshow(dp.intermediate);
-        subplot(1,3,2);
-        imshow(dp.somaMask);         
-        subplot(1,3,3);
+        %subplot(1,3,1);
+        %if (~isscalar(dp.ocbrc))
+        %    imshow(dp.ocbrc);   
+        %end
+        %subplot(1,3,2);
+        %imshow(dp.somaMask);         
+        %subplot(1,3,3);
         imshow(dp.image); 
         hold on;
         for j=1:size(fp,1)
