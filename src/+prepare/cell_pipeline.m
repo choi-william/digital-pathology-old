@@ -6,14 +6,17 @@ function [ list, cell_count ] = cell_pipeline( soma_list )
     
     length = size(soma_list,1);
     list = cell([length, 1]);
-    length =10;
+    length =1; % remove when not testing
     for i=1:length
+        i = 8;
         list{i} = DPMicroglia(soma_list{i});
         
-        somaIm = soma_list{i}.subImage;
+        somaObj = soma_list{i};
         
         % Processes Segmentation
-        bwIm = extract_processes(somaIm, struct('fastmarching', true));
+        % bwIm = extract_processes(somaObj.subImage, struct('fastmarching', true));
+        bwIm = cell_segmentation(somaObj);
+        
         list{i}.binaryIm = bwIm;
         
         % Feature Extraction
