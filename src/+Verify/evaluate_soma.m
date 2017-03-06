@@ -1,4 +1,4 @@
-function [ score ] = evaluate_soma(somaList,shouldPlot)
+function [ updatedList ] = evaluate_soma(somaList,shouldPlot)
     % Performs a comparison between automatic soma segmentation and manual soma
     % segmentation
     if (size(somaList,2) == 0)
@@ -47,7 +47,6 @@ function [ score ] = evaluate_soma(somaList,shouldPlot)
             soma = somaList{j};            
             d = Helper.CalcDistance(tp,soma.centroid);
             if (d < soma.maxRadius)
-                
                 for k =1:size(soma.pixelList)
                     pixel = soma.pixelList(k,:);
                     if (pixel(1) == tp(1) && pixel(2) == tp(2))
@@ -117,5 +116,16 @@ function [ score ] = evaluate_soma(somaList,shouldPlot)
     if (shouldPlot ~= 0)
         fprintf('For image %s : %d soma to extract, %d were found (%.0f%%), with %d false positives. Score: %.0f\n',dp.filename,a,b,c,d,score);
     end
+    
+    for j=1:size(somaList,2)
+        if (fp(j) == 0)
+             somaList{j}.isCorrect = 1;
+        elseif (fp(j) == 1)
+             somaList{j}.isCorrect = 0;
+        else
+             somaList{j}.isCorrect = fp(j); %-1 case
+        end
+    end   
+    updatedList = somaList;
 end
 

@@ -20,6 +20,9 @@ classdef DPSoma
         centroid %centroid of pixels
         maxRadius %largest containing radius
 
+        
+        isCorrect = -1; %whether it matches test data or not
+        
     end
     
     methods

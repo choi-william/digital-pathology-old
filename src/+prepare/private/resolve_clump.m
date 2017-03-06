@@ -2,7 +2,7 @@ function [ flag, somas ] = resolve_clump( dpsoma )
 
     somas = 0;
     flag = 0;
-    return;
+
     Iobrcbr = dpsoma.oImage;
 
     Iobrcbr = imadjust(Iobrcbr);
@@ -14,10 +14,7 @@ function [ flag, somas ] = resolve_clump( dpsoma )
     
     comp = bwconncomp(imcomplement(out));  
     
-    r = dpsoma.area/comp.NumObjects; %average area per soma
-    if (r < 150) %probably too small
-        return;
-    end
+
     
     somas = {};
     for i=1:comp.NumObjects
@@ -25,42 +22,30 @@ function [ flag, somas ] = resolve_clump( dpsoma )
         
         row = row + dpsoma.TL(2); %convert to image coordinates
         col = col + dpsoma.TL(1); %convert to image coordinates
-        
-
-        %we need to make sure that the centroid of [row col] is not found
-        %in dpsoma's mask pixelList [row col]
 
         if (size(row,1) < 100)
            continue;  %too small- discard
         end
         
-        
-        %This is slowing down the procedure significantly
-        %TODO this can be converted to a binary search
-        
         centr = round(sum([col,row],1)/size(row,1)); %x-y coordinates
         good = pixelListBinarySearch(round(dpsoma.pixelList),round(centr));
-        
-       
-%         good = 0;
-%         centr = round(sum([col,row],1)/size(row,1)); %x-y coordinates
-%         for j=1:size(dpsoma.pixelList,1)
-%             p = round(dpsoma.pixelList(j,:));
-%             if (isequal(p,centr))
-%                good = 1;
-%                break; 
-%             end
-%         end
-        
         
         if (good == 0)
            continue; %not part of original soma
         end
 
         soma = DPSoma([col,row],dpsoma.referenceDPImage);
+        
+
         soma.isClump = 1;
         soma = prepare_soma(soma);
         somas{end+1} = soma{1};
+    end
+    
+    r = dpsoma.area/size(somas,1); %average area per soma
+    if (r < 150) %probably too small
+        somas = 0;
+        return;
     end
     
     if (size(somas,1) > 0)

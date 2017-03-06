@@ -8,12 +8,12 @@ function [bool] = pixelListBinarySearch( pList, p )
     end
     
     b = a;
-    while (pList(b-1,1) == p(1))
+    while (b~=1 && pList(b-1,1) == p(1))
         b = b-1;
     end
     
     c = a;
-    while (pList(c+1,1) == p(1))
+    while (c~=size(pList,1) && pList(c+1,1) == p(1))
         c=c+1;
     end    
     

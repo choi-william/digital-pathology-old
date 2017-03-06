@@ -6,7 +6,7 @@ function [soma] = somaBoundBox( soma, basicOrAdvanced )
     
     [maxh,maxw] = size(bigImage);
 
-    factor = 2.5;
+    factor = 1;
     newTL = soma.centroid - ones(1,2)*soma.maxRadius*factor; %x,y
     newBR = soma.centroid + ones(1,2)*soma.maxRadius*factor; %x,y
     
@@ -79,18 +79,14 @@ function [soma] = somaBoundBox( soma, basicOrAdvanced )
 
         newTL = TL;
         newBR = BR;
-        if any(row==1)
+        if any(row==1) || any(row==C(2))
             newTL = newTL - [0 soma.maxRadius]; %expand upwards
+            newBR = newBR + [0 soma.maxRadius]; %expand downwards
         end
-        if any(row==C(2))
-            newBR = newBR + [0 soma.maxRadius]; %expand downwards      
-        end
-        if any(col==1)
-            newTL = newTL - [soma.maxRadius 0]; %expand leftwards  
-        end
-        if any(col==C(1))
+        if any(col==1) || any(col==C(1))
+            newTL = newTL - [soma.maxRadius 0]; %expand leftwards
             newBR = newBR + [soma.maxRadius 0]; %expand rightwards               
-        end  
+        end
         if newTL(1) < 1
             newTL(1) = 1;
         end
