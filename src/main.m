@@ -28,7 +28,6 @@ extract_processes(soma_list{35}.subImage,struct('vesselness',true));
 
 % Verify.Learn.learn(100, 0.005, [0 0; 1 1000 ], [0.02 5], [0.6 350] );
 
-
 %dps = Pipeline.import_dp([],'allver');
 %size(dps)
 %dps = Pipeline.import_dp([65,48,74,111],'');
