@@ -24,7 +24,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         somaIm = imbinarize(Iobrcbr,th);
         
         %Filter Image
-        somaIm = sizeFilter(somaIm,lsb,100000);
+        somaIm = Helper.sizeFilter(somaIm,lsb,100000);
 
     elseif alg == 1
         input_image = dpimage.image;
@@ -70,7 +70,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         
-        prepared = prepare_soma(DPSoma([col,row],dpimage)); 
+        prepared = prepare_soma(DPCell([col,row],dpimage)); 
         for j=1:size(prepared,2)
             list{end+1} = prepared{j};
         end

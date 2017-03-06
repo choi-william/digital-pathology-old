@@ -37,7 +37,7 @@ function bwIm = extract_processes( soma_image, options )
         bwIm = imbinarize(imcomplement(vesselIm),0.75);
         
         % Size filter
-        bwIm = sizeFilter(bwIm, 25, 1500);
+        bwIm = Helper.sizeFilter(bwIm, 25, 1500);
         
         figure, 
         subplot(1,3,1), imshow(grayIm);
@@ -53,7 +53,7 @@ function bwIm = extract_processes( soma_image, options )
         sharpenedIm = imadjust(fastguidedIm);
         sharpenedIm = imsharpen(sharpenedIm, 'Threshold',0, 'Amount', 2);
 
-        mumfordIm = prepare.mumford_shah.fastms(sharpenedIm, 'lambda', 0.6, 'alpha', 5, 'edges', false);
+        mumfordIm = fastms(sharpenedIm, 'lambda', 0.6, 'alpha', 5, 'edges', false);
         
         % Supressing regions with low gradients
         minsupress = imhmin(im2uint8(sharpenedIm), 35);
@@ -75,7 +75,7 @@ function bwIm = extract_processes( soma_image, options )
 
     elseif options.mumfordshah
         % Mumford-Shah applied to the grayscale image
-        mumfordIm = prepare.mumford_shah.fastms(adjustedIm, 'lambda', 0.01, 'alpha', 0.1);
+        mumfordIm = fastms(adjustedIm, 'lambda', 0.01, 'alpha', 0.1);
         mumfordIm = imadjust(mumfordIm,[0; 0.6],[0; 1], 1.5); % remove the blurred regions
         figure, imshow(mumfordIm);
         

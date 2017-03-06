@@ -1,32 +1,49 @@
-classdef DPSoma
-    % Digital Pathology Soma (DPImage)
-    %   A Soma Representation
+classdef DPCell
+    % Digital Pathology Cell (DPImage)
+    %   A Cell Representation
     
     properties
         pixelList 
-        
+
         referenceDPImage
-        
+
         TL %top left coordinate of subImage box wrt dpiamge. In (x,y)
         subImage
         oImage %ocbrc image
         rCentroid
-        
+
         area
-        
+
         isClump = 0;  % true if the component contains multiple cells
-        
+
         %file metadata
         centroid %centroid of pixels
         maxRadius %largest containing radius
 
-        
         isCorrect = -1; %whether it matches test data or not
+
+        % Following Processes Segmentation
+        
+        binaryIm     % binary image of the cell
+
+        skelIm     % skeletonized image of the cell
+
+        % Skeleton Analysis
+        numJunctions   % number of junctions in a skeletonized image
+
+        numEndpoints    % number of endpoints in a skeletonized image
+
+        % Fractal Analysis
+        fractalDim
+
+        morphology
+
+        somaSize
         
     end
     
     methods
-        function obj = DPSoma(L,RDPI)
+        function obj = DPCell(L,RDPI)
             obj.pixelList = L;
             obj.referenceDPImage = RDPI;
             

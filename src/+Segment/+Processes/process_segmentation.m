@@ -1,9 +1,9 @@
-function [ bwIm ] = cell_segmentation( dpsoma )
+function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 %CELL_SEGMENTATION Summary of this function goes here
 %   dpsoma - input soma object
 
-    cellIm = imadjust(dpsoma.subImage(:,:,3));
-    centroid = round(dpsoma.centroid);
+    cellIm = imadjust(rgbCellImage(:,:,3));
+    centroid = round(cellCentroid);
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
     cellIm = imadjust(cellIm,[0; averageIntensity/255],[0; 1]); % removing pixels above average intensity
     
