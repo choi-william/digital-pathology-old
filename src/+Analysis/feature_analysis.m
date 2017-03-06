@@ -12,7 +12,7 @@ function [dpcell_list] = cell_pipeline( dpcell_list )
         dpcell_list{i}.numEndpoints = endpoints;
         dpcell_list{i}.numJunctions = junctions;
         
-        dpcell_list{i}.fractalDim = hausDim(bwIm);
+        dpcell_list{i}.fractalDim = hausDim(dpcell_list{i}.binaryIm);
         
     end 
 

@@ -4,6 +4,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     cellIm = imadjust(rgbCellImage(:,:,3));
     centroid = round(cellCentroid);
+    centroid = [5, 5]; % to be removed once centroid is adjusted
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
     cellIm = imadjust(cellIm,[0; averageIntensity/255],[0; 1]); % removing pixels above average intensity
     
@@ -14,7 +15,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
 
-    figure, imshow(label2rgb(quantIm));
+%     figure, imshow(label2rgb(quantIm));
 
     % SOMA DETECTION
     minSomaSize = 100;
@@ -40,7 +41,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     end
 
     x = 1:N+1;
-    figure, scatter(x,numCountedObjects);
+%     figure, scatter(x,numCountedObjects);
 
     % Determining the Backgound level
     backgroundLevel = sum(thresh < averageIntensity) + 1;
@@ -59,7 +60,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
 
-    figure, imshow(label2rgb(newQuantIm));
+%     figure, imshow(label2rgb(newQuantIm));
 
     % SEED SAMPLING at each quantized level
     seedIm = zeros(size(cellIm));
@@ -79,12 +80,12 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         blockSize = [i+2-somaLevel i+2-somaLevel];
         func = @generate_seeds;
         seeds = blockproc(compositeIm, blockSize, func);
-        figure, imshow(seeds); % uncomment to see seeds at each stage
+%         figure, imshow(seeds); % uncomment to see seeds at each stage
 
         seedIm = seedIm + seeds*i;
     end
 
-    figure, imshow(seedIm);
+%     figure, imshow(seedIm);
 
     % Minimum spanning tree
     cellCentroid = zeros(size(cellIm));
@@ -157,7 +158,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
             currRow = nxtRow;
             currCol = nxtCol;
         end
-        figure, imshow(finalTree); % uncomment to see the tree at each stage
+%         figure, imshow(finalTree); % uncomment to see the tree at each stage
     end
 
     % overlaying the soma image on the tree
@@ -176,6 +177,6 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     % pruning - should be improved
     bwIm = bwmorph(bwIm, 'spur', 5);
     
-    figure, imshow(bwIm), title('finalTree');
+%     figure, imshow(bwIm), title('finalTree');
     
 end

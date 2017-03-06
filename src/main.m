@@ -15,5 +15,6 @@ D = DPImage('test','D');
 E = DPImage('test','E');
 im23 = DPImage('tom','23');
 
+tic;
 pathology_analysis(im23);
-
+toc;
