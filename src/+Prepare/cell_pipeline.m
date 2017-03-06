@@ -8,7 +8,6 @@ function [ list, cell_count ] = cell_pipeline( soma_list )
     list = cell([length, 2]);
     length =1; % remove when not testing
     for i=1:length
-        i = 8;
         list{i} = DPMicroglia(soma_list{i});
         
         somaObj = soma_list{i};
