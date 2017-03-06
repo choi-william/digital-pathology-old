@@ -3,8 +3,8 @@ function [ numEndpoint, numJunc, skelIm ] = skeleton_analysis( bwIm )
 % Skeleton Analysis
 % 
 
-    skelIm = bwmorph(imcomplement(bwIm), 'skel', Inf);
-    
+    skelIm = Skeleton3D(imcomplement(bwIm));
+
     E = bwmorph(skelIm, 'endpoints');
     numEndpoint = sum(sum(E));
     
