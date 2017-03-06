@@ -2,3 +2,4 @@
 *~
 data/
 !data/test/*
+src/main.m
