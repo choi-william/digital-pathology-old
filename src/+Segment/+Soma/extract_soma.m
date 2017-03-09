@@ -10,11 +10,13 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
         % converting image to grayscale
         grayIm = rgb2gray(dpimage.image);
-        grayIm = imadjust(grayIm);
-        adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
-        adjusted = imsharpen(adjusted);
-%         figure, imshow(adjusted);
+        %grayIm = imadjust(grayIm);
+        %adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
+        %adjusted = imsharpen(adjusted);
         
+        adjusted = grayIm + (255-mean(grayIm(:)));
+        %figure, imshow(adjusted);
+
         % open and close by reconstruction
 
         Iobrcbr = Tools.smooth_ocbrc(adjusted,2);

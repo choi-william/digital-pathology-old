@@ -66,7 +66,14 @@ for i = 1:size(all_images,1)
                     %found the roi file.
                     
                     newObj.roi = 1; %TODO replace X
-
+                    
+                    if strcmp(newObj.time,'S')
+                        %sham without an ROI
+                        data = rgb2gray(im_im); %define all as roi
+                        data(:,:) = 1.0;      
+                        save(strcat(v_path,'\ROI',num2str(id),'.mat'),'data');
+                        break;
+                    end
                     [roi_obj] = read_roi(strcat(ro.folder,'\',ro.name));
                     data = poly2mask(roi_obj.mnCoordinates(:,1),roi_obj.mnCoordinates(:,2), size(im_im,1), size(im_im,2));  %roi mask        
                     save(strcat(v_path,'\ROI',num2str(id),'.mat'),'data');               
@@ -77,7 +84,7 @@ for i = 1:size(all_images,1)
             newObj.test = 1;
             
             th_im = imread(strcat(th.folder,'\',th.name));
-            data = convert_soma_data(th_im); %array of points
+            data = convert_soma_data(double(th_im)); %array of points
             save(strcat(v_path,'\TH',num2str(id),'.mat'),'data');
             break;
         end
