@@ -1,4 +1,4 @@
-function [ newQuantIm ] = smooth_mt( image )
+function [ bwIm ] = smooth_mt( image, threshold, lsb)
 %SMOOTH_MT Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -30,5 +30,10 @@ function [ newQuantIm ] = smooth_mt( image )
         CC = bwconncomp(B);
         numCountedObjects(i) = CC.NumObjects;
     end
+    
+    grayIm = rgb2gray(label2rgb(newQuantIm));
+    bwIm = imbinarize(grayIm, threshold);
+
+    bwIm = Helper.sizeFilter(imcomplement(bwIm), lsb,500);
 end
 
