@@ -6,7 +6,7 @@ function [ cell_list ] = cell_segmentation( dpimage )
 
     % Soma Segmentation
     [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 0, 0.4, 100);
-    
+
     % Processes Segmentation
     length = size(cell_list,2);
     for i=1:length
@@ -16,6 +16,6 @@ function [ cell_list ] = cell_segmentation( dpimage )
         binaryIm = Segment.Processes.process_segmentation(cell_list{i}.subImage, cell_list{i}.centroid);
         cell_list{i}.binaryIm = binaryIm;
     end
-    
+
 end
 

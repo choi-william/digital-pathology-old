@@ -1,4 +1,4 @@
-function [dpcell_list] = cell_pipeline( dpcell_list )
+function [dpcell_list] = feature_analysis( dpcell_list )
 %
 %   Handles cell analysis following soma segmentation
 %

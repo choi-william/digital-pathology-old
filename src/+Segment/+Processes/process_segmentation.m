@@ -15,8 +15,6 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
 
-%     figure, imshow(label2rgb(quantIm));
-
     % SOMA DETECTION
     minSomaSize = 100;
     newQuantIm = zeros(size(cellIm));
@@ -60,8 +58,6 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
 
-%     figure, imshow(label2rgb(newQuantIm));
-
     % SEED SAMPLING at each quantized level
     seedIm = zeros(size(cellIm));
     for i = somaLevel:backgroundLevel
@@ -85,7 +81,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         seedIm = seedIm + seeds*i;
     end
 
-%     figure, imshow(seedIm);
+
 
     % Minimum spanning tree
     cellCentroid = zeros(size(cellIm));
@@ -177,6 +173,10 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     % pruning - should be improved
     bwIm = bwmorph(bwIm, 'spur', 5);
     
-%     figure, imshow(bwIm), title('finalTree');
-    
+    figure; 
+    subplot(2,3,1), imshow(rgbCellImage), title('Original Image');
+    subplot(2,3,2), imshow(label2rgb(quantIm)), title('Quantized Image');
+    subplot(2,3,3), imshow(label2rgb(newQuantIm)), title('Newly Quantized Image');
+    subplot(2,3,4), imshow(seedIm), title('Seed Image');
+    subplot(2,3,5), imshow(bwIm), title('Final Connected Tree');
 end

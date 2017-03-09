@@ -13,11 +13,11 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         grayIm = imadjust(grayIm);
         adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
         adjusted = imsharpen(adjusted);
-        %figure, imshow(adjusted);
-
+%         figure, imshow(adjusted);
+        
         % open and close by reconstruction
 
-        Iobrcbr = smooth_ocbrc(adjusted,2);
+        Iobrcbr = Tools.smooth_ocbrc(adjusted,2);
         dpimage.ocbrc = Iobrcbr;
 
         %THRESHOLD RESULT%

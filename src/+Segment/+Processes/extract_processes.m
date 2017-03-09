@@ -93,7 +93,7 @@ function bwIm = extract_processes( soma_image, options )
         
     elseif options.openclose
         % Opening and Closing by reconstruction 
-        ocbrIm = smooth_ocbrc(adjustedIm,5);
+        ocbrIm = Tools.smooth_ocbrc(adjustedIm,5);
         guidedIm = imguidedfilter(ocbrIm);
         orgguidedIm = imguidedfilter(grayIm);
         bwIm = imbinarize(ocbrIm,0.35);
