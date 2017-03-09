@@ -1,9 +1,11 @@
 function [ output_args ] = pathology_analysis( dpimage )
 %PATHOLOGY_ANALYSIS Summary of this function goes here
 %   Detailed explanation goes here
-
-    [soma_list,dp] = extract_soma(dpimage.image, 0, 0.4, 100);
-    microglia_list = cell_pipeline(soma_list);
     
+    cell_list = Segment.cell_segmentation(dpimage);
+    
+    cell_list = Analysis.feature_analysis(cell_list);
+    
+    cell_count = size(cell_list,2);
 end
 
