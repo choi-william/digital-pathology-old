@@ -1,10 +1,12 @@
-function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
+function [soma] = somaBoundBox( soma, basicOrAdvanced )
 
     %0 is basic, 1 is advanced
     bigImage = soma.referenceDPImage.image;
+    ocbrcImage = soma.referenceDPImage.ocbrc;
+    
     [maxh,maxw] = size(bigImage);
 
-    factor = 2.5;
+    factor = 1;
     newTL = soma.centroid - ones(1,2)*soma.maxRadius*factor; %x,y
     newBR = soma.centroid + ones(1,2)*soma.maxRadius*factor; %x,y
     
@@ -31,27 +33,22 @@ function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
         end
         TL = newTL;
         BR = newBR;
-        
         C = round(BR-TL);
-        im = imcrop(bigImage,[TL, C(1), C(2)]);
-        in = im(:,:,3);
-
         relCentroid = soma.centroid - TL;
+        oim = imcrop(ocbrcImage,[TL, C(1), C(2)]);
 
         if (basicOrAdvanced == 0)
+           soma.subImage = imcrop(bigImage,[TL, C(1), C(2)]);
+           soma.oImage = oim;
+           soma.rCentroid = relCentroid;
+           soma.TL = TL;
            return; %basic mode
         end
         
         se = strel('disk', 3);
+        
         %OPEN BY RECONSTRUCTION%
-        Ie = imerode(in, se);
-        Iobr = imreconstruct(Ie, in);
-
-        %CLOSE BY RECONSTRUCTION%
-        Iobrd = imdilate(Iobr, se);
-        Iobrcbr = imreconstruct(imcomplement(Iobrd), imcomplement(Iobr));
-        out = imcomplement(Iobrcbr);
-        bb = imbinarize(out,0.5);
+        bb = imbinarize(oim,0.5);
 
         %close all;
         %imshow(bb);
@@ -82,18 +79,14 @@ function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
 
         newTL = TL;
         newBR = BR;
-        if any(row==1)
+        if any(row==1) || any(row==C(2))
             newTL = newTL - [0 soma.maxRadius]; %expand upwards
+            newBR = newBR + [0 soma.maxRadius]; %expand downwards
         end
-        if any(row==C(2))
-            newBR = newBR + [0 soma.maxRadius]; %expand downwards      
-        end
-        if any(col==1)
-            newTL = newTL - [soma.maxRadius 0]; %expand leftwards  
-        end
-        if any(col==C(1))
+        if any(col==1) || any(col==C(1))
+            newTL = newTL - [soma.maxRadius 0]; %expand leftwards
             newBR = newBR + [soma.maxRadius 0]; %expand rightwards               
-        end  
+        end
         if newTL(1) < 1
             newTL(1) = 1;
         end
@@ -109,5 +102,10 @@ function [im,relCentroid] = getSomaBox( soma, basicOrAdvanced )
         
         numIter = numIter+1;
     end
+    
+    soma.subImage = imcrop(bigImage,[TL, C(1), C(2)]);
+    soma.oImage = oim;
+    soma.rCentroid = relCentroid;
+    soma.TL = TL;
 end
 

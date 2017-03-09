@@ -22,7 +22,14 @@ function [ dpims ] = import_dp(ids,action)
                 newDP = DPImage('tom',num2str(meta(i).id));
                 dpims = [dpims newDP];   
             end
-        end       
+         end 
+    elseif strcmp(action,'sham') %%return all sham images%%
+        for i=1:size(meta,1)
+            if (strcmp(meta(i).time,'S'))
+                newDP = DPImage('tom',num2str(meta(i).id));
+                dpims = [dpims newDP];   
+            end
+        end  
     else %%return images that have corresponding test data%%
         
         %TODO, this searching algorithm is terrible. Should be improved.

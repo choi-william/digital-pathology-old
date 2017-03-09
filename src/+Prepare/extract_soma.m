@@ -10,21 +10,23 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
         % converting image to grayscale
         grayIm = rgb2gray(dpimage.image);
-        grayIm = imadjust(grayIm);
-        adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
-        adjusted = imsharpen(adjusted);
-        figure, imshow(adjusted);
+        %grayIm = imadjust(grayIm);
+        %adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
+        %adjusted = imsharpen(adjusted);
+        
+        adjusted = grayIm + (255-mean(grayIm(:)));
+        %figure, imshow(adjusted);
 
         % open and close by reconstruction
 
         Iobrcbr = smooth_ocbrc(adjusted,2);
-        dpimage.intermediate = Iobrcbr;
+        dpimage.ocbrc = Iobrcbr;
 
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,th);
         
         %Filter Image
-        somaIm = sizeFilter(somaIm,lsb,5000);
+        somaIm = sizeFilter(somaIm,lsb,100000);
 
     elseif alg == 1
         input_image = dpimage.image;
@@ -63,14 +65,17 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     
     dpimage.somaMask = somaIm;
     comp = bwconncomp(imcomplement(somaIm));
-    figure, imshow(somaIm);
+    %figure, imshow(somaIm);
 
-    list = cell([comp.NumObjects,1]);
+    list = {};
     
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
-        list{i} = DPSoma([col,row],dpimage); % flipped to conform to cartesian coordinates
-        list{i}.subImage = getSomaBox(list{i},0);
+        
+        prepared = prepare_soma(DPSoma([col,row],dpimage)); 
+        for j=1:size(prepared,2)
+            list{end+1} = prepared{j};
+        end
     end    
     dp = dpimage;
 end

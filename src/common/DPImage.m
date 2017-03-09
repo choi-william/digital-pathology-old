@@ -17,7 +17,7 @@ classdef DPImage
         roiMask = 0;
         
         %soma
-        intermediate;
+        ocbrc = 0;
         somaMask;
         
         %slide metadata
@@ -79,6 +79,7 @@ classdef DPImage
             obj.filename = filename;
             obj.filepath = imPath;
             obj.image = imread(imPath);
+            obj.image = obj.image(:,:,1:3);
             
 
     

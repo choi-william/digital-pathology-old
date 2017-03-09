@@ -1,7 +1,7 @@
 function [] = display_somas( somaList )
     %Displays soma subarray
-    
-    length = size(somaList,1);
+
+    length = size(somaList,2);
     width = ceil(sqrt(length));
     height = ceil(length/width);
     
@@ -12,11 +12,13 @@ function [] = display_somas( somaList )
         end
         
         soma = somaList{i};
+        
+        A(i) = size(soma.subImage,1)*size(soma.subImage,2);
+        B(i) = size(soma.subImage,1)/size(soma.subImage,2);
+        
         subplot(height,width,i), 
         subimage(soma.subImage);
         set(gca,'visible','off');
-    end
-
-
+    end 
 end
 

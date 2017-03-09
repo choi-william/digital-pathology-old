@@ -17,11 +17,12 @@ function [] = create_cnn_training()
         list = Verify.evaluate_soma(Prepare.extract_soma(dps(i),0,0.8,100),0);
         for j=1:size(list,2)
             soma = list{j};
-            soma.isCorrect;
+
             if (soma.isCorrect == 1)
                 imwrite(soma.subImage,strcat(path1,'\',num2str(count),'.tif'));
             elseif (soma.isCorrect == 0)
                 imwrite(soma.subImage,strcat(path2,'\',num2str(count),'.tif'));                
+            elseif (soma.isCorrect == -1)
             end
             count = count+1;
         end
