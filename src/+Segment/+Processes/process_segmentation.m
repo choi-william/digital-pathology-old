@@ -58,10 +58,11 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
 
-    subplot(6,5,[1,7]), imshow(rgbCellImage), title('Original Image');
-    subplot(6,5,[11,17]), imshow(label2rgb(quantIm)), title('Quantized Image');
-    subplot(6,5,[21,27]), imshow(zeros(size(quantIm))+255), title('Final Binarized Image');
-    subplot(6,5,[18,30]), imshow(zeros(size(newQuantIm)));
+    subplot(6,9,[5,15]), imshow(rgbCellImage), title('Original Image');
+    subplot(6,9,[23,33]), imshow(label2rgb(quantIm)), title('Quantized Image');
+    subplot(6,9,[41,51]), imshow(zeros(size(quantIm))+255), title('Final Binarized Image');
+    subplot(6,9,[34,54]), imshow(zeros(size(newQuantIm)));
+    hold on;
     
     % SEED SAMPLING at each quantized level
     seedIm = zeros(size(cellIm));
@@ -84,7 +85,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         
         seedIm = seedIm + seeds*i;
         
-        subplot(6,5, [3,15]);
+        subplot(6,9, [7,27]);
         imshow(seedIm); % uncomment to see seeds at each stage
         hold on;
         pause(0.02);
@@ -164,7 +165,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
             currRow = nxtRow;
             currCol = nxtCol;
         end
-        subplot(6,5,[18,30]);
+        subplot(6,9,[34,54]);
         imshow(finalTree); % uncomment to see the tree at each stage
         hold on;
         pause(0.001);
@@ -187,7 +188,8 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     bwIm = bwmorph(bwIm, 'spur', 5);
     
     
-    subplot(6,5,[21,27]), imshow(bwIm), title('Final Connected Tree');
+    subplot(6,9,[41,51]), imshow(bwIm), title('Final Connected Tree');
+    hold on;
     pause(0.3);
 %     figure; 
 %     subplot(2,3,1), imshow(rgbCellImage), title('Original Image');

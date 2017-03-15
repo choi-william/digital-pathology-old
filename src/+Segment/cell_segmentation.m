@@ -15,12 +15,12 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     
     if (visual)
         
-        h = figure; 
+        h = figure;
         imshow(im); %put to left side of screen
         hold on;
         for i=1:length
             im = Tools.colour_overlay(im,cell_list{i}.pixelList,'blue');
-            imshow(im);
+            subplot(6,9,[1,49]), imshow(im);
             pause(0.02);
         end
     end
@@ -30,7 +30,8 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     for i=1:length
         
         if (visual)
-            set(0,'CurrentFigure',h);
+
+%             set(0,'CurrentFigure',h);
             im = Tools.colour_overlay(im,cell_list{i}.pixelList,'red');
             imshow(im);
             pause(0.01);
@@ -44,9 +45,10 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
         
         pause(0.1);
         if (visual)
-            set(0,'CurrentFigure',h);
+           
+%             set(0,'CurrentFigure',h);
             im = Tools.colour_overlay(im,cell_list{i}.pixelList,'green');
-            imshow(im);
+            subplot(6,9,[1,49]), imshow(im);
             pause(0.01);
         end
     end
