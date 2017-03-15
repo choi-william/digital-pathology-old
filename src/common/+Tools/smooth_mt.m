@@ -1,13 +1,13 @@
-function [ bwIm ] = smooth_mt( image, threshold, lsb)
+function [ out ] = smooth_mt( image, N)
 %SMOOTH_MT Summary of this function goes here
 %   Detailed explanation goes here
 
-    cellIm = image(:,:,3);
+    cellIm = image;
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
     cellIm = imadjust(cellIm,[0; averageIntensity/255],[0; 1]); % removing pixels above average intensity
     
     % IMAGE QUANTIZATION using Otsu's mutilevel iamge thresholding
-    N = 15; % number of thresholds % temporary changed to 13 from 20
+    N; % number of thresholds % temporary changed to 13 from 20
     thresh = multithresh(cellIm, N);
     quantIm = imquantize(cellIm, thresh);
 
@@ -31,9 +31,6 @@ function [ bwIm ] = smooth_mt( image, threshold, lsb)
         numCountedObjects(i) = CC.NumObjects;
     end
     
-    grayIm = rgb2gray(label2rgb(newQuantIm));
-    bwIm = imbinarize(grayIm, threshold);
-
-    bwIm = Helper.sizeFilter(imcomplement(bwIm), lsb,500);
+    out = uint8((newQuantIm-1)*(255/N));
 end
 
