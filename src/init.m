@@ -1,3 +1,6 @@
+close all;
+clear;
+
 addpath(genpath('library'))
 addpath common;
 
