@@ -14,7 +14,7 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     im = dp.image;
     
     if (visual)
-        hFig = figure('Color',[0.8 0.8 0.8],'units','normalized','outerposition',[0 0 1 1]);
+        hFig = figure('Color',[0.3 0.3 0.3],'units','normalized','outerposition',[0 0 1 1]);
         
         set(hFig,'menubar','none')
         set(hFig,'NumberTitle','off');
@@ -26,18 +26,6 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
         set(tit,'FontSize',20,'FontWeight','bold');
         
         hold on;
-        
-%         x = 0:0.001:2*pi;
-% 
-%         f = figure;
-%         subplot(2,1,1)
-%         plot(x,y1)
-%         subplot(2,1,2)
-%         plot(x,y2)
-%         a = axes;
-%         t1 = title('Global Title');
-%         a.Visible = 'off'; % set(a,'Visible','off');
-%         t1.Visible = 'on'; % set(t1,'Visible','on');
         
         placeholder = zeros(10,10);
         subplot(6,9,[5,15]), imshow(placeholder), title('Original Image');
@@ -59,7 +47,13 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     
     
     % Processes Segmentation
-    for i=1:length
+    
+    microglia = cumsum(ones(1,length));
+    for k=1:length
+        
+        
+        i = microglia(ceil(rand()*size(microglia,2)));
+        microglia = microglia(find(microglia~=i));
         
         if (visual)
             im = Tools.colour_overlay(im,cell_list{i}.pixelList,'red');
@@ -73,7 +67,7 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
         binaryIm = Segment.Processes.process_segmentation(cell_list{i}.subImage, cell_list{i}.centroid);
         cell_list{i}.binaryIm = binaryIm;
         
-        pause(0.1);
+        pause(0.01);
         if (visual)
            
 %            set(0,'CurrentFigure',h);
