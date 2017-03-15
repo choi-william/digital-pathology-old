@@ -5,6 +5,7 @@ classdef DPImage
     
     properties
         image = 0 %raw image data (3D array)
+        flipped = 0;
         
         %file metadata
         filename
@@ -80,8 +81,14 @@ classdef DPImage
             obj.filepath = imPath;
             obj.image = imread(imPath);
             obj.image = obj.image(:,:,1:3);
-            
-
+           
+            if (size(obj.image,2) > size(obj.image,1))
+               obj.image = permute(obj.image, [2 1 3]);
+               obj.roiMask = obj.roiMask';
+               if (size(obj.testPoints,2) == 2)
+                  obj.testPoints = [obj.testPoints(2), obj.testPoints(1)]; 
+               end
+            end
     
             %TODO - devise a way to import metadata... As of now, the best
             %way I can think of doing this is by having a map file in the
