@@ -1,18 +1,10 @@
-function [ updatedList ] = evaluate_soma(somaList,shouldPlot)
+function [ updatedList,score ] = evaluate_soma(somaList,shouldPlot)
     % Performs a comparison between automatic soma segmentation and manual soma
     % segmentation
     if (size(somaList,2) == 0)
         score = 100;
-        
-        figure('units','normalized','outerposition',[0 0 1 1]);
-
-        imshow(dp.image); 
-        h = zeros(3, 1);
-        h(1) = plot(NaN,NaN,'.r','MarkerSize',20);
-        h(2) = plot(NaN,NaN,'.b','MarkerSize',20);
-        h(3) = plot(NaN,NaN,'.','color',[1 0 1],'MarkerSize',20);
-        legend(h, 'False Positive','False Negative','Match');
-        
+        updatedList = [];
+        fprintf('image not found\n');
         return
         %TODO, this is bad but I am lazy. We should pass the dpimage
         %separately to the soma
@@ -85,15 +77,15 @@ function [ updatedList ] = evaluate_soma(somaList,shouldPlot)
         figure('units','normalized','outerposition',[0 0 1 1]);
 %         subplot(1,3,1);
 %         
-%         if (~isscalar(dp.ocbrc))
-%             imshow(dp.ocbrc);   
+%         if (~isscalar(dp.preThresh))
+%             imshow(dp.preThresh);   
 %         end
 %         subplot(1,3,2);
 %         imshow(dp.somaMask);         
 %         subplot(1,3,3);
 %         imshow(dp.image); 
 
-         totalIm = [dp.image repmat(dp.ocbrc,1,1,3) repmat(dp.somaMask*255,1,1,3)];
+         totalIm = [dp.image repmat(dp.preThresh,1,1,3) repmat(dp.somaMask*255,1,1,3)];
 
          imshow(totalIm);
          hold on;
@@ -132,6 +124,7 @@ function [ updatedList ] = evaluate_soma(somaList,shouldPlot)
         c = 100*b/a; %percentage found
         score = 100*(sum(fp(fp>=0))+2*sum(fn(fn>=0)))/a;
     else
+        
         c = 100;
         score = 5*sum(fp(fp>=0));
     end

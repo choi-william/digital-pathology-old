@@ -17,7 +17,7 @@ classdef DPImage
         roiMask = 0;
         
         %soma
-        ocbrc = 0;
+        preThresh = 0;
         somaMask;
         
         %slide metadata

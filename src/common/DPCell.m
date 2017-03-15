@@ -13,6 +13,8 @@ classdef DPCell
         rCentroid
 
         area
+        preThreshIntensity
+        circularity
 
         isClump = 0;  % true if the component contains multiple cells
 
@@ -44,10 +46,24 @@ classdef DPCell
     
     methods
         function obj = DPCell(L,RDPI)
-            obj.pixelList = L;
-            obj.referenceDPImage = RDPI;
             
+         
+            
+            obj.pixelList = L; %[col, row]
+            obj.referenceDPImage = RDPI;
             obj.area = size(obj.pixelList,1);
+
+            
+            dim = size(RDPI.image);
+            mask = false(dim(1:2));
+            
+            for i=1:size(L,1)
+                mask(round(L(i,2)),round(L(i,1))) = 1;                
+            end
+            perim = regionprops(mask,'Perimeter');
+            perim = perim.Perimeter;
+            
+            obj.circularity = (perim .^ 2) ./ (4 * pi * obj.area);
             
             sumX = 0;
             sumY = 0;
@@ -57,7 +73,9 @@ classdef DPCell
                 sumY = sumY + p(2);
             end
             
-            obj.centroid = [sumX,sumY]/obj.area;
+            obj.centroid = round([sumX,sumY]/obj.area);
+            
+            obj.preThreshIntensity = RDPI.preThresh(obj.centroid(2),obj.centroid(1));
             
             obj.maxRadius = 0;
             for j=1:size(obj.pixelList,1)

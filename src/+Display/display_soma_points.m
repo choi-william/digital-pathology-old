@@ -15,7 +15,6 @@ function [] = displayOverlay(somaList)
         end        
     end
     
-    
     h = zeros(2, 1);
     h(1) = plot(NaN,NaN,'cyan','MarkerSize',20);
     h(2) = plot(NaN,NaN,'green','MarkerSize',20);

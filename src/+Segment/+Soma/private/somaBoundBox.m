@@ -2,7 +2,7 @@ function [soma] = somaBoundBox( soma, basicOrAdvanced )
 
     %0 is basic, 1 is advanced
     bigImage = soma.referenceDPImage.image;
-    ocbrcImage = soma.referenceDPImage.ocbrc;
+    ocbrcImage = soma.referenceDPImage.preThresh;
     
     [maxh,maxw] = size(bigImage);
 
