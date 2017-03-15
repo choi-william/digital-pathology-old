@@ -7,8 +7,8 @@ function [P_f, C ] = learn(iterations, step_length, bounds, p_jump, P_o )
     %step_length represents the maximum step traversal represented as a
     %   decimal percentage of bound size
 
-    dps = Pipeline.import_dp([],'allver');
-    
+    dps = Pipeline.import_dp([],'trainNosham');
+    size(dps);
     P = zeros(iterations,size(P_o,2));
     P(1,:) = P_o; %initial parameters
     
