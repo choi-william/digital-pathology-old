@@ -14,14 +14,46 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     im = dp.image;
     
     if (visual)
+        hFig = figure('Color',[0.8 0.8 0.8],'units','normalized','outerposition',[0 0 1 1]);
         
-        h = figure;
-        imshow(im); %put to left side of screen
+        set(hFig,'menubar','none')
+        set(hFig,'NumberTitle','off');
+        
+        tit = suptitle('Microglia Analysis');
+        
+        P = get(tit,'Position');
+        set(tit,'Position',[P(1) P(2)+0.025]);
+        set(tit,'FontSize',20,'FontWeight','bold');
+        
         hold on;
+        
+%         x = 0:0.001:2*pi;
+% 
+%         f = figure;
+%         subplot(2,1,1)
+%         plot(x,y1)
+%         subplot(2,1,2)
+%         plot(x,y2)
+%         a = axes;
+%         t1 = title('Global Title');
+%         a.Visible = 'off'; % set(a,'Visible','off');
+%         t1.Visible = 'on'; % set(t1,'Visible','on');
+        
+        placeholder = zeros(10,10);
+        subplot(6,9,[5,15]), imshow(placeholder), title('Original Image');
+        subplot(6,9,[23,33]), imshow(placeholder), title('Quantized Image');
+        subplot(6,9,[41,51]), imshow(placeholder), title('Final Binarized Image');
+        subplot(6,9,[34,54]), imshow(placeholder);
+        subplot(6,9,[7,27]), imshow(placeholder);
+
+    end 
+    
+    %Colour all blue;
+    if (visual)
         for i=1:length
             im = Tools.colour_overlay(im,cell_list{i}.pixelList,'blue');
             subplot(6,9,[1,49]), imshow(im);
-            pause(0.02);
+            pause(0.00001);
         end
     end
     
@@ -30,10 +62,8 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     for i=1:length
         
         if (visual)
-
-%             set(0,'CurrentFigure',h);
             im = Tools.colour_overlay(im,cell_list{i}.pixelList,'red');
-            imshow(im);
+            subplot(6,9,[1,49]), imshow(im);
             pause(0.01);
         end
         
@@ -46,9 +76,9 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
         pause(0.1);
         if (visual)
            
-%             set(0,'CurrentFigure',h);
+%            set(0,'CurrentFigure',h);
             im = Tools.colour_overlay(im,cell_list{i}.pixelList,'green');
-            subplot(6,9,[1,49]), imshow(im);
+            subplot(6,9,[1,49]); imshow(im);
             pause(0.01);
         end
     end

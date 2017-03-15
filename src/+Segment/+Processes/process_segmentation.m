@@ -58,10 +58,15 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
 
-    subplot(6,9,[5,15]), imshow(rgbCellImage), title('Original Image');
-    subplot(6,9,[23,33]), imshow(label2rgb(quantIm)), title('Quantized Image');
-    subplot(6,9,[41,51]), imshow(zeros(size(quantIm))+255), title('Final Binarized Image');
-    subplot(6,9,[34,54]), imshow(zeros(size(newQuantIm)));
+    
+    ext = round(0.5*(size(quantIm,2)-size(quantIm,1)));
+    padsize = [ext*(ext>0) -ext*(ext<0)];
+    
+    subplot(6,9,[5,15],'replace'), imshow(padarray(rgbCellImage,padsize)), title('Original Image');
+    subplot(6,9,[23,33],'replace'), imshow(padarray(label2rgb(quantIm),padsize)), title('Quantized Image');
+    subplot(6,9,[41,51],'replace'), imshow(padarray(zeros(size(quantIm))+255,padsize,1)), title('Final Binarized Image');
+    subplot(6,9,[34,54],'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
+    subplot(6,9,[7,27], 'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
     hold on;
     
     % SEED SAMPLING at each quantized level
@@ -86,7 +91,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         seedIm = seedIm + seeds*i;
         
         subplot(6,9, [7,27]);
-        imshow(seedIm); % uncomment to see seeds at each stage
+        imshow(padarray(seedIm,padsize)); % uncomment to see seeds at each stage
         hold on;
         pause(0.02);
     end
@@ -166,7 +171,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
             currCol = nxtCol;
         end
         subplot(6,9,[34,54]);
-        imshow(finalTree); % uncomment to see the tree at each stage
+        imshow(padarray(finalTree,padsize)); % uncomment to see the tree at each stage
         hold on;
         pause(0.001);
     end
@@ -188,7 +193,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     bwIm = bwmorph(bwIm, 'spur', 5);
     
     
-    subplot(6,9,[41,51]), imshow(bwIm), title('Final Connected Tree');
+    subplot(6,9,[41,51]), imshow(padarray(bwIm,padsize,1)), title('Final Connected Tree');
     hold on;
     pause(0.3);
 %     figure; 
