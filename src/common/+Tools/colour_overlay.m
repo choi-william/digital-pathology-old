@@ -9,7 +9,7 @@ function [ newIm ] = colour_overlay( im,pList,colour )
         end
 
         for j=1:size(pList,1)
-            point = pList(j,:);
+            point = round(pList(j,:));
             im(point(2),point(1),:) = [0,0,0];
             im(point(2),point(1),dim) = 255;
         end
