@@ -1,9 +1,5 @@
 run('init.m');
 
-
-
-
-<<<<<<< HEAD
 im23 = DPImage('tom','152');
 figure, imshow(im23.image,'InitialMagnification','fit');
 [cell_list, cell_count] = pathology_analysis(im23,1);
