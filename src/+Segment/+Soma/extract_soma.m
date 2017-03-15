@@ -20,7 +20,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         % open and close by reconstruction
 
         Iobrcbr = Tools.smooth_ocbrc(adjusted,2);
-        dpimage.ocbrc = Iobrcbr;
+        dpimage.preThresh = Iobrcbr;
 
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,th);
@@ -45,7 +45,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         bwIm = imbinarize(mumfordIm, th);
         
         % Filtering by object size
-        somaIm = sizeFilter(bwIm,lsb, 3000);
+        %somaIm = sizeFilter(bwIm,lsb, 3000);
 
         % Resulting binary image of the soma
         figure, imshow(somaIm);
@@ -59,8 +59,20 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         subplot(2,2,2), imshow(mumfordIm);
         subplot(2,2,3), imshow(bwIm);
         subplot(2,2,4), imshow(finalIm);
+    elseif alg == 2
+        
+        grayIm = rgb2gray(dpimage.image);
+        adjusted = grayIm + (255-mean(grayIm(:)));
+        manipulated = Tools.smooth_mt(adjusted,10);
+        dpimage.preThresh = manipulated; 
+        
+        %THRESHOLD RESULT%
+        somaIm = imbinarize(manipulated,th);
+        
+        %Filter Image
+        somaIm = Helper.sizeFilter(somaIm,lsb,100000);
     else
-        error('Incorrect Parameter: Specify 0 or 1 for the alg parameter.');
+        error('Incorrect Parameter: Specify 0 or 1 or 2 for the alg parameter.');
     end
     
     dpimage.somaMask = somaIm;
