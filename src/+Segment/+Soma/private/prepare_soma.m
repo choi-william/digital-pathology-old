@@ -5,7 +5,7 @@ function [dpsomas ] = prepare_soma( dpsoma )
         
         MIN_CLUMP_AREA = 1500;
 
-        dpsoma = somaBoundBox(dpsoma,0); %adds box properties to the soma
+        dpsoma = somaBoundBox(dpsoma,1); %adds box properties to the soma
 
         % now try to resolve clumps
         

@@ -8,19 +8,14 @@ import Verify.*;
 
 run('init.m');
 
-A = DPImage('test','A');
-B = DPImage('test','B');
-C = DPImage('test','C');
-D = DPImage('test','D');
-E = DPImage('test','E');
-im23 = DPImage('tom','23');
-figure, imshow(im23.image);
-% [cell_list, cell_count] = pathology_analysis(im23);
+im23 = DPImage('tom','152');
+figure, imshow(im23.image,'InitialMagnification','fit');
+[cell_list, cell_count] = pathology_analysis(im23);
 
-[cell_list,dp] = Segment.Soma.extract_soma(im23, 0, 0.4, 100);
-for i = 1:size(cell_list,2)
-    bwIm = Segment.Processes.process_segmentation(cell_list{i}.subImage, [5,5]);
-end
+% [cell_list,dp] = Segment.Soma.extract_soma(im23, 0, 0.4, 100);
+% for i = 1:size(cell_list,2)
+%     bwIm = Segment.Processes.process_segmentation(cell_list{i}.subImage, [5,5]);
+% end
 
 % 
 % rgbCellImage = im22.image;

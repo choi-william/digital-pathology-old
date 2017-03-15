@@ -16,7 +16,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
 
     % SOMA DETECTION
-    minSomaSize = 100;
+    minSomaSize = 50;
     newQuantIm = zeros(size(cellIm));
 
     addedObjects = zeros(size(cellIm));
@@ -42,7 +42,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 %     figure, scatter(x,numCountedObjects);
 
     % Determining the Backgound level
-    backgroundLevel = sum(thresh < averageIntensity) + 1;
+    backgroundLevel = sum(thresh < averageIntensity);
 
     % Determining the level at which soma appears
     firstSomaLevel = find(numCountedObjects > 0, 1, 'first');
@@ -58,6 +58,11 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
 
+    subplot(6,5,[1,7]), imshow(rgbCellImage), title('Original Image');
+    subplot(6,5,[11,17]), imshow(label2rgb(quantIm)), title('Quantized Image');
+    subplot(6,5,[21,27]), imshow(zeros(size(quantIm))+255), title('Final Binarized Image');
+    subplot(6,5,[18,30]), imshow(zeros(size(newQuantIm)));
+    
     % SEED SAMPLING at each quantized level
     seedIm = zeros(size(cellIm));
     for i = somaLevel:backgroundLevel
@@ -76,9 +81,13 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         blockSize = [i+2-somaLevel i+2-somaLevel];
         func = @generate_seeds;
         seeds = blockproc(compositeIm, blockSize, func);
-%         figure, imshow(seeds); % uncomment to see seeds at each stage
-
+        
         seedIm = seedIm + seeds*i;
+        
+        subplot(6,5, [3,15]);
+        imshow(seedIm); % uncomment to see seeds at each stage
+        hold on;
+        pause(0.02);
     end
 
 
@@ -100,7 +109,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     finalTree = zeros(size(cellIm));
     finalTree(rootRow, rootCol) = 1;
-
+    
     for i = somaLevel:backgroundLevel
         seeds = seedIm == i;
         numSeeds = sum(sum(seeds));
@@ -125,6 +134,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         mask(mask == 0) = inf;
 
         distTrans1 = graydist(mask, logical(seed), 'quasi-euclidean');
+        
         for i = 1:numSeeds
             seedDist = distTrans1.*seeds; % no need to worry about inf as seeds are all in the mask area
             seedDist(isnan(seedDist)) = 0;
@@ -154,7 +164,10 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
             currRow = nxtRow;
             currCol = nxtCol;
         end
-%         figure, imshow(finalTree); % uncomment to see the tree at each stage
+        subplot(6,5,[18,30]);
+        imshow(finalTree); % uncomment to see the tree at each stage
+        hold on;
+        pause(0.001);
     end
 
     % overlaying the soma image on the tree
@@ -173,10 +186,13 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     % pruning - should be improved
     bwIm = bwmorph(bwIm, 'spur', 5);
     
-    figure; 
-    subplot(2,3,1), imshow(rgbCellImage), title('Original Image');
-    subplot(2,3,2), imshow(label2rgb(quantIm)), title('Quantized Image');
-    subplot(2,3,3), imshow(label2rgb(newQuantIm)), title('Newly Quantized Image');
-    subplot(2,3,4), imshow(seedIm), title('Seed Image');
-    subplot(2,3,5), imshow(bwIm), title('Final Connected Tree');
+    
+    subplot(6,5,[21,27]), imshow(bwIm), title('Final Connected Tree');
+    pause(0.3);
+%     figure; 
+%     subplot(2,3,1), imshow(rgbCellImage), title('Original Image');
+%     subplot(2,3,2), imshow(label2rgb(quantIm)), title('Quantized Image');
+%     subplot(2,3,3), imshow(label2rgb(newQuantIm)), title('Newly Quantized Image');
+%     subplot(2,3,4), imshow(seedIm), title('Seed Image');
+%     subplot(2,3,5), imshow(bwIm), title('Final Connected Tree');
 end

@@ -6,7 +6,7 @@ function [soma] = somaBoundBox( soma, basicOrAdvanced )
     
     [maxh,maxw] = size(bigImage);
 
-    factor = 1;
+    factor = 2.5;
     newTL = soma.centroid - ones(1,2)*soma.maxRadius*factor; %x,y
     newBR = soma.centroid + ones(1,2)*soma.maxRadius*factor; %x,y
     
@@ -28,7 +28,11 @@ function [soma] = somaBoundBox( soma, basicOrAdvanced )
     numIter = 1;
     while (~isequal(TL,newTL) || ~isequal(BR,newBR))
         
-        if (numIter == 5);
+        if (numIter == 5)
+            soma.subImage = imcrop(bigImage,[TL, C(1), C(2)]);
+            soma.oImage = oim;
+            soma.rCentroid = relCentroid;
+            soma.TL = TL;
             return;
         end
         TL = newTL;
@@ -70,8 +74,12 @@ function [soma] = somaBoundBox( soma, basicOrAdvanced )
                 break;
             end
         end    
-        if (part == -1);
+        if (part == -1)
            %not good
+           soma.subImage = imcrop(bigImage,[TL, C(1), C(2)]);
+           soma.oImage = oim;
+           soma.rCentroid = relCentroid;
+           soma.TL = TL;
            return;
         end
 

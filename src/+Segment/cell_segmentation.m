@@ -5,7 +5,7 @@ function [ cell_list ] = cell_segmentation( dpimage )
 %
 
     % Soma Segmentation
-    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 0, 0.4, 100);
+    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 0, 0.8, 100);
 
     % Processes Segmentation
     length = size(cell_list,2);
