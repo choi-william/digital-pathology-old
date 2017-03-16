@@ -14,10 +14,14 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     im = dp.image;
     
     if (visual)
-        hFig = figure('Color',[0.3 0.3 0.3],'units','normalized','outerposition',[0 0 1 1]);
+        hFig = figure('Color',[0.6 0.6 0.6],'units','normalized','outerposition',[0 0 1 1]);
         
         set(hFig,'menubar','none')
         set(hFig,'NumberTitle','off');
+        
+        
+        
+        
         
         tit = suptitle('Microglia Analysis');
         
@@ -46,7 +50,7 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     end
     
     
-    % Processes Segmentation
+    % Process Segmentation
     
     microglia = cumsum(ones(1,length));
     for k=1:length
