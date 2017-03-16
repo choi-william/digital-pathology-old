@@ -12,7 +12,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     N = 15; % number of thresholds % temporary changed to 13 from 20
     thresh = multithresh(cellIm, N);
     quantIm = imquantize(cellIm, thresh);
-
+    
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
 
     % SOMA DETECTION
@@ -37,7 +37,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         numCountedObjects(i) = CC.NumObjects;
 
     end
-
+    
     x = 1:N+1;
 %     figure, scatter(x,numCountedObjects);
 

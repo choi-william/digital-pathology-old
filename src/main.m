@@ -1,18 +1,19 @@
 run('init.m');
 
-im23 = DPImage('tom','152');
-figure, imshow(im23.image,'InitialMagnification','fit');
-[cell_list, cell_count] = pathology_analysis(im23,1);
+im23 = DPImage('tom','23');
+% figure, imshow(im23.image,'InitialMagnification','fit');
+% [cell_list, cell_count] = pathology_analysis(im23,1);
 
-% [cell_list,dp] = Segment.Soma.extract_soma(im23, 0, 0.4, 100);
-% for i = 1:size(cell_list,2)
-%     bwIm = Segment.Processes.process_segmentation(cell_list{i}.subImage, [5,5]);
+% [cell_list,dp] = Segment.Soma.extract_soma(im23, 0, 0.75, 100);
+% for i = 1:10
+%     bwIm = Segment.Processes.process_segmentation(cell_list{44}.subImage, [5,5]);
 % end
 
 image = Pipeline.import_dp([152],'');
 
 [cell_list, cell_count] = pathology_analysis(image(1),1);
-%Display.display_visual_soma_seg(image(1));
+
+% % Display.display_visual_soma_seg(image(1));
 
 % images = Pipeline.import_dp([],'trainNosham');
 
