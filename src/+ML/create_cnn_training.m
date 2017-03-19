@@ -14,7 +14,7 @@ function [] = create_cnn_training()
     dps = Pipeline.import_dp([],'allver');
     count=1;
     for i=1:size(dps,2)
-        list = Verify.evaluate_soma(Prepare.extract_soma(dps(i),0,0.8,100),0);
+        list = Verify.evaluate_soma(Segment.Soma.extract_soma(dps(i),0,0.8,100),0);
         for j=1:size(list,2)
             soma = list{j};
 
