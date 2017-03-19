@@ -29,8 +29,7 @@ function [] = analyze_features()
 
     end
     
-    size(A_t)
-    size(A_f)
+
     b_A = linspace(1,max([A_t A_f]),100);
     b_T = linspace(0,255,100);   
     b_C = linspace(1,max([C_t C_f]),100);
