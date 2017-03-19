@@ -1,7 +1,7 @@
 close all;
 clear;
 
-addpath(genpath('library'))
+addpath(genpath('library'));
 addpath common;
 
 %initialize config
