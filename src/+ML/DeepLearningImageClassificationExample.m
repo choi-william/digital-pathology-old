@@ -1,6 +1,6 @@
 %function DeepLearningImageClassificationExample
 
-    rootFolder = fullfile('../../data/training/');
+    rootFolder = fullfile('C:\Users\alexkyriazis\Documents\digital-pathology\data\training');
     categories = {'falsePositives', 'truePositives'};
     
     imds = imageDatastore(fullfile(rootFolder, categories), 'LabelSource', 'foldernames');
@@ -17,17 +17,15 @@
     
     % Find the first instance of an image for each category
     falsePositives = find(imds.Labels == 'falsePositives', 1);
-    ferry = find(imds.Labels == 'ferry', 1);
+    truePositives = find(imds.Labels == 'truePositives', 1);
 
     figure
-    subplot(1,3,1);
+    subplot(1,2,1);
     imshow(readimage(imds,falsePositives))
-    subplot(1,3,2);
-    imshow(readimage(imds,ferry))
-    subplot(1,3,3);
-    imshow(readimage(imds,laptop))
+    subplot(1,2,2);
+    imshow(readimage(imds,truePositives))
     
-    cnnMatFile = 'C:\Users\lchu\OneDrive\ML\imagenet-caffe-alex.mat';
+    cnnMatFile = 'C:\Users\alexkyriazis\Documents\digital-pathology\src\+ML\imagenet-caffe-alex.mat';
     
     % Load MatConvNet network into a SeriesNetwork
     convnet = helperImportMatConvNet(cnnMatFile)
@@ -94,15 +92,53 @@
     mean(diag(confMat))
     
     
-    % Predict new image
-    newImage = fullfile(rootFolder, 'airplanes', 'image_0690.jpg');
+%     % Predict new image
+%     newImage = fullfile(rootFolder, 'airplanes', 'image_0690.jpg');
+% 
+%     % Pre-process the images as required for the CNN
+%     img = readAndPreprocessImage(newImage);
+% 
+%     % Extract image features using the CNN
+%     imageFeatures = activations(convnet, img, featureLayer);
+%     
+%     % Make a prediction using the classifier
+%     [label, estimation] = predict(classifier, imageFeatures)
+% %end
 
-    % Pre-process the images as required for the CNN
-    img = readAndPreprocessImage(newImage);
+function Iout = readAndPreprocessImage(filename)
 
-    % Extract image features using the CNN
-    imageFeatures = activations(convnet, img, featureLayer);
+    I = imread(filename);
+
+    % Some images may be grayscale. Replicate the image 3 times to
+    % create an RGB image.
+    if ismatrix(I)
+        I = cat(3,I,I,I);
+    end
     
-    % Make a prediction using the classifier
-    [label, estimation] = predict(classifier, imageFeatures)
-%end
+    [p3, p4, b] = size(I);
+    q1 = 25; 
+    i3_start = floor((p3-q1)/2); % or round instead of floor; using neither gives warning
+    i3_stop = ceil((p3+q1)/2);
+
+    i4_start = floor((p4-q1)/2);
+    i4_stop = ceil((p4+q1)/2);
+
+    if (i4_start < 1)
+        i4_start = 1;
+    end
+    if (i3_start < 1)
+        i3_start = 1;
+    end    
+    if (i4_stop > size(I,2))
+        i4_stop = size(I,2);
+    end
+    if (i3_stop > size(I,1))
+        i3_stop = size(I,1);
+    end       
+
+    I = I(i3_start:i3_stop, i4_start:i4_stop, :);
+
+    % Resize the image as required for the CNN.
+    Iout = imresize(I, [227 227]);
+
+end
