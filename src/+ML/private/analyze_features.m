@@ -2,7 +2,7 @@ function [] = analyze_features()
 %ANALYZE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here
 
-    load('+ML/soma_features.mat');
+    list = load_training_features();
     %list is loaded
     
     A_t = [];
