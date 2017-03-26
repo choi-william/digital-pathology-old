@@ -5,7 +5,10 @@ classdef DPFeatures
         area
         thresh
         circularity
-        
+
+        subImage
+        subImageName
+
         classification
     end
     

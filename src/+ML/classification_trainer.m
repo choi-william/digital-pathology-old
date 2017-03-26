@@ -1,7 +1,6 @@
 function [] = classification_trainer()
 
-    load('+ML/soma_features.mat');
-    %list is loaded
+    list = load_training_features();
     
     %only get two classes
     newList = {};
