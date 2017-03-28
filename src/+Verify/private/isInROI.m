@@ -1,5 +1,4 @@
 function [ res ] = isInROI( point,ROI )
-
     point = round(point);
     if (point(2) > size(ROI,1))
         res = 0;

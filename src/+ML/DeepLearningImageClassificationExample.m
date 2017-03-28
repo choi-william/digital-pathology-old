@@ -19,11 +19,11 @@
     falsePositives = find(imds.Labels == 'falsePositives', 1);
     truePositives = find(imds.Labels == 'truePositives', 1);
 
-    figure
-    subplot(1,2,1);
-    imshow(readimage(imds,falsePositives))
-    subplot(1,2,2);
-    imshow(readimage(imds,truePositives))
+%     figure
+%     subplot(1,2,1);
+%     imshow(readimage(imds,falsePositives))
+%     subplot(1,2,2);
+%     imshow(readimage(imds,truePositives))
     
     cnnMatFile = 'C:\Users\alexkyriazis\Documents\digital-pathology\src\+ML\imagenet-caffe-alex.mat';
     
@@ -45,7 +45,7 @@
     % Set the ImageDatastore ReadFcn
     imds.ReadFcn = @(filename)readAndPreprocessImage(filename);
     
-    [trainingSet, testSet] = splitEachLabel(imds, 0.3, 'randomize');
+    [trainingSet, testSet] = splitEachLabel(imds, 0.7, 'randomize');
     
     % Get the network weights for the second convolutional layer
     w1 = convnet.Layers(2).Weights;
@@ -56,23 +56,25 @@
 
     % Display a montage of network weights. There are 96 individual sets of
     % weights in the first layer.
-    figure
-    montage(w1)
-    title('First convolutional layer weights')
+%     figure
+%     montage(w1)
+%     title('First convolutional layer weights')
     
-    featureLayer = 'fc7';
+    featureLayer = 'conv5';
     trainingFeatures = activations(convnet, trainingSet, featureLayer, ...
         'MiniBatchSize', 32, 'OutputAs', 'columns');
     
     % Get training labels from the trainingSet
     trainingLabels = trainingSet.Labels;
-
+    
     % Train multiclass SVM classifier using a fast linear solver, and set
     % 'ObservationsIn' to 'columns' to match the arrangement used for training
     % features.
+    
     classifier = fitcecoc(trainingFeatures, trainingLabels, ...
         'Learners', 'Linear', 'Coding', 'onevsall', 'ObservationsIn', 'columns');
-    
+    %classifier = fitensemble(trainingFeatures',trainingLabels,'AdaBoostM1',100,'tree');
+
     % Extract test features using the CNN
     testFeatures = activations(convnet, testSet, featureLayer, 'MiniBatchSize',32);
 

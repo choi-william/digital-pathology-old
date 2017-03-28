@@ -19,7 +19,7 @@ function [] = analyze_features()
             A_t = [A_t fet.area];
             T_t = [T_t fet.thresh];
             C_t = [C_t fet.circularity];
-        elseif(strcmp(fet.classification,'fp'));
+        elseif(strcmp(fet.classification,'fp'))
             A_f = [A_f fet.area];
             T_f = [T_f fet.thresh];
             C_f = [C_f fet.circularity];            

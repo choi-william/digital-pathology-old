@@ -86,7 +86,16 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         
         prepared = prepare_soma(DPCell([col,row],dpimage)); 
         for j=1:size(prepared,2)
-            list{end+1} = prepared{j};
+            dpcell = prepared{j};
+            
+%             file = load('+ML/man_classifier.mat');
+%             classifier = file.classifier;
+%             fet = [double(dpcell.area), double(dpcell.preThreshIntensity), double(dpcell.circularity)];
+%             lab = predict(classifier, fet);
+%             
+            %if (lab == 'tp')
+                list{end+1} = dpcell;
+            %end
         end
     end    
     dp = dpimage;

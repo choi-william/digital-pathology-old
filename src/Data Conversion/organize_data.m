@@ -3,7 +3,8 @@ path = uigetdir('../../data/images','Open folder to organize');
 out_path = uigetdir('../../data/output','Choose destination');
 
 mkdir(out_path,'verification')
-v_path = strcat(out_path,'\verification');
+mkdir(strcat(out_path,'\verification'),'1');
+v_path = strcat(out_path,'\verification\1');
 
 all_images = dir(strcat(path,'/**/*.tif'))
 
@@ -41,6 +42,7 @@ for i = 1:size(all_images,1)
     newObj.stain = 'iba1';
     newObj.test = 0;
     newObj.roi = 0;
+    newObj.testSet = 0; 
     
     im_im = imread(strcat(im.folder,'\',im.name));
     imwrite(im_im,strcat(out_path,'\',num2str(id),'.tif'));
@@ -82,6 +84,7 @@ for i = 1:size(all_images,1)
             end
             
             newObj.test = 1;
+            newObj.testSet = 1;
             
             th_im = imread(strcat(th.folder,'\',th.name));
             data = convert_soma_data(double(th_im)); %array of points
