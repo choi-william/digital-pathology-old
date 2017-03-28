@@ -16,7 +16,7 @@ testIm = DPImage('tom','132');
 %Verify.evaluate_soma(Segment.Soma.extract_soma(DPImage('tom','117'),2,0.8,100),2);
 
 
-allTest = Pipeline.import_dp([],'allver');
+allTest = Pipeline.import_dp([],'trainNosham');
 ML.get_features(allTest);
 
 

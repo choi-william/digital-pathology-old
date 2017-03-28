@@ -11,7 +11,7 @@ function [] = create_cnn_training()
     path1 = strcat(out_path,strcat('\',class1));
     path2 = strcat(out_path,strcat('\',class2));
 
-    dps = Pipeline.import_dp([],'allver');
+    dps = Pipeline.import_dp([],'trainNosham');
     count=1;
     for i=1:size(dps,2)
         list = Verify.evaluate_soma(Segment.Soma.extract_soma(dps(i),0,0.8,100),0);

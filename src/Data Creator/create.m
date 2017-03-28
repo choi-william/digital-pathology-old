@@ -52,10 +52,10 @@ function savePoints (objectHandle, eventData)
     global roiMask;
 
     data = coords;
-    save(strcat(out_path,'\TH',name,'.mat'),'data');               
+    save(strcat(out_path,'/TH',name,'.mat'),'data');               
 
     data = roiMask;
-    save(strcat(out_path,'\ROI',name,'.mat'),'data');
+    save(strcat(out_path,'/ROI',name,'.mat'),'data');
     
     close all;
 end
