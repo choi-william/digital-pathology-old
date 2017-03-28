@@ -71,15 +71,15 @@
     % 'ObservationsIn' to 'columns' to match the arrangement used for training
     % features.
     
-    %classifier = fitcecoc(trainingFeatures, trainingLabels, ...
-     %   'Learners', 'Linear', 'Coding', 'onevsall', 'ObservationsIn', 'columns');
-    classifier = fitensemble(trainingFeatures',trainingLabels,'AdaBoostM1',100,'tree');
+    classifier = fitcecoc(trainingFeatures, trainingLabels, ...
+        'Learners', 'Linear', 'Coding', 'onevsall', 'ObservationsIn', 'columns');
+    %classifier = fitensemble(trainingFeatures',trainingLabels,'AdaBoostM1',100,'tree');
 
     % Extract test features using the CNN
     testFeatures = activations(convnet, testSet, featureLayer, 'MiniBatchSize',32);
 
     % Pass CNN image features to trained classifier
-    predictedLabels = predict(classifier, testFeatures');
+    predictedLabels = predict(classifier, testFeatures);
 
     % Get the known labels
     testLabels = testSet.Labels;

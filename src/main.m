@@ -11,12 +11,15 @@ testIm = DPImage('tom','132');
 %    Display.display_soma_seg(im);
 % end
 
-Verify.evaluate_soma(Segment.Soma.extract_soma(verIm,0,0.8,100),2);
+%Verify.evaluate_soma(Segment.Soma.extract_soma(verIm,0,0.8,100),2);
 
 %Verify.evaluate_soma(Segment.Soma.extract_soma(DPImage('tom','117'),2,0.8,100),2);
 
 
-% allTest = Pipeline.import_dp([],'trainNosham');
+allTest = Pipeline.import_dp([],'allver');
+ML.get_features(allTest);
+
+
 % for i=1:1
 %     randomInd = ceil(rand()*size(allTest,2));
 %     Verify.evaluate_soma(Segment.Soma.extract_soma(allTest(randomInd),0,0.8,100),2);
