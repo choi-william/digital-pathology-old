@@ -1,7 +1,8 @@
-function [] = displayOverlay(somaList)
+function [] = display_soma_points(dp)
 
+    somaList = Segment.Soma.extract_soma(dp, 0, 0.8, 100);
     length = size(somaList,2);
-    dp = somaList{1}.referenceDPImage;
+    
     figure;
     imshow(dp.image);
     hold on;

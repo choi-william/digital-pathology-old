@@ -24,7 +24,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,th);
-        
+
         %Filter Image
         somaIm = Helper.sizeFilter(somaIm,lsb,100000);
 
