@@ -47,6 +47,3 @@ ML.get_features(allTest);
 %     randomInd = ceil(rand()*size(allTest,2));
 %     Verify.evaluate_soma(Segment.Soma.extract_soma(allTest(randomInd),0,0.8,100),2);
 % end
-
-
-
