@@ -28,7 +28,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         %Filter Image
         somaIm = Helper.sizeFilter(somaIm,lsb,100000000);
 
-    elseif alg == 2
+    elseif alg == 1
         input_image = dpimage.image;
         
         % Converting image to grayscale, increasing contrast.
