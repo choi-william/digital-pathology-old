@@ -62,12 +62,12 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     ext = round(0.5*(size(quantIm,2)-size(quantIm,1)));
     padsize = [ext*(ext>0) -ext*(ext<0)];
     
-    subplot(6,9,[5,15],'replace'), imshow(padarray(rgbCellImage,padsize)), title('Original Image');
-    subplot(6,9,[23,33],'replace'), imshow(padarray(label2rgb(quantIm),padsize)), title('Quantized Image');
-    subplot(6,9,[41,51],'replace'), imshow(padarray(zeros(size(quantIm))+255,padsize,1)), title('Final Binarized Image');
-    subplot(6,9,[34,54],'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
-    subplot(6,9,[7,27], 'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
-    hold on;
+%     subplot(6,9,[5,15],'replace'), imshow(padarray(rgbCellImage,padsize)), title('Original Image');
+%     subplot(6,9,[23,33],'replace'), imshow(padarray(label2rgb(quantIm),padsize)), title('Quantized Image');
+%     subplot(6,9,[41,51],'replace'), imshow(padarray(zeros(size(quantIm))+255,padsize,1)), title('Final Binarized Image');
+%     subplot(6,9,[34,54],'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
+%     subplot(6,9,[7,27], 'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
+%     hold on;
     
     % SEED SAMPLING at each quantized level
     seedIm = zeros(size(cellIm));
@@ -90,10 +90,10 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         
         seedIm = seedIm + seeds*i;
         
-        subplot(6,9, [7,27]);
-        imshow(padarray(seedIm,padsize)); % uncomment to see seeds at each stage
-        hold on;
-        pause(0.02);
+%         subplot(6,9, [7,27]);
+%         imshow(padarray(seedIm,padsize)); % uncomment to see seeds at each stage
+%         hold on;
+%         pause(0.02);
     end
 
 
@@ -170,10 +170,10 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
             currRow = nxtRow;
             currCol = nxtCol;
         end
-        subplot(6,9,[34,54]);
-        imshow(padarray(finalTree,padsize)); % uncomment to see the tree at each stage
-        hold on;
-        pause(0.001);
+%         subplot(6,9,[34,54]);
+%         imshow(padarray(finalTree,padsize)); % uncomment to see the tree at each stage
+%         hold on;
+%         pause(0.001);
     end
 
     % overlaying the soma image on the tree
@@ -193,9 +193,10 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     bwIm = bwmorph(bwIm, 'spur', 5);
     
     
-    subplot(6,9,[41,51]), imshow(padarray(bwIm,padsize,1)), title('Final Connected Tree');
-    hold on;
-    pause(0.3);
+%     subplot(6,9,[41,51]), imshow(padarray(bwIm,padsize,1)), title('Final Connected Tree');
+%     hold on;
+%     pause(0.3);
+    % original figures
 %     figure; 
 %     subplot(2,3,1), imshow(rgbCellImage), title('Original Image');
 %     subplot(2,3,2), imshow(label2rgb(quantIm)), title('Quantized Image');

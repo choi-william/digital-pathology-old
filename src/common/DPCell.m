@@ -11,6 +11,8 @@ classdef DPCell
         subImage
         oImage %ocbrc image
         rCentroid
+        
+        cnnBox
 
         area
         preThreshIntensity

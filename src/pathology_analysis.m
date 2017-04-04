@@ -6,7 +6,7 @@ function [ cell_list, cell_count ] = pathology_analysis( dpimage, visual )
 
     cell_list = Segment.cell_segmentation(dpimage,visual);
 
-    cell_list = Analysis.feature_analysis(cell_list);
+    %cell_list = Analysis.feature_analysis(cell_list);
     cell_count = size(cell_list,2);
     
 %     fracDim = zeros(cell_count,1);

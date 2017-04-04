@@ -7,6 +7,8 @@ function [dpsomas ] = prepare_soma( dpsoma )
 
         dpsoma = somaBoundBox(dpsoma,0); %adds box properties to the soma
 
+        dpsoma = cnnTrainBox(dpsoma); %adds CNN training data
+        
         % now try to resolve clumps
         
         if (dpsoma.isClump == 0 && dpsoma.area > MIN_CLUMP_AREA)

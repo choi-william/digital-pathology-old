@@ -1,7 +1,7 @@
 function [ updatedList,score ] = evaluate_soma(dpimage,shouldPlot)
     % Performs a comparison between automatic soma segmentation and manual soma
     % segmentation
-    somaList = Segment.Soma.extract_soma(dpimage, 2, 0.9, 0);
+    somaList = Segment.Soma.extract_soma(dpimage, 0, 0.8, 100);
     
     if (size(somaList,2) == 0)
         score = 100;

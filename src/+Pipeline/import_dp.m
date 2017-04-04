@@ -18,21 +18,31 @@ function [ dpims ] = import_dp(ids,action)
         end        
     elseif strcmp(action,'allver') %%return all images with test data%%
          for i=1:size(meta,1)
-            if (meta(i).roi == 1)
+            if (meta(i).roi == 1 && meta(i).test == 1)
                 newDP = DPImage('tom',num2str(meta(i).id));
                 dpims = [dpims newDP];   
             end
          end 
-    elseif strcmp(action,'sham') %%return all sham images%%
+    elseif strcmp(action,'shamver') %%return all sham images with training data%%
+        for i=1:size(meta,1)
+            if (strcmp(meta(i).time,'S'))
+                if (meta(i).roi == 1 && meta(i).test == 1)
+                    newDP = DPImage('tom',num2str(meta(i).id));
+                    dpims = [dpims newDP];             
+                end
+            end
+        end 
+
+    elseif strcmp(action,'allsham') %%return all sham images with training data%%
         for i=1:size(meta,1)
             if (strcmp(meta(i).time,'S'))
                 newDP = DPImage('tom',num2str(meta(i).id));
-                dpims = [dpims newDP];   
+                dpims = [dpims newDP];             
             end
         end  
     elseif strcmp(action,'trainNosham') %%return all sham images%%
          for i=1:size(meta,1)
-            if (meta(i).roi == 1 && ~strcmp(meta(i).time,'S'))
+            if (meta(i).roi == 1 && meta(i).test && ~strcmp(meta(i).time,'S'))
                 newDP = DPImage('tom',num2str(meta(i).id));
                 dpims = [dpims newDP];   
             end

@@ -86,7 +86,7 @@ classdef DPImage
                obj.image = permute(obj.image, [2 1 3]);
                obj.roiMask = obj.roiMask';
                if (size(obj.testPoints,2) == 2)
-                  obj.testPoints = [obj.testPoints(2), obj.testPoints(1)]; 
+                  obj.testPoints = [obj.testPoints(:,2), obj.testPoints(:,1)]; 
                end
             end
     

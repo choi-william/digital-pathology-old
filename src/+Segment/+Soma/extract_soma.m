@@ -13,7 +13,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         %grayIm = imadjust(grayIm);
         %adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
         %adjusted = imsharpen(adjusted);
-        
+
         adjusted = grayIm + (255-mean(grayIm(:)));
         %figure, imshow(adjusted);
 
@@ -26,9 +26,9 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         somaIm = imbinarize(Iobrcbr,th);
 
         %Filter Image
-        somaIm = Helper.sizeFilter(somaIm,lsb,100000);
+        somaIm = Helper.sizeFilter(somaIm,lsb,100000000);
 
-    elseif alg == 1
+    elseif alg == 2
         input_image = dpimage.image;
         
         % Converting image to grayscale, increasing contrast.
@@ -79,8 +79,16 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     comp = bwconncomp(imcomplement(somaIm));
     %figure, imshow(somaIm);
 
-    list = {};
+    % Load classifier
+    file = load('+ML/classifier.mat');
+    classifier = file.classifier;
+
+    % Load MatConvNet network into a SeriesNetwork
+    cnnMatFile = '+ML/imagenet-caffe-alex.mat';
+    convnet = helperImportMatConvNet(cnnMatFile);
+        
     
+    list = {};
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         
@@ -88,14 +96,9 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         for j=1:size(prepared,2)
             dpcell = prepared{j};
             
-%             file = load('+ML/man_classifier.mat');
-%             classifier = file.classifier;
-%             fet = [double(dpcell.area), double(dpcell.preThreshIntensity), double(dpcell.circularity)];
-%             lab = predict(classifier, fet);
-%             
-            %if (lab == 'tp')
+            if (predict_valid(convnet,classifier,dpcell))
                 list{end+1} = dpcell;
-            %end
+            end
         end
     end    
     dp = dpimage;
