@@ -196,6 +196,9 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     subplot(6,9,[41,51]), imshow(padarray(bwIm,padsize,1)), title('Final Connected Tree');
     hold on;
     pause(0.3);
+
+    % original figures
+
 %     figure; 
 %     subplot(2,3,1), imshow(rgbCellImage), title('Original Image');
 %     subplot(2,3,2), imshow(label2rgb(quantIm)), title('Quantized Image');

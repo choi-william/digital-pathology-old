@@ -16,6 +16,13 @@ function [ dpims ] = import_dp(ids,action)
             newDP = DPImage('tom',num2str(meta(i).id));
             dpims = [dpims newDP];            
         end        
+    elseif strcmp(action,'test2') %%return all images with test data%%
+         for i=1:size(meta,1)
+            if (sum(find(meta(i).testSet==2))~=0 && meta(i).test == 1)
+                newDP = DPImage('tom',num2str(meta(i).id));
+                dpims = [dpims newDP];   
+            end
+         end 
     elseif strcmp(action,'allver') %%return all images with test data%%
          for i=1:size(meta,1)
             if (meta(i).roi == 1)

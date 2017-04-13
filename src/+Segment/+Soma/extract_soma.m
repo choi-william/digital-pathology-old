@@ -79,6 +79,15 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     comp = bwconncomp(imcomplement(somaIm));
     %figure, imshow(somaIm);
 
+    % Load classifier
+    file = load('+ML/classifier2.mat');
+    classifier = file.classifier;
+
+    % Load MatConvNet network into a SeriesNetwork
+    cnnMatFile = '+ML/imagenet-caffe-alex.mat';
+    convnet = helperImportMatConvNet(cnnMatFile);
+        
+    
     list = {};
     
     for i=1:comp.NumObjects
@@ -88,14 +97,9 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         for j=1:size(prepared,2)
             dpcell = prepared{j};
             
-%             file = load('+ML/man_classifier.mat');
-%             classifier = file.classifier;
-%             fet = [double(dpcell.area), double(dpcell.preThreshIntensity), double(dpcell.circularity)];
-%             lab = predict(classifier, fet);
-%             
-            %if (lab == 'tp')
+            if (predict_valid(convnet,classifier,dpcell,0))
                 list{end+1} = dpcell;
-            %end
+            end
         end
     end    
     dp = dpimage;
