@@ -1,4 +1,14 @@
-function [ dpims ] = import_dp(ids,action)
+function [ dpims ] = import_dp(varargin)
+
+    p = inputParser;
+    
+    addOptional(p,'ids',[]);
+    addOptional(p,'class','all', @(x) any(validatestring(x,{'all','sham','not_sham'})));
+    addOptional(p,'test',-1, @isnumeric);    
+    addOptional(p,'setnum',-1, @isnumeric);
+    
+    parse(p,varargin{:})
+    args = p.Results;
 
     %TODO make this interface more robust to support basic querying. Maybe
     %we should use a querying library?
@@ -11,50 +21,20 @@ function [ dpims ] = import_dp(ids,action)
     meta = load(metaPath);
     meta = meta.metaData;
     
-    if strcmp(action,'all') %%return all images%%
-        for i=1:size(meta,1)
-            newDP = DPImage('tom',num2str(meta(i).id));
-            dpims = [dpims newDP];            
-        end        
-    elseif strcmp(action,'test2') %%return all images with test data%%
-         for i=1:size(meta,1)
-            if (sum(find(meta(i).testSet==2))~=0 && meta(i).test == 1)
-                newDP = DPImage('tom',num2str(meta(i).id));
-                dpims = [dpims newDP];   
-            end
-         end 
-    elseif strcmp(action,'allver') %%return all images with test data%%
-         for i=1:size(meta,1)
-            if (meta(i).roi == 1)
-                newDP = DPImage('tom',num2str(meta(i).id));
-                dpims = [dpims newDP];   
-            end
-         end 
-    elseif strcmp(action,'sham') %%return all sham images%%
-        for i=1:size(meta,1)
-            if (strcmp(meta(i).time,'S'))
-                newDP = DPImage('tom',num2str(meta(i).id));
-                dpims = [dpims newDP];   
-            end
-        end  
-    elseif strcmp(action,'trainNosham') %%return all sham images%%
-         for i=1:size(meta,1)
-            if (meta(i).roi == 1 && ~strcmp(meta(i).time,'S'))
-                newDP = DPImage('tom',num2str(meta(i).id));
-                dpims = [dpims newDP];   
-            end
-         end 
-    else %%return images that have corresponding test data%%
-        
-        %TODO, this searching algorithm is terrible. Should be improved.
-        for i=1:size(meta,1)
-            currId = meta(i).id;
-            if (any(ids == currId))
-                ids = ids(find(ids~=currId));
-                newDP = DPImage('tom',num2str(currId));
-                dpims = [dpims newDP];   
+    for i=1:size(meta,1)
+        currId = meta(i).id;
+        if args.setnum == -1 || (sum(meta(i).testSet == args.setnum) > 0)
+            if strcmp(args.class,'all') || (strcmp(meta(i).time,'S') && strcmp('sham',args.class)) || (~strcmp(meta(i).time,'S') && strcmp('not_sham',args.class))         
+                if args.test == -1 || meta(i).test == args.test          
+                    if isempty(args.ids)
+                        dpims = [dpims DPImage('tom',num2str(currId))];                           
+                    elseif (any(args.ids == currId))
+                        dpims = [dpims DPImage('tom',num2str(currId))];                           
+                    end
+                end
             end
         end
     end
+    
 end
 
