@@ -42,10 +42,10 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         figure, imshow(mumfordIm);
 
         % Global Thresholding 
-        bwIm = imbinarize(mumfordIm, th);
+        bwIm = imbinarize(mumfordIm, 0.3);
         
         % Filtering by object size
-        %somaIm = sizeFilter(bwIm,lsb, 3000);
+        somaIm = Helper.sizeFilter(bwIm,lsb, 3000);
 
         % Resulting binary image of the soma
         figure, imshow(somaIm);

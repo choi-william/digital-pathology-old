@@ -9,12 +9,12 @@ function [ cell_list, cell_count ] = pathology_analysis( dpimage, visual )
     cell_list = Analysis.feature_analysis(cell_list);
     cell_count = size(cell_list,2);
     
-%     fracDim = zeros(cell_count,1);
+    fracDim = zeros(cell_count,1);
 %     
-%     for i =1:cell_count
-%         fracDim(i) = cell_list{i}.fractalDim;
-%     end
-% 
-%     figure, histogram(fracDim,10);
+    for i =1:cell_count
+        fracDim(i) = cell_list{i}.fractalDim;
+    end
+
+    figure, histogram(fracDim,10);
 end
 

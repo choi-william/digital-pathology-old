@@ -9,10 +9,20 @@ run('init.m');
 % % figure, imshow(im23.image,'InitialMagnification','fit');
 % % [cell_list, cell_count] = pathology_analysis(im23,1);
 % 
+% 
+% verIm = DPImage('tom','25');
+% goodIm = DPImage('tom','48');
+% testIm = DPImage('tom','132');
 
-verIm = DPImage('tom','25');
-goodIm = DPImage('tom','152');
-testIm = DPImage('tom','132');
+nosham = Pipeline.import_dp([],'trainNosham');
+sham = Pipeline.import_dp([],'sham');
+A = [];
+for i=1:5
+    n = randi(size(nosham,2));
+    [cell_list, cell_count] = pathology_analysis(nosham(n),0);
+    A = [A cell_list];
+end
+
 %Verify.create(goodIm);
 
 % Verify.evaluate_soma(im23, 2);
@@ -26,7 +36,11 @@ testIm = DPImage('tom','132');
 % 
 % [cell_list, cell_count] = pathology_analysis(image(1),1);
 
-goodIm = DPImage('tom','132');
+% goodIm = DPImage('tom','46');
+for i=1:1000
+    [cell_list, cell_count] = pathology_analysis(goodIm,0);
+    close all;
+end
 % 
 % G= [8,152,23,33,44,55,66,71,72,80,81,91,92]
 % for i=1:size(G,2)
@@ -38,9 +52,9 @@ goodIm = DPImage('tom','132');
 
 %Verify.evaluate_soma(Segment.Soma.extract_soma(DPImage('tom','117'),2,0.8,100),2);
 
-
-allTest = Pipeline.import_dp([],'trainNosham');
-ML.get_features(allTest);
+% 
+% allTest = Pipeline.import_dp([],'trainNosham');
+% ML.get_features(allTest);
 
 
 % for i=1:1
