@@ -9,10 +9,10 @@ function [ output_args ] = interface( input_args )
     
     sizeDPslide = size(DPslide,2);
     
-    blockSize = 256;
+    blockSize = 256; % size of each image subblock, change to 128 when new data is available
     
     topleft = DPslide(1).Pos{1};
-    bottomright = DPslide(15372).Pos{2};
+    bottomright = DPslide(sizeDPslide).Pos{2};
     
     numcols = (bottomright(1) - topleft(1)+1)/blockSize;
     numrows = (bottomright(2) - topleft(2)+1)/blockSize;
@@ -24,10 +24,13 @@ function [ output_args ] = interface( input_args )
     for i=1:numcols
         for j=1:numrows
             slide(j,i) = DPslide((i-1)*numrows+j).Label;
+            if slide(j,i) == -99
+                slide(j,i) = -1;
+            end
         end
     end
     
     imagesc(slide);
-    slide
+    
 end
 
