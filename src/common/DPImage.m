@@ -63,18 +63,17 @@ classdef DPImage
                 
                 if (imData.test == 1)
                     verName = strcat('TH',num2str(imData.id),'.mat');
-                    obj.testPoints = load(strcat(config.GetValues('paths', 'verPath'),num2str(imData.testSet),'/',verName));
+                    obj.testPoints = load(strcat(config.GetValues('paths', 'verPath'),num2str(imData.testSet(end)),'/',verName));
                     obj.testPoints = obj.testPoints.data;
                 end
                 if (imData.roi == 1)
                     roiName = strcat('ROI',num2str(imData.id),'.mat');
-                    obj.roiMask = load(strcat(config.GetValues('paths', 'verPath'),'/',num2str(imData.testSet),'/',roiName));
+                    obj.roiMask = load(strcat(config.GetValues('paths', 'verPath'),'/',num2str(imData.testSet(end)),'/',roiName));
                     %TODO, roi's should not be saved as masks, but rather
                     %as poloygons (way less memory intensive)
                     obj.roiMask = obj.roiMask.data;
                 end
             end
-            
             
 
             obj.filename = filename;
@@ -86,7 +85,7 @@ classdef DPImage
                obj.image = permute(obj.image, [2 1 3]);
                obj.roiMask = obj.roiMask';
                if (size(obj.testPoints,2) == 2)
-                  obj.testPoints = [obj.testPoints(2), obj.testPoints(1)]; 
+                  obj.testPoints = [obj.testPoints(:,2), obj.testPoints(:,1)]; 
                end
             end
     
