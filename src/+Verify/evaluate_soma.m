@@ -1,4 +1,4 @@
-function [ updatedList,score ] = evaluate_soma(dpimage,shouldPlot)
+function [ score ] = evaluate_soma(dpimage,shouldPlot)
     % Performs a comparison between automatic soma segmentation and manual soma
     % segmentation
     somaList = Segment.Soma.extract_soma(dpimage, 0, 0.8, 100);
@@ -21,7 +21,6 @@ function [ updatedList,score ] = evaluate_soma(dpimage,shouldPlot)
     fp = ones(size(somaList,2),1);
     fn = ones(size(dp.testPoints,1),1);
     matchings = (-1)*ones(size(somaList,2),2);
-    
     
     for i=1:size(dp.testPoints)
         tp = round(dp.testPoints(i,:));
@@ -77,18 +76,11 @@ function [ updatedList,score ] = evaluate_soma(dpimage,shouldPlot)
     %PLOT SUCCESS VISUALISATION
     if (shouldPlot == 2)
         figure('units','normalized','outerposition',[0 0 1 1]);
-%         subplot(1,3,1);
-%         
-%         if (~isscalar(dp.preThresh))
-%             imshow(dp.preThresh);   
-%         end
-%         subplot(1,3,2);
-%         imshow(dp.somaMask);         
-%         subplot(1,3,3);
-%         imshow(dp.image); 
 
-         totalIm = [dp.image repmat(dp.preThresh,1,1,3) repmat(dp.somaMask*255,1,1,3)];
 
+         %totalIm = [dp.image repmat(dp.preThresh,1,1,3) repmat(dp.somaMask*255,1,1,3)];
+         totalIm = [dp.image dp.image repmat(dp.preThresh,1,1,3) repmat(dp.somaMask*255,1,1,3)];
+         %totalIm = [dp.image dp.image];
          imshow(totalIm);
          hold on;
 
@@ -96,15 +88,15 @@ function [ updatedList,score ] = evaluate_soma(dpimage,shouldPlot)
             soma = somaList{j};
 
             if (fp(j) == 1)
-                plot(soma.centroid(1),soma.centroid(2),'.','MarkerSize',20,'color','red');   
+                plot(soma.centroid(1)+0*size(dp.image,2),soma.centroid(2),'.','MarkerSize',20,'color','red');   
             elseif (fp(j) == 0)
-                plot(soma.centroid(1),soma.centroid(2),'.','MarkerSize',20,'color',[1 0 1]);
+                plot(soma.centroid(1)+0*size(dp.image,2),soma.centroid(2),'.','MarkerSize',20,'color',[1 0 1]);
             end
         end  
         for j=1:size(fn,1)
             if (fn(j) == 1)
                 tp =round(dp.testPoints(j,:));
-                plot(tp(1),tp(2),'.','MarkerSize',20,'color','blue');
+                plot(tp(1)+0*size(dp.image,2),tp(2),'.','MarkerSize',20,'color','blue');
             end
         end
 
@@ -113,7 +105,7 @@ function [ updatedList,score ] = evaluate_soma(dpimage,shouldPlot)
         h(1) = plot(NaN,NaN,'.r','MarkerSize',20);
         h(2) = plot(NaN,NaN,'.b','MarkerSize',20);
         h(3) = plot(NaN,NaN,'.','color',[1 0 1],'MarkerSize',20);
-        legend(h, 'False Positive','False Negative','Match');
+        legend(h, 'False Positive','False Negative','Match','Location','northwest');
     end
     
     %CALCULATE STATISTICS
@@ -122,6 +114,10 @@ function [ updatedList,score ] = evaluate_soma(dpimage,shouldPlot)
     
     d = sum(fp(fp>=0)); %false positives
 
+    tpp = b;
+    fpp = d;
+    gtt = a;
+    
     if (a ~= 0)
         c = 100*b/a; %percentage found
         score = 100*(sum(fp(fp>=0))+2*sum(fn(fn>=0)))/a;

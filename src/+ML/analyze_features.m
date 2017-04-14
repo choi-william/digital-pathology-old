@@ -39,21 +39,42 @@ function [] = analyze_features()
     [e,f] = hist(A_f,b_A);
     bar(d,c,'g','facealpha',0.75);hold on;
     bar(f,e,'r','facealpha',0.75);hold off;
-    title('area');
+    title('Cell Area','FontSize',18);
+    xlabel('Pixels');
+    ylabel('Quantity');
+    hold on;
+    h = zeros(2, 1);
+    h(1) = plot(NaN,NaN,'-g');
+    h(2) = plot(NaN,NaN,'-r');
+    legend(h,'true positive','false positive');
     
     figure;
     [c,d] = hist(T_t,b_T);
     [e,f] = hist(T_f,b_T);
     bar(d,c,'g','facealpha',0.75);hold on;
     bar(f,e,'r','facealpha',0.75);hold off;
-    title('threshold');
-
+    title('Pre-threshold Intensity','FontSize',18);
+    xlabel('Intensity out of 255');
+    ylabel('Quantity');
+    hold on;
+    h = zeros(2, 1);
+    h(1) = plot(NaN,NaN,'-g');
+    h(2) = plot(NaN,NaN,'-r');
+    legend(h,'true positive','false positive');
+    
     figure;
     [c,d] = hist(C_t,b_C);
     [e,f] = hist(C_f,b_C);
     bar(d,c,'g','facealpha',0.75);hold on;
     bar(f,e,'r','facealpha',0.75);hold off;
-    title('circularity'); 
-
+    title('Circularity','FontSize',18); 
+    xlabel('Circularity Parameter');
+    ylabel('Quantity');
+    hold on;
+    h = zeros(2, 1);
+    h(1) = plot(NaN,NaN,'-g');
+    h(2) = plot(NaN,NaN,'-r');
+    legend(h,'true positive','false positive');
+    
 end
 

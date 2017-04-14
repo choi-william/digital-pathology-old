@@ -37,7 +37,7 @@ classdef DPImage
     methods
         function obj = DPImage(type,id)
             global config;
-
+            obj.id = str2num(id);
             filename = strcat(id,'.tif');
             
             if strcmp(type,'test')
@@ -63,18 +63,21 @@ classdef DPImage
                 
                 if (imData.test == 1)
                     verName = strcat('TH',num2str(imData.id),'.mat');
-                    obj.testPoints = load(strcat(config.GetValues('paths', 'verPath'),num2str(imData.testSet),'/',verName));
+                    obj.testPoints = load(strcat(config.GetValues('paths', 'verPath'),num2str(imData.testSet(end)),'/',verName));
                     obj.testPoints = obj.testPoints.data;
                 end
                 if (imData.roi == 1)
                     roiName = strcat('ROI',num2str(imData.id),'.mat');
-                    obj.roiMask = load(strcat(config.GetValues('paths', 'verPath'),'/',num2str(imData.testSet),'/',roiName));
+                    obj.roiMask = load(strcat(config.GetValues('paths', 'verPath'),'/',num2str(imData.testSet(end)),'/',roiName));
                     %TODO, roi's should not be saved as masks, but rather
                     %as poloygons (way less memory intensive)
                     obj.roiMask = obj.roiMask.data;
                 end
+            elseif strcmp(type,'real')
+                id = num2str(round(rand*30)+1);
+                filename = strcat(id,'.tif');
+                imPath = strcat(config.GetValues('paths', 'imagePath'),filename);     
             end
-            
             
 
             obj.filename = filename;
@@ -82,6 +85,13 @@ classdef DPImage
             obj.image = imread(imPath);
             obj.image = obj.image(:,:,1:3);
            
+            if strcmp(type,'real')
+               x = round(rand*500)+1;
+               y = round(rand*500)+1;
+               obj.image = imcrop(obj.image,[x y x+256 y+256]);
+            end
+            
+            
             if (size(obj.image,2) > size(obj.image,1))
                obj.image = permute(obj.image, [2 1 3]);
                obj.roiMask = obj.roiMask';

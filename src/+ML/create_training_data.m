@@ -2,6 +2,7 @@ function [] = create_training_data()
 
     global dataPath;
     out_path = uigetdir(dataPath,'Choose destination');
+
     mkdir(out_path, 'test_data2');
     out_path = strcat(out_path, '/test_data2');
 

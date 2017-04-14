@@ -42,10 +42,10 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         figure, imshow(mumfordIm);
 
         % Global Thresholding 
-        bwIm = imbinarize(mumfordIm, th);
+        bwIm = imbinarize(mumfordIm, 0.3);
         
         % Filtering by object size
-        %somaIm = sizeFilter(bwIm,lsb, 3000);
+        somaIm = Helper.sizeFilter(bwIm,lsb, 3000);
 
         % Resulting binary image of the soma
         figure, imshow(somaIm);
@@ -80,7 +80,8 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     %figure, imshow(somaIm);
 
     % Load classifier
-    file = load('+ML/classifier.mat');
+
+    file = load('+ML/classifier2.mat');
     classifier = file.classifier;
 
     % Load MatConvNet network into a SeriesNetwork
@@ -96,7 +97,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         for j=1:size(prepared,2)
             dpcell = prepared{j};
             
-            if (predict_valid(convnet,classifier,dpcell))
+            if (predict_valid(convnet,classifier,dpcell,0))
                 list{end+1} = dpcell;
             end
         end

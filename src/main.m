@@ -1,6 +1,23 @@
+
 run('init.m');
-% 
-% allTest = Pipeline.import_dp([], 'allver');
+% % 
+% setA = Pipeline.import_dp('ids',[],'class','all','setnum',2,'test',-1);
+% setB = Pipeline.import_dp('ids',[],'class','all','setnum',-1,'test',-1);
+for i=1:1
+    im = Pipeline.import_dp('ids',round(rand*300));
+    Verify.analyze(im);
+    %Verify.evaluate_soma(im, 2);
+end
+
+
+% data = [];
+% for i=1:size(allTest,2)
+%     [ updatedList,tp,fp,gt]=Verify.evaluate_soma(allTest(i), 1);
+%     data = [data; tp fp gt];
+% end
+% data;
+
+
 % Verify.evaluate_soma(allTest(20), 2);
 
 
@@ -12,8 +29,9 @@ run('init.m');
 
 %verIm = DPImage('tom','25');
 %goodIm = DPImage('tom','152');
-testIm = DPImage('tom','265');
-G = DPImage('test','G');
+
+% testIm = DPImage('tom','265');
+% G = DPImage('test','G');
 
 %Verify.create(goodIm);
 %Display.display_soma_points(testIm);
@@ -41,38 +59,41 @@ G = DPImage('test','G');
 
 
 
+%[cell_list, cell_count] = pathology_analysis(testIm,1);
 
 
-A= [];
-B =[];
-shams = Pipeline.import_dp([],'shamver');
-for i=1:size(shams,2)
-    randomInd = i;
-    im = shams(randomInd);
-    area = sum(im.roiMask(:));
-    tic
-    %Display.display_soma_points(allTest(randomInd));
-    %Verify.evaluate_soma(allTest(randomInd),2);
-    [cell_list, cell_count] = pathology_analysis(im,0);
-    
-    %cell_count = size(im.testPoints,1);
-    A = [A cell_count/area];
-    toc
-end
-
-notShams = Pipeline.import_dp([],'trainNosham');
-for i=1:size(notShams,2)
-    randomInd = i;
-    im = notShams(randomInd);
-    area = sum(im.roiMask(:));
-    tic
-    %Display.display_soma_points(allTest(randomInd));
-    %Verify.evaluate_soma(allTest(randomInd),2);
-    [cell_list, cell_count] = pathology_analysis(im,0);
-    %cell_count = size(im.testPoints,1);
-    B = [B cell_count/area];
-    toc
-end
-A'
-B'
+% 
+% A= [];
+% B =[];
+% shams = Pipeline.import_dp([],'shamver');
+% for i=1:size(shams,2)
+%     randomInd = i;
+%     im = shams(randomInd);
+%     area = sum(im.roiMask(:));
+%     tic
+%     %Display.display_soma_points(allTest(randomInd));
+%     %Verify.evaluate_soma(allTest(randomInd),2);
+%     [cell_list, cell_count] = pathology_analysis(im,0);
+%     
+%     %cell_count = size(im.testPoints,1);
+%     A = [A cell_count/area];
+%     toc
+% end
+% 
+% notShams = Pipeline.import_dp([],'trainNosham');
+% for i=1:size(notShams,2)
+%     randomInd = i;
+%     im = notShams(randomInd);
+%     area = sum(im.roiMask(:));
+%     tic
+%     %Display.display_soma_points(allTest(randomInd));
+%     %Verify.evaluate_soma(allTest(randomInd),2);
+%     [cell_list, cell_count] = pathology_analysis(im,0);
+%     %cell_count = size(im.testPoints,1);
+%     B = [B cell_count/area];
+%     toc
+% end
+% A'
+% B'
+% 
 
