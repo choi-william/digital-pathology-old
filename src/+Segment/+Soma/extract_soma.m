@@ -13,7 +13,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         %grayIm = imadjust(grayIm);
         %adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
         %adjusted = imsharpen(adjusted);
-        
+
         adjusted = grayIm + (255-mean(grayIm(:)));
         %figure, imshow(adjusted);
 
@@ -26,7 +26,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         somaIm = imbinarize(Iobrcbr,th);
 
         %Filter Image
-        somaIm = Helper.sizeFilter(somaIm,lsb,100000);
+        somaIm = Helper.sizeFilter(somaIm,lsb,100000000);
 
     elseif alg == 1
         input_image = dpimage.image;
@@ -80,6 +80,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     %figure, imshow(somaIm);
 
     % Load classifier
+
     file = load('+ML/classifier2.mat');
     classifier = file.classifier;
 
@@ -89,7 +90,6 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         
     
     list = {};
-    
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         

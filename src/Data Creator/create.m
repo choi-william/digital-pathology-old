@@ -12,10 +12,10 @@ global out_path;
 global roiMask;
 
 %file management
-[f,p] = uigetfile('*.tif','Select the MATLAB code file');
+[f,p] = uigetfile('*.tif','Select the .tif image file');
 image = imread(strcat(p,f));
 name = f(1:end-4);
-out_path = uigetdir('','Choose destination');
+out_path = uigetdir('','Choose output data destination');
 
 
 %FOR GETTING ROI DATA

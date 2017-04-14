@@ -23,6 +23,7 @@ for i = 1:size(all_images,1)
     newObj = [];
     impath = im.folder;
     impath = impath((size(path,2)+2):end);
+    impath = strrep(impath,'\','/');
     C = strsplit(impath,'/'); 
     
     if ~strcmp(C{5},'image')
@@ -68,13 +69,6 @@ for i = 1:size(all_images,1)
                     
                     newObj.roi = 1; %TODO replace X
                     
-                    if strcmp(newObj.time,'S')
-                        %sham without an ROI
-                        data = rgb2gray(im_im); %define all as roi
-                        data(:,:) = 1.0;      
-                        save(strcat(v_path,'/ROI',num2str(id),'.mat'),'data');
-                        break;
-                    end
                     [roi_obj] = read_roi(strcat(ro.folder,'/',ro.name));
                     data = poly2mask(roi_obj.mnCoordinates(:,1),roi_obj.mnCoordinates(:,2), size(im_im,1), size(im_im,2));  %roi mask        
                     save(strcat(v_path,'/ROI',num2str(id),'.mat'),'data');               

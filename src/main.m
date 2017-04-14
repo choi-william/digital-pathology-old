@@ -29,6 +29,7 @@ end
 
 %verIm = DPImage('tom','25');
 %goodIm = DPImage('tom','152');
+
 % testIm = DPImage('tom','265');
 % G = DPImage('test','G');
 
@@ -55,6 +56,7 @@ end
 %Verify.evaluate_soma(Segment.Soma.extract_soma(verIm,0,0.8,100),2);
 
 %Verify.evaluate_soma(Segment.Soma.extract_soma(DPImage('tom','117'),2,0.8,100),2);
+
 
 
 %[cell_list, cell_count] = pathology_analysis(testIm,1);

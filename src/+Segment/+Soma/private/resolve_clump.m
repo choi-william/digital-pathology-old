@@ -5,6 +5,17 @@ function [ flag, somas ] = resolve_clump( dpcell )
 
     Iobrcbr = dpcell.oImage;
 
+%     
+%     figure; 
+%     forshow = Iobrcbr;
+%     for (i=1:size(dpcell.pixelList,1))
+%         forshow(round(dpcell.pixelList(i,2) - dpcell.TL(2)), round(dpcell.pixelList(i,1) - dpcell.TL(1))) = 0;
+%     end
+%     subplot(1,2,1);
+%     imshow(forshow);
+%     
+
+    
     Iobrcbr = imadjust(Iobrcbr);
     adjusted = imadjust(Iobrcbr,[0; 0.2],[0; 1]);
     out = imregionalmin(adjusted);
@@ -14,7 +25,8 @@ function [ flag, somas ] = resolve_clump( dpcell )
     
     comp = bwconncomp(imcomplement(out));  
     
-
+%     subplot(1,2,2);
+%     imshow(out);
     
     somas = {};
     for i=1:comp.NumObjects
