@@ -37,7 +37,7 @@ classdef DPImage
     methods
         function obj = DPImage(type,id)
             global config;
-
+            obj.id = str2num(id);
             filename = strcat(id,'.tif');
             
             if strcmp(type,'test')
@@ -73,6 +73,10 @@ classdef DPImage
                     %as poloygons (way less memory intensive)
                     obj.roiMask = obj.roiMask.data;
                 end
+            elseif strcmp(type,'real')
+                id = num2str(round(rand*30)+1);
+                filename = strcat(id,'.tif');
+                imPath = strcat(config.GetValues('paths', 'imagePath'),filename);     
             end
             
 
@@ -81,6 +85,13 @@ classdef DPImage
             obj.image = imread(imPath);
             obj.image = obj.image(:,:,1:3);
            
+            if strcmp(type,'real')
+               x = round(rand*500)+1;
+               y = round(rand*500)+1;
+               obj.image = imcrop(obj.image,[x y x+256 y+256]);
+            end
+            
+            
             if (size(obj.image,2) > size(obj.image,1))
                obj.image = permute(obj.image, [2 1 3]);
                obj.roiMask = obj.roiMask';

@@ -3,9 +3,9 @@ run('init.m');
 % % 
 % setA = Pipeline.import_dp('ids',[],'class','all','setnum',2,'test',-1);
 % setB = Pipeline.import_dp('ids',[],'class','all','setnum',-1,'test',-1);
-for i=1:5
+for i=1:1
     im = Pipeline.import_dp('ids',round(rand*300));
-    Display.display_soma_points(im);
+    Verify.analyze(im);
     %Verify.evaluate_soma(im, 2);
 end
 
@@ -29,8 +29,8 @@ end
 
 %verIm = DPImage('tom','25');
 %goodIm = DPImage('tom','152');
-testIm = DPImage('tom','265');
-G = DPImage('test','G');
+% testIm = DPImage('tom','265');
+% G = DPImage('test','G');
 
 %Verify.create(goodIm);
 %Display.display_soma_points(testIm);
