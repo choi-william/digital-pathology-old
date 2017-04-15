@@ -8,7 +8,7 @@ function [ output_args ] = analyze( dp )
     
     %brings in 'data'
     data=[];
-    load('+Verify/classification_data.mat');
+    load('+Verify/+CreateData/classification_data.mat');
     
     global P;
     P = [];
@@ -38,7 +38,7 @@ function [ output_args ] = analyze( dp )
         end
         
         close all;
-        save('+Verify/classification_data.mat','data');
+        save('+Verify/+CreateData/classification_data.mat','data');
     end
     
     function clickPoint (objectHandle , eventData )

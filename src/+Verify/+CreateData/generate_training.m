@@ -15,7 +15,7 @@ mkdir(out_path,fp_class);
 path_tp = strcat(out_path,strcat('/',tp_class));
 path_fp = strcat(out_path,strcat('/',fp_class));
 
-load('+Verify/classification_data.mat');
+load('+Verify/+CreateData/classification_data.mat');
 
 count = 1;
 dps = unique(data(:,2));
