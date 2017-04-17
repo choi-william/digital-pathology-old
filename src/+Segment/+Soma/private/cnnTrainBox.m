@@ -3,7 +3,7 @@ function [soma] = cnnTrainBox( soma )
     sub = soma.subImage;
     cent = round(soma.rCentroid);
     
-    bsize = 10;
+    bsize = 25;
     
     W = size(sub,2);
     H = size(sub,1);

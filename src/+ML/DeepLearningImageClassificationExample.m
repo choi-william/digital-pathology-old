@@ -1,6 +1,6 @@
 %function DeepLearningImageClassificationExample
 
-    rootFolder = fullfile('C:\Users\alexkyriazis\Documents\digital-pathology\data\test_data2');
+    rootFolder = fullfile('C:\Users\alexkyriazis\Documents\digital-pathology\data\test_data6');
     categories = {'falsePositives', 'truePositives'};
     
     imds = imageDatastore(fullfile(rootFolder, categories), 'LabelSource', 'foldernames');
@@ -54,7 +54,7 @@
 %     montage(w1)
 %     title('First convolutional layer weights')
     
-    featureLayer = 'conv4';
+    featureLayer = 'conv5';
     trainingFeatures = activations(convnet, trainingSet, featureLayer, ...
         'MiniBatchSize', 32, 'OutputAs', 'rows');
     

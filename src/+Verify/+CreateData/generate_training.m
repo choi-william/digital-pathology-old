@@ -3,8 +3,8 @@ box_length = 25;
 global dataPath;
 out_path = uigetdir(dataPath,'Choose data folder');
 
-mkdir(out_path, 'test_data5');
-out_path = strcat(out_path, '/test_data5');
+mkdir(out_path, 'test_data6');
+out_path = strcat(out_path, '/test_data6');
 
 tp_class = 'truePositives';
 fp_class = 'falsePositives';
@@ -39,6 +39,7 @@ for i=1:size(dps,1)
 
         ex = max([-L+1 -T+1 R-W B-H]);
         if (ex > 0)
+            continue;
             L = L+ex;
             R = R-ex;
             T = T+ex;
