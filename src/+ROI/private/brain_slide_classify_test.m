@@ -7,7 +7,7 @@ clc;
 %   Lap-Tak Chu
 
 PARALLEL_PROCESSING = false; % for parallel processing. also need to switch FOR/PARFOR below
-PLOT_RESULTS = true;
+PLOT_RESULTS = false;
 
 % classification parameters, also set USED_FEAT below...
 CLASS_LABELS = {[0],[1,2,99]}; %,[2],[99]}; % group classes into labels

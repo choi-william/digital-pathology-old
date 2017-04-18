@@ -17,6 +17,7 @@ function [fpath, NumSVSslides, trainDirectory, testDirectory, Blk_X, Blk_Y, scl,
 %       scl
 %       NumTestSlides
 %
+    global RESULTS_PATH
     if (mode == 'w')
         trainDirectory = trainDir;
         testDirectory  = testDir;
@@ -24,11 +25,10 @@ function [fpath, NumSVSslides, trainDirectory, testDirectory, Blk_X, Blk_Y, scl,
         Blk_Y = Ysize;
         scl   = scale;
         
-        trainInfo = strsplit(trainDir,'/');
-        trainInfo = trainInfo{end-1};
+        %trainInfo = strsplit(trainDir,'/');
+        %trainInfo = trainInfo{end-1};
         
-        fpath = strcat('data/slides/Results/',datestr(datetime('now'),'yyyymmdd-hhMM ('), ...
-                        trainInfo,')');
+        fpath = strcat(RESULTS_PATH,datestr(datetime('now'),'yyyymmdd-hhMM'));
         
         D = dir([trainDirectory, '\*.svs']);
         NumSVSslides = length(D(not([D.isdir])));
@@ -40,11 +40,11 @@ function [fpath, NumSVSslides, trainDirectory, testDirectory, Blk_X, Blk_Y, scl,
         E = dir([testDirectory, '\*.svs']);
         NumTestSlides = length(E(not([E.isdir])));
         if (NumTestSlides == 0)
-            E = dir([trainDirectory, '\*.mat']);
+            E = dir([testDirectory, '\*.mat']);
             NumTestSlides = length(E(not([E.isdir])));
         end
 
-        fid = fopen('src/+ROI/output/RunTimeInfo.txt', 'wt');
+        fid = fopen('RunTimeInfo.txt', 'wt');
         fprintf(fid,'%s\n',trainDir);
         fprintf(fid,'%s\n',fpath);
         fprintf(fid,'%d\n',NumSVSslides);
@@ -57,7 +57,7 @@ function [fpath, NumSVSslides, trainDirectory, testDirectory, Blk_X, Blk_Y, scl,
         mkdir(fpath);
         
     elseif (mode == 'r')
-        fid = fopen('src/+ROI/output/RunTimeInfo.txt', 'r');
+        fid = fopen('RunTimeInfo.txt', 'r');
         data = textscan(fid,'%s','delimiter','\n');
         trainDirectory = data{1}{1};
         fpath = data{1}{2};

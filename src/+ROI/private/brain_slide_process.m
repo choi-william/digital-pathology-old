@@ -6,6 +6,7 @@ clear all; %close all; clc;
 %   Lap-Tak Chu
 
 PARALLEL_PROCESSING = true; % for parallel processing. also need to switch FOR/for below
+PLOT_RESULTS = false;
 
 % define constants
 [~, ~, trainDirectory, ~,BLK_SIZE_X,BLK_SIZE_Y,SCALE_INDX_PROCESS,~] = ...
@@ -178,13 +179,15 @@ save([SLIDE_DIR,SlideId{slide_indx},POSTFIX_MAT]);
 disp('Finished!');
 
 % plot class image...
-color_mat = reshape([Slide.Annot(:).AnnotColor],[3,annot_num])'; % mimicking the color coding in histology
-color_mat = [1,1,1;0.5,0.3,0.5;color_mat]; % add "glass" (invalid) and "normal tissue" colors
+if PLOT_RESULTS == true
+    color_mat = reshape([Slide.Annot(:).AnnotColor],[3,annot_num])'; % mimicking the color coding in histology
+    color_mat = [1,1,1;0.5,0.3,0.5;color_mat]; % add "glass" (invalid) and "normal tissue" colors
 
-figure; imagesc(reshape([Slide.Blk(:).BlkClass],Slide.BlkNumY,Slide.BlkNumX));
-axis image; caxis([-1,annot_num]); colormap(color_mat); % the most "diverse" slice
-title(['Slide ',num2str(slide_indx),': Ground-truth'],'FontSize',14);
-colorbar('Ticks',linspace(-0.5,size(color_mat,1)-2+0.5,size(color_mat,1)+1),...
-    'TickLabels',{'Invalid','Benign','Label 1','Label 2','Label 3'},'Location','EastOutside','FontSize',14);
+    figure; imagesc(reshape([Slide.Blk(:).BlkClass],Slide.BlkNumY,Slide.BlkNumX));
+    axis image; caxis([-1,annot_num]); colormap(color_mat); % the most "diverse" slice
+    title(['Slide ',num2str(slide_indx),': Ground-truth'],'FontSize',14);
+    colorbar('Ticks',linspace(-0.5,size(color_mat,1)-2+0.5,size(color_mat,1)+1),...
+        'TickLabels',{'Invalid','Benign','Label 1','Label 2','Label 3'},'Location','EastOutside','FontSize',14);
 
-pause(10); % pause for cooling down cpu before starting a new slide...
+    pause(10); % pause for cooling down cpu before starting a new slide...
+end
