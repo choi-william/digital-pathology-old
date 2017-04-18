@@ -1,4 +1,3 @@
-clearvars -except oldPath; 
 clc;
 % University of British Columbia, Vancouver, 2017
 %   Dr. Guy Nir
@@ -33,8 +32,8 @@ LDA_DiscrimType = 'diaglinear'; % discriminant type ('linear', 'diaglinear', 'ps
 NBC_DistributionNames = 'kernel'; % distribution type ('normal', 'kernel', 'mn', 'mvmn')
 
 % define constants
-[fpath, ~, ~, testDirectory,~,~,~,~] = RunTimeInformation([],[],'r',0,0,0);
-SLIDE_DIR = testDirectory;
+[fpath, ~, ~, testPath,~,~,~,~] = RunTimeInformation([],[],'r',0,0,0);
+SLIDE_DIR = testPath;
 POSTFIX_MAT = ['_brain_demo.mat'];
 POSTFIX_SVS = '.svs';
 POSTFIX_XML = '.xml';
@@ -53,11 +52,7 @@ MARKER_CLASS = single(-98);
 INVALID_CLASS = single(-99);
 % end define constants
 
-SlideListMat = dir([SLIDE_DIR,'*',POSTFIX_MAT]); for k = 1:length(SlideListMat), SlideListMat(k).name = SlideListMat(k).name(1:(end-length(POSTFIX_MAT))); end, SlideListMat = {SlideListMat.name}';
-SlideListSvs = dir([SLIDE_DIR,'*',POSTFIX_SVS]); for k = 1:length(SlideListSvs), SlideListSvs(k).name = SlideListSvs(k).name(1:(end-length(POSTFIX_SVS))); end, SlideListSvs = {SlideListSvs.name}';
-SlideListXml = dir([SLIDE_DIR,'*',POSTFIX_XML]); for k = 1:length(SlideListXml), SlideListXml(k).name = SlideListXml(k).name(1:(end-length(POSTFIX_XML))); end, SlideListXml = {SlideListXml.name}';
-SlideId = SlideListMat; % SlideListSvs( ismember(SlideListSvs,SlideListXml) & ismember(SlideListSvs,SlideListMat) ); % slides that have .svs, .xml and .mat files...
-slide_num = length(SlideId); % single slide
+slide_num = 1; % single slide
 
 % load data
 blk_class = cell(slide_num,1);
@@ -68,7 +63,6 @@ blk_patient = cell(slide_num,1);
 
 for slide_indx = 1:slide_num
     disp(['Loading slide ',num2str(slide_indx),'/',num2str(slide_num)]);
-    Slide{slide_indx} = load([SLIDE_DIR,'/',SlideId{slide_indx},POSTFIX_MAT],'blk_*','ImgFile','res_scale_*');
     
     blk_class{slide_indx} = single(Slide{slide_indx}.blk_class(:)); % cast to single to save memory
     blk_test_feat{slide_indx}  = single(Slide{slide_indx}.blk_feat); % cast to single to save memory
@@ -101,7 +95,6 @@ patient_num = length(patient_vec);
 % USED_FEAT = 1:feat_num; % all features
 feat_num = size(Slide{slide_indx}.blk_feat,2); % total full number of features
 USED_FEAT = 1:size(blk_feat_all_slides_mean,2); % all features (training data size)
-
 
 
 % mark invalid blocks
@@ -169,16 +162,16 @@ for slide_indx = 1:slide_num
 end % for slide_indx
 
 % plot and print classification results
-if (PLOT_RESULTS)
-    for slide_indx = 1:slide_num
-        figure;
-        imagesc(reshape(blk_mdl_test{slide_indx},Slide{slide_indx}.blk_num_y,Slide{slide_indx}.blk_num_x));
-        axis image; caxis([-1,label_num]); colormap(color_mat); % the most "diverse" slice
-        title(['Slide ',num2str(slide_indx),': Automatic classification'],'FontSize',14);
-        colorbar('Ticks',linspace(-0.5,size(color_mat,1)-2+0.5,size(color_mat,1)),...
-            'TickLabels',{'Invalid','Benign','Label 1','Label 2','Label 3'},'Location','EastOutside','FontSize',14);
-        
-        impixelinfo;
-        set(gcf, 'Position', get(0, 'Screensize'));
-    end % for slide_indx
-end % PLOT_RESULTS
+% if (PLOT_RESULTS)
+%     for slide_indx = 1:slide_num
+%         figure;
+%         imagesc(reshape(blk_mdl_test{slide_indx},Slide{slide_indx}.blk_num_y,Slide{slide_indx}.blk_num_x));
+%         axis image; caxis([-1,label_num]); colormap(color_mat); % the most "diverse" slice
+%         title(['Slide ',num2str(slide_indx),': Automatic classification'],'FontSize',14);
+%         colorbar('Ticks',linspace(-0.5,size(color_mat,1)-2+0.5,size(color_mat,1)),...
+%             'TickLabels',{'Invalid','Benign','Label 1','Label 2','Label 3'},'Location','EastOutside','FontSize',14);
+%         
+%         impixelinfo;
+%         set(gcf, 'Position', get(0, 'Screensize'));
+%     end % for slide_indx
+% end % PLOT_RESULTS

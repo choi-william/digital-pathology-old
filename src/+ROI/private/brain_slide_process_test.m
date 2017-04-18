@@ -8,7 +8,7 @@ clear all; %close all; clc;
 PARALLEL_PROCESSING = true; % for parallel processing. also need to switch FOR/for below
 PLOT_RESULTS = false;
 
-[~, ~, ~,testDirectory,BLK_SIZE_X,BLK_SIZE_Y,SCALE_INDX_PROCESS,~] = ...
+[~, ~, ~,testPath,BLK_SIZE_X,BLK_SIZE_Y,SCALE_INDX_PROCESS,~] = ...
                                        RunTimeInformation([],[],'r',0,0,0);
 
 % define constants
@@ -18,7 +18,7 @@ PLOT_RESULTS = false;
 BLK_SAMP_X = BLK_SIZE_X; % BLK_SIZE_X/2; % sampling rate of blocks (distance between blocks in full image pixel coordinates)
 BLK_SAMP_Y = BLK_SIZE_Y; % BLK_SIZE_Y/2; % sampling rate of blocks (distance between blocks in full image pixel coordinates)
 
-SLIDE_DIR = testDirectory;
+SLIDE_PATH = testPath;
 POSTFIX_MAT = ['_brain_demo.mat'];
 POSTFIX_SVS = '.svs';
 
@@ -34,21 +34,21 @@ MARKER_CLASS = single(-98);
 INVALID_CLASS = single(-99);
 % end define constants
 
-SlideListMat = dir([SLIDE_DIR,'*',POSTFIX_MAT]); for k = 1:length(SlideListMat), SlideListMat(k).name = SlideListMat(k).name(1:(end-length(POSTFIX_MAT))); end, SlideListMat = {SlideListMat.name}';
-SlideListSvs = dir([SLIDE_DIR,'*',POSTFIX_SVS]); for k = 1:length(SlideListSvs), SlideListSvs(k).name = SlideListSvs(k).name(1:(end-length(POSTFIX_SVS))); end, SlideListSvs = {SlideListSvs.name}';
-SlideId = SlideListSvs(~ismember(SlideListSvs,SlideListMat) ); % slides that have .svs and .xml files, but no .mat file...
-slide_num = length(SlideId); % single slide
+% SlideListMat = dir([SLIDE_PATH,'*',POSTFIX_MAT]); for k = 1:length(SlideListMat), SlideListMat(k).name = SlideListMat(k).name(1:(end-length(POSTFIX_MAT))); end, SlideListMat = {SlideListMat.name}';
+% SlideListSvs = dir([SLIDE_PATH,'*',POSTFIX_SVS]); for k = 1:length(SlideListSvs), SlideListSvs(k).name = SlideListSvs(k).name(1:(end-length(POSTFIX_SVS))); end, SlideListSvs = {SlideListSvs.name}';
+% SlideId = SlideListSvs(~ismember(SlideListSvs,SlideListMat) ); % slides that have .svs and .xml files, but no .mat file...
+% slide_num = length(SlideId); % single slide
 
 % multi-slide processsing: to be run in a 'while (true), slide_process; end' on multiple computers --
-slide_indx = 1;
-if (isempty(SlideId))
-    error('No more slides...');
-else
-    save([SLIDE_DIR,SlideId{slide_indx},POSTFIX_MAT],'slide_indx'); % save preliminary .mat file so that other computers avoid processing the same slide...
-end
+% slide_indx = 1;
+% if (isempty(SlideId))
+%     error('No more slides...');
+% else
+%     save([SLIDE_PATH,SlideId{slide_indx},POSTFIX_MAT],'slide_indx'); % save preliminary .mat file so that other computers avoid processing the same slide...
+% end
 % end multi-slide processsing
 
-ImgFile = [SLIDE_DIR,SlideId{slide_indx},POSTFIX_SVS];
+ImgFile = SLIDE_PATH;
 %XmlFile = [SLIDE_DIR,SlideId{slide_indx},POSTFIX_XML];
 
 % picture=imread(ImgFile,'Index',SCALE_INDX_PROCESS);
@@ -76,8 +76,8 @@ blk_vec_y = floor(mod(full_img_size_y,BLK_SIZE_Y)/2+1):BLK_SAMP_Y:floor(full_img
 blk_brc_x = blk_ulc_x+BLK_SIZE_X-1; blk_brc_y = blk_ulc_y+BLK_SIZE_Y-1; % blocks' bottom right corner matrix -- full image coordinates
 
 % read & initialize slide structure
-Slide.SlideName = ImgFile(1:(end-4));
-Slide.SlideId = SlideId;
+Slide.SlideName = 'current';
+Slide.SlideId = 1;
 
 % prepare for block processing
 blk_num_x = length(blk_vec_x(:));
@@ -159,19 +159,18 @@ Slide.Img.ImgFullSize = [full_img_size_x, full_img_size_y];
 Slide.Img.ResScale = [res_scale_x; res_scale_y];
 Slide.Img.ScaleIndx = SCALE_INDX_PROCESS; % = 1 full_scale_indx
 
-save([SLIDE_DIR,SlideId{slide_indx},POSTFIX_MAT]);
 disp('Finished!');
 
 % plot class image...
-if PLOT_RESULTS == true
-    color_mat = [1,1,1;0.5,0.3,0.5]; % add "glass" (invalid) and "normal tissue" colors
-
-    figure;
-    axis image; caxis([-1,3]); colormap(color_mat); % the most "diverse" slice
-    title(['Slide ',num2str(slide_indx),': Ground-truth'],'FontSize',14);
-    colorbar('Ticks',linspace(-0.5,size(color_mat,1)-2+0.5,size(color_mat,1)+1),...
-        'TickLabels',{'Invalid','Benign','Label 1','Label 2','Label 3'},'Location','EastOutside','FontSize',14);
-    imagesc(reshape([Slide.Blk(:).BlkClass],Slide.BlkNumY,Slide.BlkNumX));
-
-    pause(10); % pause for cooling down cpu before starting a new slide...
-end
+% if PLOT_RESULTS == true
+%     color_mat = [1,1,1;0.5,0.3,0.5]; % add "glass" (invalid) and "normal tissue" colors
+% 
+%     figure;
+%     axis image; caxis([-1,3]); colormap(color_mat); % the most "diverse" slice
+%     title(['Slide ',num2str(slide_indx),': Ground-truth'],'FontSize',14);
+%     colorbar('Ticks',linspace(-0.5,size(color_mat,1)-2+0.5,size(color_mat,1)+1),...
+%         'TickLabels',{'Invalid','Benign','Label 1','Label 2','Label 3'},'Location','EastOutside','FontSize',14);
+%     imagesc(reshape([Slide.Blk(:).BlkClass],Slide.BlkNumY,Slide.BlkNumX));
+% 
+%     pause(10); % pause for cooling down cpu before starting a new slide...
+% end

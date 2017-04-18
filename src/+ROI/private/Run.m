@@ -7,9 +7,9 @@
 close all; clear; clc  %#ok<*UNRCH>
 
 global TRAIN_PATH TEST_PATH  RESULTS_PATH; 
+
 TRAIN_PATH   = 'data/slides/SlidesTrainBright/';
-TEST_PATH    = 'D:/Capstone/Package2/Slides/SlidesTest/';
-RESULTS_PATH = 'D:/Capstone/Package2/Results/';
+
 
 if exist('RunTimeInfo.txt', 'file')
         [oldPath,~] = RunTimeInformation([],[],'r',0,0,0);
@@ -28,11 +28,7 @@ end
 
 processTestSlides = true;
 if (processTestSlides)
-    close all;
-    [~,~,~, ~,~,~,~,NumTestSlides] = RunTimeInformation([],[],'r',0,0,0);
-    for i=1:NumTestSlides
-        brain_slide_process_test;
-    end
+    brain_slide_process_test;
     %SaveFigures('/Test Slide Process');
 end
 

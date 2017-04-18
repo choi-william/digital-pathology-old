@@ -12,7 +12,7 @@ PARALLEL_PROCESSING = true; % for parallel processing. also need to switch FOR/P
 INVALID_BLK = -99;
 GRAY_MATTER = 0;
 
-interfacePath = strcat(fpath,'/InterfaceOutput');
+interfacePath = RESULTS_PATH;
 if ~exist(interfacePath, 'dir')
     mkdir(interfacePath);
 end
