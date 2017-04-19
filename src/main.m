@@ -4,12 +4,21 @@ pathology_analysis();
 % % 
 % setA = Pipeline.import_dp('ids',[],'class','all','setnum',2,'test',-1);
 % setB = Pipeline.import_dp('ids',[],'class','all','setnum',-1,'test',-1);
+
 % bbb = [280 280 117];
 % for i=1:1
 %     im = Pipeline.import_dp('ids',bbb(i));
 %     %Verify.analyze(im);
 %     Display.display_soma_points(im);
 % end
+
+
+bbb = [280 280 117];
+for i=1:1
+    im = Pipeline.import_dp('ids',bbb(i));
+    %Verify.analyze(im);
+    Display.display_soma_points(im);
+end
 
 
 % data = [];
@@ -24,13 +33,14 @@ pathology_analysis();
 
 
 % 
-% im23 = DPImage('tom','23');
+im23 = DPImage('tom','243');
 % % figure, imshow(im23.image,'InitialMagnification','fit');
-% % [cell_list, cell_count] = pathology_analysis(im23,1);
+[cell_list, cell_count] = pathology_analysis(im23,0);
 % 
 
 %verIm = DPImage('tom','25');
 %goodIm = DPImage('tom','152');
+
 
 % testIm = DPImage('tom','265');
 % G = DPImage('test','G');

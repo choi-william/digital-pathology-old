@@ -27,7 +27,7 @@ function [ flag, somas ] = resolve_clump( dpcell )
     
 %     subplot(1,2,2);
 %     imshow(out);
-    
+
     somas = {};
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i}); 

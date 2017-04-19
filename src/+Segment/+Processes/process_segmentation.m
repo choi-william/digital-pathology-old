@@ -1,15 +1,18 @@
 function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 %CELL_SEGMENTATION Summary of this function goes here
 %   dpsoma - input soma object
+%   PRE-CONDITIONS: cellCentroid is in the object of interest
+%                   cellCentroid is in x y format
 
     cellIm = imadjust(rgbCellImage(:,:,3));
-    centroid = round(cellCentroid);
-    centroid = [5, 5]; % to be removed once centroid is adjusted
     averageIntensity = sum(sum(cellIm))/(size(cellIm,1)*size(cellIm,2));
     cellIm = imadjust(cellIm,[0; averageIntensity/255],[0; 1]); % removing pixels above average intensity
     
+    centroid = [cellCentroid(2) cellCentroid(1)];
+    centroid = round(centroid);
+    
     % IMAGE QUANTIZATION using Otsu's mutilevel iamge thresholding
-    N = 15; % number of thresholds % temporary changed to 13 from 20
+    N = 10; % number of thresholds % temporary changed to 13 from 20
     thresh = multithresh(cellIm, N);
     quantIm = imquantize(cellIm, thresh);
     
@@ -37,12 +40,12 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         numCountedObjects(i) = CC.NumObjects;
 
     end
-    
-    x = 1:N+1;
+     
+%     x = 1:N+1;
 %     figure, scatter(x,numCountedObjects);
 
     % Determining the Backgound level
-    backgroundLevel = sum(thresh < averageIntensity);
+    backgroundLevel = sum(thresh < averageIntensity)-1;
 
     % Determining the level at which soma appears
     firstSomaLevel = find(numCountedObjects > 0, 1, 'first');
@@ -64,12 +67,44 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 %     padsize = [ext*(ext>0) -ext*(ext<0)];
 %     
 %     subplot(6,9,[5,15],'replace'), imshow(padarray(rgbCellImage,padsize)), title('Original Image');
-%     subplot(6,9,[23,33],'replace'), imshow(padarray(label2rgb(quantIm),padsize)), title('Quantized Image');
+%     subplot(6,9,[23,33],'replace'), imshow(padarray(label2rgb(newQuantIm),padsize)), title('Quantized Image');
 %     subplot(6,9,[41,51],'replace'), imshow(padarray(zeros(size(quantIm))+255,padsize,1)), title('Final Binarized Image');
 %     subplot(6,9,[34,54],'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
 %     subplot(6,9,[7,27], 'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
 %     hold on;
 
+    % REMOVING UNNECESSARY COMPONENTS
+    bwNewQuantIm = newQuantIm < backgroundLevel;
+            
+    filtered = 0;
+    comp = bwconncomp(bwNewQuantIm);
+    for i=1:comp.NumObjects
+        [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i}); 
+        
+        good = pixelListBinarySearch([col,row],round(cellCentroid));
+        if(good == 1)
+            tempIm = ones(size(newQuantIm));
+            tempIm(comp.PixelIdxList{i}) = 0;
+            newQuantIm(logical(tempIm)) = 0;
+            filtered = 1;
+            break;
+        end
+    end
+    
+    % In the event that centroid is not in the component
+    if filtered == 0
+        stat = regionprops(bwNewQuantIm,'centroid');
+        centroidList = cat(1,stat.Centroid);
+        distList = zeros(1,size(centroidList,1));
+        for i=1:size(centroidList,1)
+            distList(i) = Helper.CalcDistance(centroidList(i,:),centroid);
+        end
+        minDist = find(distList == min(distList),1);
+        tempIm = ones(size(newQuantIm));
+        tempIm(comp.PixelIdxList{minDist}) = 0;
+        newQuantIm(logical(tempIm)) = 0;
+    end
+    
     % SEED SAMPLING at each quantized level
     seedIm = zeros(size(cellIm));
     for i = somaLevel:backgroundLevel
@@ -85,7 +120,8 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         originalIm(imcomplement(levelIm)) = 255; % overlaying binary mask on the original image
         compositeIm = cat(3,levelIm,originalIm);
 
-        blockSize = [i+2-somaLevel i+2-somaLevel];
+%         blockSize = [i+2-somaLevel i+2-somaLevel];
+        blockSize = [2*i+3-2*somaLevel 2*i+3-2*somaLevel];
         func = @generate_seeds;
         seeds = blockproc(compositeIm, blockSize, func);
         
@@ -98,34 +134,32 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     end
 
-
-
     % Minimum spanning tree
-    cellCentroid = zeros(size(cellIm));
-    cellCentroid(centroid) = 1; 
+%     cellCentroid = zeros(size(cellIm));
+%     cellCentroid(centroid) = 1; 
 
-    centroidDistTrans = bwdist(cellCentroid, 'quasi-euclidean');
-    somaLayer = seedIm == somaLevel;
-    somaSeedDist = centroidDistTrans.*somaLayer;
-    minVal = min(somaSeedDist(somaSeedDist > 0));
-    [rootRow, rootCol] = find(somaSeedDist == minVal, 1); % root node;
+%     centroidDistTrans = bwdist(cellCentroid, 'quasi-euclidean');
+%     somaLayer = seedIm == somaLevel;
+%     somaSeedDist = centroidDistTrans.*somaLayer;
+%     minVal = min(somaSeedDist(somaSeedDist > 0));
+%     minVal
+%     [rootRow, rootCol] = find(somaSeedDist == minVal, 1); % root node;
+% 
+%     seed = zeros(size(cellIm));
+%     seed(rootRow, rootCol) = 1;
+%     currRow = rootRow;
+%     currCol = rootCol;
 
-    seed = zeros(size(cellIm));
-    seed(rootRow, rootCol) = 1;
-    currRow = rootRow;
-    currCol = rootCol;
-
-    finalTree = zeros(size(cellIm));
-    finalTree(rootRow, rootCol) = 1;
     
-    for i = somaLevel:backgroundLevel
-        seeds = seedIm == i;
-        numSeeds = sum(sum(seeds));
+    
+    % CREATING A WEIGHTED MASK USED TO DETERMINE GEODESIC DISTANCE
+    lastLevel = backgroundLevel+1;
+    for i = somaLevel:lastLevel
         if i ~= somaLevel
             levelIm = newQuantIm == i;
-            if i <= round((somaLevel*2+backgroundLevel)/3)
+            if i <= round((somaLevel*2+lastLevel)/3)
                 cellArea = cellArea + levelIm.*(i+1-somaLevel);
-            elseif i <= round((somaLevel+2*backgroundLevel)/3)
+            elseif i <= round((somaLevel+2*lastLevel)/3)
                 cellArea = cellArea + levelIm.*(i+1-somaLevel)^2;
             else
                 cellArea = cellArea + levelIm.*(i+1-somaLevel)^3;
@@ -134,26 +168,52 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
             A = newQuantIm <= somaLevel;
             B = newQuantIm > 0;
             cellArea  = and(A,B);
-            % root node is one of the seeds in the soma layer
-            numSeeds = numSeeds - 1;
         end
+    end
+            
+    mask = double(cellArea);
+    mask(mask == 0) = inf;
+    
+    currRow = centroid(1);
+    currCol = centroid(2);
+    seed = zeros(size(cellIm));
+    seed(currRow, currCol) = 1;
+    finalTree = zeros(size(cellIm));
+    finalTree(currRow, currCol) = 1;
+    % 
+    for i = somaLevel:backgroundLevel
+        seeds = seedIm == i;
+        seeds(currRow,currCol) = 0; %removing the centroid, in case of an overlap.
         
-        mask = double(cellArea);
-        mask(mask == 0) = inf;
-
-        distTrans1 = graydist(mask, logical(seed), 'quasi-euclidean');
+        numSeeds = sum(sum(seeds));
         
-        for i = 1:numSeeds
-            seedDist = distTrans1.*seeds; % no need to worry about inf as seeds are all in the mask area
-            seedDist(isnan(seedDist)) = 0;
-            minVal = min(seedDist(seedDist > 0));
-            [nxtRow, nxtCol] = find(seedDist == minVal, 1);
-
+        for j = 1:numSeeds
+            offset = 5;
             seeds(currRow, currCol) = 0;
+            [croppedSeeds, rowCoord, colCoord] = crop_image(seeds,currRow,currCol,offset);
+            while sum(sum(croppedSeeds)) == 0
+                offset = offset + 5;
+                [croppedSeeds, rowCoord, colCoord] = crop_image(seeds,currRow,currCol,offset);
+            end
+            croppedMask = crop_image(mask,currRow,currCol,offset);
+            croppedSeed = crop_image(logical(seed),currRow,currCol,offset);
+            distTrans1 = graydist(croppedMask,croppedSeed,'quasi-euclidean');
+            
+            seedDist = distTrans1.*croppedSeeds; % no need to worry about inf as seeds are all in the mask area
+            seedDist(isnan(seedDist)) = 0;
+            minVal = min(seedDist(seedDist > 0));    
+            [croprow, cropcol] = find(seedDist == minVal, 1);
+            nxtRow = croprow+rowCoord-1;
+            nxtCol = cropcol+colCoord-1;
+
             seed(currRow, currCol) = 0;
             seed(nxtRow, nxtCol) = 1;
+            
+            [rowSize, colSize] = size(croppedSeed);
+            croppedSeed = zeros(rowSize,colSize);
+            croppedSeed(croprow,cropcol) = 1;
 
-            distTrans2 = graydist(mask, logical(seed), 'quasi-euclidean');
+            distTrans2 = graydist(croppedMask, logical(croppedSeed), 'quasi-euclidean');
 
             if minVal ~= inf
                 sumDistTrans = distTrans1 + distTrans2;
@@ -163,10 +223,10 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
                 thinnedPath = bwmorph(path, 'thin', inf);
 
                 %draw line bettween current coordinates and next coordinate
-                finalTree = or(finalTree,thinnedPath);
+                croppedTree = finalTree(rowCoord:rowCoord+rowSize-1,colCoord:colCoord+colSize-1);
+                croppedTree = or(croppedTree,thinnedPath);
+                finalTree(rowCoord:rowCoord+rowSize-1,colCoord:colCoord+colSize-1) = croppedTree;
             end
-
-            distTrans1 = distTrans2;
 
             finalTree(nxtRow, nxtCol) = 1;
             currRow = nxtRow;

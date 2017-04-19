@@ -2,6 +2,16 @@ function [ output_args ] = pathology_analysis()
 %INTERFACE Summary of this function goes here
 %   Detailed explanation goes here
 
+<<<<<<< HEAD
+    if (nargin == 1) visual = 0; end
+    tic;
+    cell_list = Segment.cell_segmentation(dpimage,visual);
+    toc;
+    tic;
+    cell_list = Analysis.feature_analysis(cell_list);
+    toc;
+    cell_count = size(cell_list,2);
+=======
     parpool;
     
     resultsPath = '../results';
@@ -17,6 +27,7 @@ function [ output_args ] = pathology_analysis()
     load(filePath);
     
     sizeDPslide = size(DPslide,2);
+>>>>>>> eecc02a8dfbe1c4a3889486c4e2ebe8c058958ec
     
     blockSize = 128; % size of each image subblock, change to 128 when new data is available
     
