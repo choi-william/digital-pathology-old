@@ -14,8 +14,6 @@ function [ flag, somas ] = resolve_clump( dpcell )
     
     comp = bwconncomp(imcomplement(out));  
     
-
-    
     somas = {};
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i}); 

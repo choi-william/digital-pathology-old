@@ -4,12 +4,12 @@ function [ output_args ] = interface( input_args )
 
     global dataPath;
 
-    filePath = strcat(dataPath, '/DP_Slide.mat');
+    filePath = strcat(dataPath, '/DP_Slide2.mat');
     load(filePath);
     
     sizeDPslide = size(DPslide,2);
     
-    blockSize = 256; % size of each image subblock, change to 128 when new data is available
+    blockSize = 128; % size of each image subblock, change to 128 when new data is available
     
     topleft = DPslide(1).Pos{1};
     bottomright = DPslide(sizeDPslide).Pos{2};

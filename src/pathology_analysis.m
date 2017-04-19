@@ -3,10 +3,12 @@ function [ cell_list, cell_count ] = pathology_analysis( dpimage, visual )
 %   Detailed explanation goes here
 
     if (nargin == 1) visual = 0; end
-
+    tic;
     cell_list = Segment.cell_segmentation(dpimage,visual);
-
+    toc;
+    tic;
     cell_list = Analysis.feature_analysis(cell_list);
+    toc;
     cell_count = size(cell_list,2);
     
     % Any visualization stuff goes here
