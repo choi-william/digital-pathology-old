@@ -26,7 +26,7 @@ if (processSlides)
     %SaveFigures('/Train Slide Process');
 end
 
-processTestSlides = false;
+processTestSlides = true;
 if (processTestSlides)
     brain_slide_process_test;
     %SaveFigures('/Test Slide Process');
@@ -35,7 +35,7 @@ end
 
 %classification
 isTesting = true;
-isTrained = true;
+isTrained = false;
 if isTesting
     if ~isTrained
         brain_slide_train_test;
