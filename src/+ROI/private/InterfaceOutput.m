@@ -8,6 +8,8 @@ clear; close all; clc;
 [fpath,~,~,~,~,~,scale_indx,~] = RunTimeInformation([],[],'r',0,0,0);
 load([fpath,'/TestingInfo']);
 
+global RESULTS_PATH
+
 PARALLEL_PROCESSING = true; % for parallel processing. also need to switch FOR/PARFOR below
 INVALID_BLK = -99;
 GRAY_MATTER = 0;
@@ -19,9 +21,9 @@ end
 
 for slide_idx = 1:length(Slide)
     % Make Directory For Slide and Images
-    slideId = strsplit(Slide{slide_idx}.ImgFile,'/');
-    slideId = slideId{end}(1:end-4);
-    slidePath = strcat(interfacePath,'/',slideId);
+
+    slidePath = interfacePath;
+    
     imgPath = strcat(slidePath,'/BlockImg');
     if ~exist(imgPath, 'dir')
         mkdir(imgPath);
@@ -61,16 +63,16 @@ for slide_idx = 1:length(Slide)
                 DPslide(blk_idx).Region = 'WhiteMatter';
         end
 
-        if DPslide(blk_idx).Label ~= INVALID_BLK
+        if (DPslide(blk_idx).Label ~= INVALID_BLK) && (DPslide(blk_idx).Label ~= GRAY_MATTER)
             blkCols = [Slide{slide_idx}.blk_ulc_x(y,x) , Slide{slide_idx}.blk_brc_x(y,x)]; 
             blkRows = [Slide{slide_idx}.blk_ulc_y(y,x) , Slide{slide_idx}.blk_brc_y(y,x)];
             blk = imread(Slide{slide_idx}.ImgFile,'Index',scale_indx,'PixelRegion',{blkRows,blkCols});
             imwrite(blk,[imgPath,'/',num2str(DPslide(blk_idx).Id),'.tif']);
         end
         
-        DPslide(blk_idx).SlideId = slideId;
+        DPslide(blk_idx).SlideId = slide_idx;
         
-        disp(['Slide ',slideId,', Finished block ',num2str(DPslide(blk_idx).Id),'/', ...
+        disp(['Slide ',slide_idx,', Finished block ',num2str(DPslide(blk_idx).Id),'/', ...
               num2str(blk_num),' at ',num2str(toc),'sec']);
     end
     
@@ -80,7 +82,7 @@ for slide_idx = 1:length(Slide)
     
     save([slidePath,'/DP_Slide'],'DPslide');
     clear DPslide
-    disp(['Finished Slide ',slideId,]);
+    disp(['Finished Slide ',slide_idx,]);
 end
 
 disp('   Finished All Slides!   ');

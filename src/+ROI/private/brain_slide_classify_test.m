@@ -1,9 +1,11 @@
-clc;
+clear; clc;
 % University of British Columbia, Vancouver, 2017
 %   Dr. Guy Nir
 %   Shahriar Noroozi Zadeh
 %   Amir Refaee
 %   Lap-Tak Chu
+
+global RESULTS_PATH;
 
 PARALLEL_PROCESSING = false; % for parallel processing. also need to switch FOR/PARFOR below
 PLOT_RESULTS = false;
@@ -38,12 +40,15 @@ POSTFIX_MAT = ['_brain_demo.mat'];
 POSTFIX_SVS = '.svs';
 POSTFIX_XML = '.xml';
 
-if exist([fpath,'/TrainingInfo.mat'],'file')
-    load([fpath,'/TrainingInfo']);
-else
-    load([oldPath,'/TrainingInfo']);
-    copyfile([oldPath,'/TrainingInfo.mat'],fpath);
-end
+
+load([RESULTS_PATH,'/training.mat']);
+
+% if exist([fpath,'/TrainingInfo.mat'],'file')
+%     load([fpath,'/TrainingInfo']);
+% else
+%     load([oldPath,'/TrainingInfo']);
+%     copyfile([oldPath,'/TrainingInfo.mat'],fpath);
+% end
 
 MEMORY_LIMIT = 2e7; % mem = memory; mem.MaxPossibleArrayBytes/8 % max number of doubles
 NORMAL_CLASS = single(0);
@@ -63,6 +68,8 @@ blk_patient = cell(slide_num,1);
 
 for slide_indx = 1:slide_num
     disp(['Loading slide ',num2str(slide_indx),'/',num2str(slide_num)]);
+    
+    Slide{slide_indx} = load(strcat(RESULTS_PATH,'/features.mat'));
     
     blk_class{slide_indx} = single(Slide{slide_indx}.blk_class(:)); % cast to single to save memory
     blk_test_feat{slide_indx}  = single(Slide{slide_indx}.blk_feat); % cast to single to save memory

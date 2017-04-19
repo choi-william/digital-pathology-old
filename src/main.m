@@ -1,14 +1,15 @@
 
 run('init.m');
+pathology_analysis();
 % % 
 % setA = Pipeline.import_dp('ids',[],'class','all','setnum',2,'test',-1);
 % setB = Pipeline.import_dp('ids',[],'class','all','setnum',-1,'test',-1);
-bbb = [280 280 117];
-for i=1:1
-    im = Pipeline.import_dp('ids',bbb(i));
-    %Verify.analyze(im);
-    Display.display_soma_points(im);
-end
+% bbb = [280 280 117];
+% for i=1:1
+%     im = Pipeline.import_dp('ids',bbb(i));
+%     %Verify.analyze(im);
+%     Display.display_soma_points(im);
+% end
 
 
 % data = [];

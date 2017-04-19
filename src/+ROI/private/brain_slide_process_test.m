@@ -1,4 +1,4 @@
-clear all; %close all; clc;
+clear; %close all; clc;
 % University of British Columbia, Vancouver, 2017
 %   Dr. Guy Nir
 %   Shahriar Noroozi Zadeh
@@ -40,7 +40,7 @@ INVALID_CLASS = single(-99);
 % slide_num = length(SlideId); % single slide
 
 % multi-slide processsing: to be run in a 'while (true), slide_process; end' on multiple computers --
-% slide_indx = 1;
+
 % if (isempty(SlideId))
 %     error('No more slides...');
 % else
@@ -78,6 +78,8 @@ blk_brc_x = blk_ulc_x+BLK_SIZE_X-1; blk_brc_y = blk_ulc_y+BLK_SIZE_Y-1; % blocks
 % read & initialize slide structure
 Slide.SlideName = 'current';
 Slide.SlideId = 1;
+slide_indx = 1;
+
 
 % prepare for block processing
 blk_num_x = length(blk_vec_x(:));
@@ -140,7 +142,7 @@ parfor blk_indx = 1:blk_num % <== Change FOR to PARFOR to use parallel processin
     BlkStruct(blk_indx).BlkClass = blk_class(blk_indx);
     BlkStruct(blk_indx).BlkFeat = blk_feat(blk_indx,:);
     
-    disp(['Slide ',SlideId{slide_indx},', Finished block ',num2str(blk_indx),'/',num2str(blk_num),' at ',num2str(toc),'sec']);
+    disp(['Finished block ',num2str(blk_indx),'/',num2str(blk_num),' at ',num2str(toc),'sec']);
 end % for blk_indx
 
 if (PARALLEL_PROCESSING)
@@ -159,6 +161,8 @@ Slide.Img.ImgFullSize = [full_img_size_x, full_img_size_y];
 Slide.Img.ResScale = [res_scale_x; res_scale_y];
 Slide.Img.ScaleIndx = SCALE_INDX_PROCESS; % = 1 full_scale_indx
 
+global RESULTS_PATH;
+save(strcat(RESULTS_PATH,'/features.mat'),'blk_*','ImgFile','res_scale_*');
 disp('Finished!');
 
 % plot class image...

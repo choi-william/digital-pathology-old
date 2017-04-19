@@ -1,10 +1,8 @@
-function [] = block_analysis( svs_path, analysis_output_path )
+function [] = roi_finder( svs_path, analysis_output_path )
 
     global TEST_PATH  RESULTS_PATH; 
     
-    if (svs_path(end) ~= '/')
-       svs_path = [svs_path '/']; 
-    end
+
     if (analysis_output_path(end) ~= '/')
        analysis_output_path = [analysis_output_path '/']; 
     end
@@ -12,9 +10,9 @@ function [] = block_analysis( svs_path, analysis_output_path )
     TEST_PATH    = svs_path;
     RESULTS_PATH = analysis_output_path;
     
-    run;
+    Run;
     
-    clear;
+    clear all;
     close all;
 end
 

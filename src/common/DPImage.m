@@ -74,9 +74,10 @@ classdef DPImage
                     obj.roiMask = obj.roiMask.data;
                 end
             elseif strcmp(type,'real')
-                id = num2str(round(rand*30)+1);
-                filename = strcat(id,'.tif');
-                imPath = strcat(config.GetValues('paths', 'imagePath'),filename);     
+                %given id is actually a path
+                
+                %id = num2str(round(rand*30)+1);
+                imPath = id;     
             end
             
 
@@ -84,13 +85,7 @@ classdef DPImage
             obj.filepath = imPath;
             obj.image = imread(imPath);
             obj.image = obj.image(:,:,1:3);
-           
-            if strcmp(type,'real')
-               x = round(rand*500)+1;
-               y = round(rand*500)+1;
-               obj.image = imcrop(obj.image,[x y x+256 y+256]);
-            end
-            
+        
             
             if (size(obj.image,2) > size(obj.image,1))
                obj.image = permute(obj.image, [2 1 3]);

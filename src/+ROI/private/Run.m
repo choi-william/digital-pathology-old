@@ -8,7 +8,7 @@ close all; clear; clc  %#ok<*UNRCH>
 
 global TRAIN_PATH TEST_PATH  RESULTS_PATH; 
 
-TRAIN_PATH   = 'data/slides/SlidesTrainBright/';
+TRAIN_PATH   = '../data/slides/SlidesTrainBright/';
 
 
 if exist('RunTimeInfo.txt', 'file')
@@ -26,7 +26,7 @@ if (processSlides)
     %SaveFigures('/Train Slide Process');
 end
 
-processTestSlides = true;
+processTestSlides = false;
 if (processTestSlides)
     brain_slide_process_test;
     %SaveFigures('/Test Slide Process');
@@ -35,7 +35,7 @@ end
 
 %classification
 isTesting = true;
-isTrained = false;
+isTrained = true;
 if isTesting
     if ~isTrained
         brain_slide_train_test;

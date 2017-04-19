@@ -1,4 +1,4 @@
-clear all; close all; clc;
+clear; close all; clc;
 % University of British Columbia, Vancouver, 2017
 %   Dr. Guy Nir
 %   Shahriar Noroozi Zadeh
