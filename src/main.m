@@ -13,12 +13,12 @@ pathology_analysis();
 % end
 
 
-bbb = [280 280 117];
-for i=1:1
-    im = Pipeline.import_dp('ids',bbb(i));
-    %Verify.analyze(im);
-    Display.display_soma_points(im);
-end
+% bbb = [280 280 117];
+% for i=1:1
+%     im = Pipeline.import_dp('ids',bbb(i));
+%     %Verify.analyze(im);
+%     Display.display_soma_points(im);
+% end
 
 
 % data = [];
