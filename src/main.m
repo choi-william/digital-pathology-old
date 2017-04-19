@@ -3,11 +3,21 @@ run('init.m');
 % % 
 % setA = Pipeline.import_dp('ids',[],'class','all','setnum',2,'test',-1);
 % setB = Pipeline.import_dp('ids',[],'class','all','setnum',-1,'test',-1);
+<<<<<<< HEAD
 % for i=1:5
 %     im = Pipeline.import_dp('ids',round(rand*300));
 %     Display.display_soma_points(im);
 %     %Verify.evaluate_soma(im, 2);
 % end
+=======
+bbb = [280 280 117];
+for i=1:1
+    im = Pipeline.import_dp('ids',bbb(i));
+    %Verify.analyze(im);
+    Display.display_soma_points(im);
+end
+
+>>>>>>> eecc02a8dfbe1c4a3889486c4e2ebe8c058958ec
 
 % data = [];
 % for i=1:size(allTest,2)
@@ -28,8 +38,14 @@ im23 = DPImage('tom','243');
 
 %verIm = DPImage('tom','25');
 %goodIm = DPImage('tom','152');
+<<<<<<< HEAD
 % testIm = DPImage('tom','265');
 
+=======
+
+% testIm = DPImage('tom','265');
+% G = DPImage('test','G');
+>>>>>>> eecc02a8dfbe1c4a3889486c4e2ebe8c058958ec
 
 %Verify.create(goodIm);
 %Display.display_soma_points(testIm);
@@ -54,6 +70,7 @@ im23 = DPImage('tom','243');
 %Verify.evaluate_soma(Segment.Soma.extract_soma(verIm,0,0.8,100),2);
 
 %Verify.evaluate_soma(Segment.Soma.extract_soma(DPImage('tom','117'),2,0.8,100),2);
+
 
 
 %[cell_list, cell_count] = pathology_analysis(testIm,1);

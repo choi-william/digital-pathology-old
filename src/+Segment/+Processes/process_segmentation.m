@@ -61,6 +61,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
 
+
 % % % % % % %     
 %     ext = round(0.5*(size(quantIm,2)-size(quantIm,1)));
 %     padsize = [ext*(ext>0) -ext*(ext<0)];
@@ -71,7 +72,6 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 %     subplot(6,9,[34,54],'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
 %     subplot(6,9,[7,27], 'replace'), imshow(padarray(zeros(size(newQuantIm)),padsize));
 %     hold on;
-% % % % % % % % 
 
     % REMOVING UNNECESSARY COMPONENTS
     bwNewQuantIm = newQuantIm < backgroundLevel;
@@ -126,12 +126,12 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         seeds = blockproc(compositeIm, blockSize, func);
         
         seedIm = seedIm + seeds*i;
-% % % % % %         
+
 %         subplot(6,9, [7,27]);
 %         imshow(padarray(seedIm,padsize)); % uncomment to see seeds at each stage
 %         hold on;
 %         pause(0.02);
-% % % % % % 
+
     end
 
     % Minimum spanning tree
@@ -232,12 +232,12 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
             currRow = nxtRow;
             currCol = nxtCol;
         end
-% % % % % 
+
 %         subplot(6,9,[34,54]);
 %         imshow(padarray(finalTree,padsize)); % uncomment to see the tree at each stage
 %         hold on;
 %         pause(0.001);
-% % % % % 
+
     end
 
     % overlaying the soma image on the tree
@@ -256,6 +256,7 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
     % pruning - should be improved
     bwIm = bwmorph(bwIm, 'spur', 5);
     
+
 % % % % % % % 
 %     subplot(6,9,[41,51]), imshow(padarray(bwIm,padsize,1)), title('Final Connected Tree');
 %     hold on;

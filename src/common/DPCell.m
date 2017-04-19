@@ -11,6 +11,8 @@ classdef DPCell
         subImage
         oImage %ocbrc image
         rCentroid
+        
+        cnnBox
 
         area
         preThreshIntensity
@@ -60,9 +62,9 @@ classdef DPCell
             for i=1:size(L,1)
                 mask(round(L(i,2)),round(L(i,1))) = 1;                
             end
-            perim = regionprops(mask,'Perimeter');
-            perim = perim.Perimeter;
-            
+            %perim = regionprops(mask,'Perimeter');
+            %perim = perim.Perimeter;
+            perim = 0;
             obj.circularity = (perim .^ 2) ./ (4 * pi * obj.area);
             
             sumX = 0;

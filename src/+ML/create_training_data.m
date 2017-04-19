@@ -3,8 +3,8 @@ function [] = create_training_data()
     global dataPath;
     out_path = uigetdir(dataPath,'Choose destination');
 
-    mkdir(out_path, 'test_data');
-    out_path = strcat(out_path, '/test_data');
+    mkdir(out_path, 'test_data2');
+    out_path = strcat(out_path, '/test_data2');
 
     tp_class = 'truePositives';
     fp_class = 'falsePositives';
@@ -15,7 +15,7 @@ function [] = create_training_data()
     path_tp = strcat(out_path,strcat('/',tp_class));
     path_fp = strcat(out_path,strcat('/',fp_class));
 
-    dps = Pipeline.import_dp([],'allver');
+    dps = Pipeline.import_dp([],'trainNosham');
     num_dpimage = size(dps,2);
     list = {};
     
@@ -33,9 +33,9 @@ function [] = create_training_data()
                 image_name = strcat(num2str(count),'.tif');
                 dpfeature.subImageName = image_name;
                 if (soma.isCorrect == 1)
-                    imwrite(soma.subImage,strcat(path_tp,'/',image_name));
+                    imwrite(soma.cnnBox,strcat(path_tp,'/',image_name));
                 elseif (soma.isCorrect == 0)
-                    imwrite(soma.subImage,strcat(path_fp,'/',image_name));
+                    imwrite(soma.cnnBox,strcat(path_fp,'/',image_name));
                 end
                 list{end+1} = dpfeature;
                 count = count + 1;

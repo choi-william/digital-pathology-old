@@ -68,6 +68,7 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
         %  binaryIm = extract_processes(cell_list{i}.subImage, struct('fastmarching', true));
         % TODO: cell centroid should be adjusted to have coordinates in the
         % subimage       
+
         binaryIm = Segment.Processes.process_segmentation(cell_list{i}.subImage, cell_list{i}.rCentroid);
         cell_list{i}.binaryIm = binaryIm;
         

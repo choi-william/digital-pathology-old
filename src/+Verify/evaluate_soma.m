@@ -1,4 +1,4 @@
-function [ updatedList,tpp,fpp,gtt ] = evaluate_soma(dpimage,shouldPlot)
+function [ score ] = evaluate_soma(dpimage,shouldPlot)
     % Performs a comparison between automatic soma segmentation and manual soma
     % segmentation
     somaList = Segment.Soma.extract_soma(dpimage, 0, 0.8, 100);
@@ -120,7 +120,7 @@ function [ updatedList,tpp,fpp,gtt ] = evaluate_soma(dpimage,shouldPlot)
     
     if (a ~= 0)
         c = 100*b/a; %percentage found
-        score = 100*(sum(fp(fp>=0))+sum(fn(fn>=0)))/a;
+        score = 100*(sum(fp(fp>=0))+2*sum(fn(fn>=0)))/a;
     else
         
         c = 100;
