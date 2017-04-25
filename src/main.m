@@ -1,7 +1,12 @@
 
-run('init.m');
-pathology_analysis();
-% % 
+% run('init.m');
+% pathology_analysis();
+
+
+  
+
+
+
 % setA = Pipeline.import_dp('ids',[],'class','all','setnum',2,'test',-1);
 % setB = Pipeline.import_dp('ids',[],'class','all','setnum',-1,'test',-1);
 
@@ -33,9 +38,9 @@ pathology_analysis();
 
 
 % 
-im23 = DPImage('tom','243');
-% % figure, imshow(im23.image,'InitialMagnification','fit');
-[cell_list, cell_count] = pathology_analysis(im23,0);
+% im23 = DPImage('tom','243');
+% % % figure, imshow(im23.image,'InitialMagnification','fit');
+% [cell_list, cell_count] = pathology_analysis(im23,0);
 % 
 
 %verIm = DPImage('tom','25');
