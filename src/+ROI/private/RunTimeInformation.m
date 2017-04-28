@@ -37,7 +37,7 @@ function [fpath, NumSVSslides, trainDirectory, testDirectory, Blk_X, Blk_Y, scl,
             NumSVSslides = length(D(not([D.isdir])));
         end
         
-        E = dir([testDirectory, '\*.svs']);
+        E = dir([testDirectory, '\*.tif']);
         NumTestSlides = length(E(not([E.isdir])));
         if (NumTestSlides == 0)
             E = dir([testDirectory, '\*.mat']);
