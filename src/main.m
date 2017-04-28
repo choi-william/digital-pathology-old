@@ -1,10 +1,13 @@
 
-% run('init.m');
+run('init.m');
 % pathology_analysis();
-
-
-  
-
+im1 = DPImage('tom','23');
+[cell_count, average_fractal] = block_analysis( im1, 0, 1 );
+% image_path = '../data/subImage_test';
+% im1 = DPImage('tom','14');
+% im46048 = DPImage('real',strcat(image_path,'/46048.tif'));
+% Display.display_soma_points(im46048);
+%Display.display_soma_points(im1);
 
 
 % setA = Pipeline.import_dp('ids',[],'class','all','setnum',2,'test',-1);

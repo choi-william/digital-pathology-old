@@ -3,6 +3,7 @@ clear;
 
 addpath(genpath('library'));
 addpath common;
+addpath ../src;
 
 %initialize config
 global config;

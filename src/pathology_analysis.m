@@ -1,16 +1,15 @@
-function [] = pathology_analysis()
+function [] = pathology_analysis(analysis_type)
 %INTERFACE Summary of this function goes here
 %   Detailed explanation goes here
     
-    %resultsPath = '../results';
-    
     [f,p] = uigetfile('*.svs','Select the .svs image file');
     imagePath = strcat(p,f);
+    global out_path;
     out_path = uigetdir('','Choose output data destination');
     
     ROI.roi_finder( imagePath, out_path );
-
-    filePath = strcat([resultsPath , '/DP_Slide.mat']);
+    
+    filePath = strcat([out_path , '/DP_Slide.mat']);
     load(filePath);
     
     sizeDPslide = size(DPslide,2);
@@ -61,9 +60,9 @@ function [] = pathology_analysis()
         end
 
         if (slide(linInd) == 1)
-            filename = [resultsPath '/BlockImg' '/' num2str(linInd) '.tif'];            
+            filename = [out_path '/BlockImg' '/' num2str(linInd) '.tif'];            
             im = DPImage('real',filename);
-            [cell_count, average_fractal] = block_analysis( im, 0 );
+            [cell_count, average_fractal] = block_analysis( im, analysis_type, 0 );
             outputData1(linInd) = cell_count;
             outputData2(linInd) = average_fractal;
             
@@ -78,7 +77,8 @@ function [] = pathology_analysis()
     outputData2 = reshape(outputData2,[numrows, numcols]);
     
     %path hardcoded at the moment TODO
-    save('../results/visualization.mat','outputData1','outputData2');
+    vis_path = strcat([out_path , '/visualization.mat']);
+    save(vis_path,'outputData1','outputData2');
     
     imagesc(outputData1);
     title('cell count');

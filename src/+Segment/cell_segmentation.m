@@ -19,10 +19,6 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
         set(hFig,'menubar','none')
         set(hFig,'NumberTitle','off');
         
-        
-        
-        
-        
         tit = suptitle('Microglia Analysis');
         
         P = get(tit,'Position');
@@ -37,7 +33,6 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
         subplot(6,9,[41,51]), imshow(placeholder), title('Final Binarized Image');
         subplot(6,9,[34,54]), imshow(placeholder);
         subplot(6,9,[7,27]), imshow(placeholder);
-
     end 
     
     %Colour all blue;

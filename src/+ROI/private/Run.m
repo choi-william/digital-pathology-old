@@ -4,7 +4,7 @@
 %   Amir Refaee
 %   Lap-Tak Chu
 
-close all; clear; clc  %#ok<*UNRCH>
+clear; clc  %#ok<*UNRCH>
 
 global TRAIN_PATH TEST_PATH  RESULTS_PATH; 
 
@@ -18,6 +18,9 @@ end
                                            128, 128, 1);
 
 %feature Selection and pre-processing
+
+%TRAINING DATA FEATURE EXTRACTION - ALREADY DONE (NEEDS TO BE RUN AGAIN FOR
+%(256x256) blocks
 processSlides = false;
 if (processSlides)
     for i=1:NumSVSslides
@@ -26,6 +29,7 @@ if (processSlides)
     %SaveFigures('/Train Slide Process');
 end
 
+%TEST DATA FEATURE EXTRACTION
 processTestSlides = true;
 if (processTestSlides)
     brain_slide_process_test;
@@ -37,11 +41,14 @@ end
 isTesting = true;
 isTrained = false;
 if isTesting
+    
+    %CREATE THE CLASSIFIER
     if ~isTrained
         brain_slide_train_test;
         isTrained = false; SaveResultsTesting;  %#ok<NASGU>
     end
     
+    %CLASSIFIES THE TEST DATA
     brain_slide_classify_test;
     isTrained = true; SaveResultsTesting;
     %SaveMatFiles('test');
@@ -58,5 +65,7 @@ end
 %make interface
 isInterfacing = true;
 if isInterfacing
+    
+    %CREATES DIRECTORY STRUCTURE
     InterfaceOutput;
 end
