@@ -91,19 +91,19 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         end
     end
     
-    % In the event that centroid is not in the component
-    if filtered == 0
-        stat = regionprops(bwNewQuantIm,'centroid');
-        centroidList = cat(1,stat.Centroid);
-        distList = zeros(1,size(centroidList,1));
-        for i=1:size(centroidList,1)
-            distList(i) = Helper.CalcDistance(centroidList(i,:),centroid);
-        end
-        minDist = find(distList == min(distList),1);
-        tempIm = ones(size(newQuantIm));
-        tempIm(comp.PixelIdxList{minDist}) = 0;
-        newQuantIm(logical(tempIm)) = 0;
-    end
+    %In the event that centroid is not in the component
+%     if filtered == 0
+%         stat = regionprops(bwNewQuantIm,'centroid');
+%         centroidList = cat(1,stat.Centroid);
+%         distList = zeros(1,size(centroidList,1));
+%         for i=1:size(centroidList,1)
+%             distList(i) = Helper.CalcDistance(centroidList(i,:),centroid);
+%         end
+%         minDist = find(distList == min(distList),1);
+%         tempIm = ones(size(newQuantIm));
+%         tempIm(comp.PixelIdxList{minDist}) = 0;
+%         newQuantIm(logical(tempIm)) = 0;
+%     end
     
     % SEED SAMPLING at each quantized level
     seedIm = zeros(size(cellIm));

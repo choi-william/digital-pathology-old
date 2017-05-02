@@ -18,9 +18,12 @@ function [ output_args ] = visualize_slide( vis_type )
     bg = find(a==-2);
     gm = find(a==-1);
 
-    maxval = max(a(:)); %find maximum intensity
+    owm = a(a>=0);
+    maxval = max(owm(:)); %find maximum intensity
+    minval = min(owm(:)); %find maximum intensity
+
     map = colormap; %get current colormap (usually this will be the default one)
-    a = floor((a+2)./(maxval+2)*length(map));
+    a = floor((a-minval)./(maxval-minval)*length(map));
     a_copy=ind2rgb(a, map);
 
     [xbg, ybg] = ind2sub(size(a_copy),bg);

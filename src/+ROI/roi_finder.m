@@ -12,7 +12,7 @@ function [] = roi_finder( svs_path, analysis_output_path )
     
     Run;
     
-    clear all;
+    clear;
     close all;
 end
 

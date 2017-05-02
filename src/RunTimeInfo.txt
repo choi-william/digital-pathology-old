@@ -1,8 +1,8 @@
-../data/slides/SlidesTrainBright/
-/Users/WilliamChoi/Desktop/ENPH459/digital-pathology/data/20170426-1319
-0
-/Users/WilliamChoi/Desktop/ENPH459/digital-pathology/data/B6-70275-Iba1.svs
-128
-128
+../data/slides/AlexBright256/
+C:\Users\alexkyriazis\Documents\digital-pathology\256x256_2/20170501-1420
+11
+C:\Users\alexkyriazis\Documents\digital-pathology\data\slides\SlidesTest\B6-70275-Iba1.svs
+256
+256
 1
 0

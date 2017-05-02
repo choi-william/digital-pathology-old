@@ -1,10 +1,16 @@
 
 run('init.m');
-% pathology_analysis();
-im1 = DPImage('tom','23');
-[cell_count, average_fractal] = block_analysis( im1, 0, 1 );
+% global dataPath;
+ im1 = DPImage('real',[dataPath '/subImage_test' '/11592.tif']);
+ %Display.display_soma_points(im1);
+ 
+ Display.display_stages(im1);
+
+%pathology_analysis(0);
+
+
 % image_path = '../data/subImage_test';
-% im1 = DPImage('tom','14');
+% im1 = c ('tom','14');
 % im46048 = DPImage('real',strcat(image_path,'/46048.tif'));
 % Display.display_soma_points(im46048);
 %Display.display_soma_points(im1);

@@ -14,7 +14,7 @@ function [] = pathology_analysis(analysis_type)
     
     sizeDPslide = size(DPslide,2);
     
-    blockSize = 128; % size of each image subblock, change to 128 when new data is available
+    blockSize = 256; % size of each image subblock, change to 128 when new data is available
     
     topleft = DPslide(1).Pos{1};
     bottomright = DPslide(sizeDPslide).Pos{2};
@@ -31,6 +31,7 @@ function [] = pathology_analysis(analysis_type)
     status = zeros(numrows*numcols,1);
 
     parpool;
+    
 
     %necessary for displaying count due to parallel nature
     b = 0;
@@ -40,8 +41,8 @@ function [] = pathology_analysis(analysis_type)
             status(linInd) = b;
         end
     end
-    total = sum(status~=0);
-
+    total = sum(status~=0)
+    
     tic
     parfor linInd=1:(numcols*numrows)   
         %j = ceil(linInd/numcols);

@@ -1,6 +1,6 @@
 function [ good ] = predict_valid(conv,class,cell,type)
-        good = 1; 
-        return;
+        good = 1;
+        %return;
         %TODO MAKE CLASSIFIER FORMAT CONSISTENT
         if type == 1        
             testFeatures = activations(conv, imresize(cell.cnnBox, [227 227]), 'conv5', ...
