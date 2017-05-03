@@ -1,8 +1,10 @@
 
 run('init.m');
-% pathology_analysis();
-im1 = DPImage('tom','23');
-[cell_count, average_fractal] = block_analysis( im1, 0, 1 );
+run_all_files(0);
+% pathology_analysis(0);
+% im1 = DPImage('tom','23');
+% [cell_count, average_fractal] = block_analysis( im1, 0, 1 );
+
 % image_path = '../data/subImage_test';
 % im1 = DPImage('tom','14');
 % im46048 = DPImage('real',strcat(image_path,'/46048.tif'));

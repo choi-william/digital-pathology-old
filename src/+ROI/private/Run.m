@@ -8,14 +8,14 @@ clear; clc  %#ok<*UNRCH>
 
 global TRAIN_PATH TEST_PATH  RESULTS_PATH; 
 
-TRAIN_PATH   = '../data/slides/SlidesTrainBright/';
+TRAIN_PATH   = '../data/slides/AlexBright256/';
 
 
 if exist('RunTimeInfo.txt', 'file')
         [oldPath,~] = RunTimeInformation([],[],'r',0,0,0);
 end
 [~, NumSVSslides, ~] = RunTimeInformation(TRAIN_PATH,TEST_PATH,'w',...
-                                           128, 128, 1);
+                                           256, 256, 1);
 
 %feature Selection and pre-processing
 

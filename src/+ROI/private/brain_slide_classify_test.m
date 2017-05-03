@@ -37,7 +37,7 @@ NBC_DistributionNames = 'kernel'; % distribution type ('normal', 'kernel', 'mn',
 [fpath, ~, ~, testPath,~,~,~,~] = RunTimeInformation([],[],'r',0,0,0);
 SLIDE_DIR = testPath;
 POSTFIX_MAT = ['_brain_demo.mat'];
-POSTFIX_SVS = '.tif';
+POSTFIX_SVS = '.svs';
 POSTFIX_XML = '.xml';
 
 

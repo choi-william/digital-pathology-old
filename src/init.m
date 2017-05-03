@@ -13,5 +13,8 @@ config.ReadFile('../config.ini');
 global dataPath;
 dataPath = GetFullPath('../data');
 
+global srcPath;
+srcPath = GetFullPath('../src');
+
 %suppress warnings
 warning('off','images:initSize:adjustingMag')
