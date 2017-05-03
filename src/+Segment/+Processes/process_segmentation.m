@@ -91,7 +91,8 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
         end
     end
     
-%     % In the event that centroid is not in the component
+
+    %In the event that centroid is not in the component
 %     if filtered == 0
 %         stat = regionprops(bwNewQuantIm,'centroid');
 %         centroidList = cat(1,stat.Centroid);
@@ -102,7 +103,6 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 %         minDist = find(distList == min(distList),1);
 %         tempIm = ones(size(newQuantIm));
 %         tempIm(comp.PixelIdxList{minDist}) = 0;
-%         
 %         newQuantIm(logical(tempIm)) = 0;
 %     end
     

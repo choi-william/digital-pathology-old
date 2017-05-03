@@ -38,6 +38,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     status = zeros(numrows*numcols,1);
 
     parpool;
+    
 
     %necessary for displaying count due to parallel nature
     b = 0;
@@ -47,8 +48,8 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
             status(linInd) = b;
         end
     end
-    total = sum(status~=0);
-
+    total = sum(status~=0)
+    
     tic
     parfor linInd=1:(numcols*numrows)   
         %j = ceil(linInd/numcols);
