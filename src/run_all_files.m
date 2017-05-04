@@ -15,7 +15,7 @@ function [ output_args ] = run_all_files( analysis_type )
     for i=1:size(imageList,1)
         saveDir = strcat(outPath,'/',imageList(i).name);
         mkdir(saveDir);
-        pathology_analysis(analysis_type, strcat(imageList(i).folder,imageList(i).name), saveDir);
+        pathology_analysis(analysis_type, strcat(imageList(i).folder,'/',imageList(i).name), saveDir);
     end
 
 end
