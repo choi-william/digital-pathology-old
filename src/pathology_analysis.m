@@ -1,11 +1,18 @@
-function [] = pathology_analysis(analysis_type)
+function [] = pathology_analysis(analysis_type, imagePath, outPath)
 %INTERFACE Summary of this function goes here
 %   Detailed explanation goes here
     
-    [f,p] = uigetfile({'*.svs';'*.tif'},'Select the slide image file');
-    imagePath = strcat(p,f);
+    if(isempty(imagePath))
+        [f,p] = uigetfile({'*.svs';'*.tif'},'Select the slide image file');
+        imagePath = strcat(p,f);
+    end
+
     global out_path;
-    out_path = uigetdir('','Choose output data destination');
+    if(isempty(outPath))
+        out_path = uigetdir('','Choose output data destination');
+    else
+        out_path = outPath;
+    end
     
     ROI.roi_finder( imagePath, out_path );
     
@@ -52,7 +59,7 @@ function [] = pathology_analysis(analysis_type)
 
         if slide(linInd) == -99
             outputData1(linInd) = -2;
-            outputData2(linInd) = -2
+            outputData2(linInd) = -2;
         end
 
         if slide(linInd) == 0

@@ -6,10 +6,14 @@ run('init.m');
 % im1 = DPImage('real',[dataPath '/subImage_test' '/11476.tif']);
 % im2 = DPImage('real',[dataPath '/subImage_test' '/20685.tif']);
 % im3 = DPImage('real',[dataPath '/subImage_test' '/14613.tif']);
-% 
+
 % Display.display_stages(im1);
 % Display.display_stages(im2);
 % Display.display_stages(im3);
+
+
+%DONT WORRY ABOUT THIS
+%run_all_files(0);
 
 
 %%% IF YOU WANT TO RUN THE FULL ANALYSIS ON AN .SVS or .TIF IMAGE

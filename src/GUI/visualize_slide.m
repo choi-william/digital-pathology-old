@@ -17,8 +17,9 @@ function [ output_args ] = visualize_slide( vis_type )
 
     bg = find(a==-2);
     gm = find(a==-1);
-
+    
     owm = a(a>=0);
+
     maxval = max(owm(:)); %find maximum intensity
     minval = min(owm(:)); %find maximum intensity
 
