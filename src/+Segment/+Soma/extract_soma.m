@@ -81,7 +81,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
     % Load classifier
 
-    file = load('+ML/classifier3.mat');
+    file = load('+ML/classifier4.mat');
     classifier = file.classifier;
 
     % Load MatConvNet network into a SeriesNetwork
@@ -97,9 +97,18 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         for j=1:size(prepared,2)
             dpcell = prepared{j};
             
+            
             if (predict_valid(convnet,classifier,dpcell,1))
                 list{end+1} = dpcell;
             end
+            
+            
+%             if (predict_valid(convnet,classifier,dpcell,1))
+%                 dpcell.isFalsePositive = 1;
+%             end
+%             
+%             list{end+1} = dpcell;
+
         end
     end    
     dp = dpimage;

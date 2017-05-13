@@ -2,7 +2,7 @@ function [] = pathology_analysis(analysis_type)
 %INTERFACE Summary of this function goes here
 %   Detailed explanation goes here
     
-    [f,p] = uigetfile('*.svs','Select the .svs image file');
+    [f,p] = uigetfile({'*.svs';'*.tif'},'Select the slide image file');
     imagePath = strcat(p,f);
     global out_path;
     out_path = uigetdir('','Choose output data destination');

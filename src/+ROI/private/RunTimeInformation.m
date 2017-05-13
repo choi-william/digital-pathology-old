@@ -30,14 +30,14 @@ function [fpath, NumSVSslides, trainDirectory, testDirectory, Blk_X, Blk_Y, scl,
         
         fpath = strcat(RESULTS_PATH,datestr(datetime('now'),'yyyymmdd-hhMM'));
         
-        D = dir([trainDirectory, '\*.svs']);
+        D = [dir([trainDirectory, '\*.svs']); dir([trainDirectory, '\*.tif']);]
         NumSVSslides = length(D(not([D.isdir])));
         if (NumSVSslides == 0)
             D = dir([trainDirectory, '\*.mat']);
             NumSVSslides = length(D(not([D.isdir])));
         end
         
-        E = dir([testDirectory, '\*.svs']);
+        E = [dir([trainDirectory, '\*.svs']); dir([trainDirectory, '\*.tif']);]
         NumTestSlides = length(E(not([E.isdir])));
         if (NumTestSlides == 0)
             E = dir([testDirectory, '\*.mat']);

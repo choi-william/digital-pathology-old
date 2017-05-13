@@ -1,9 +1,9 @@
 %function DeepLearningImageClassificationExample
+    out_path = uigetdir(dataPath,'Choose training folder');
 
-    rootFolder = fullfile('C:\Users\alexkyriazis\Documents\digital-pathology\data\test_data6');
     categories = {'falsePositives', 'truePositives'};
     
-    imds = imageDatastore(fullfile(rootFolder, categories), 'LabelSource', 'foldernames');
+    imds = imageDatastore(fullfile(out_path, categories), 'LabelSource', 'foldernames');
     
     tbl = countEachLabel(imds);
     
@@ -54,7 +54,7 @@
 %     montage(w1)
 %     title('First convolutional layer weights')
     
-    featureLayer = 'conv5';
+    featureLayer = 'conv1';
     trainingFeatures = activations(convnet, trainingSet, featureLayer, ...
         'MiniBatchSize', 32, 'OutputAs', 'rows');
     
@@ -65,10 +65,10 @@
     % 'ObservationsIn' to 'columns' to match the arrangement used for training
     % features.
     
-    classifier = fitcecoc(trainingFeatures, trainingLabels, ...
-        'Learners', 'Linear', 'Coding', 'onevsall', 'ObservationsIn', 'rows');
-    %classifier = fitensemble(trainingFeatures',trainingLabels,'AdaBoostM1',100,'tree');
-
+    %classifier = fitcecoc(trainingFeatures, trainingLabels, ...
+    %    'Learners', 'Linear', 'Coding', 'onevsall', 'ObservationsIn', 'rows');
+    %classifier = fitensemble(trainingFeatures,trainingLabels,'AdaBoostM1',100,'tree', 'ObservationsIn', 'rows');
+    classifier = TreeBagger(100,trainingFeatures,trainingLabels,'oobpred','on','minleaf',1)
     % Extract test features using the CNN
     testFeatures = activations(convnet, testSet, featureLayer, ...
         'MiniBatchSize',32, 'OutputAs', 'rows');

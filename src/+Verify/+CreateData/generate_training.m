@@ -1,10 +1,7 @@
-box_length = 25;
+box_side = 20;
 
 global dataPath;
-out_path = uigetdir(dataPath,'Choose data folder');
-
-mkdir(out_path, 'test_data6');
-out_path = strcat(out_path, '/test_data6');
+out_path = uigetdir(dataPath,'Choose output folder');
 
 tp_class = 'truePositives';
 fp_class = 'falsePositives';
@@ -32,10 +29,10 @@ for i=1:size(dps,1)
         W = size(dpim.image,2);
         H = size(dpim.image,1);
 
-        L = cent(1) - box_length;
-        R = cent(1) + box_length;
-        T = cent(2) - box_length;
-        B = cent(2) + box_length;
+        L = cent(1) - box_side/2;
+        R = cent(1) + box_side/2;
+        T = cent(2) - box_side/2;
+        B = cent(2) + box_side/2;
 
         ex = max([-L+1 -T+1 R-W B-H]);
         if (ex > 0)
@@ -49,6 +46,10 @@ for i=1:size(dps,1)
         newim = imcrop(dpim.image,[[L,T],R-L, B-T]);   
         image_name = strcat(num2str(count),'.tif');
         count = count+1;
+        
+        newim = rgb2gray(newim);
+        
+        newim = imadjust(newim,[0; mean(newim(:))/255],[0; 1]);
         
         if (cells(j,1) == 1)
             imwrite(newim,strcat(path_tp,'/',image_name));

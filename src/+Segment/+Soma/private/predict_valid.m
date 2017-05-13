@@ -2,8 +2,18 @@ function [ good ] = predict_valid(conv,class,cell,type)
         good = 1;
         %return;
         %TODO MAKE CLASSIFIER FORMAT CONSISTENT
+        
+        
+        
         if type == 1        
-            testFeatures = activations(conv, imresize(cell.cnnBox, [227 227]), 'conv5', ...
+            
+            I = cell.cnnBox;
+            if ismatrix(I)
+                I = cat(3,I,I,I);
+            end
+            I = imresize(I, [227 227]);
+            
+            testFeatures = activations(conv, I, 'conv5', ...
                 'MiniBatchSize',32);
             lab = predict(class, testFeatures);
             
