@@ -102,7 +102,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
                 list{end+1} = dpcell;
             end
             
-            
+% IF THIS STEP SHOULD BE VISUALIZED            
 %             if (predict_valid(convnet,classifier,dpcell,1))
 %                 dpcell.isFalsePositive = 1;
 %             end

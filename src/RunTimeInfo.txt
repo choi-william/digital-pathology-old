@@ -1,0 +1,8 @@
+../data/slides/AlexBright256/
+C:\Users\alexkyriazis\Documents\digital-pathology\256x256_4/20170513-1102
+11
+C:\Users\alexkyriazis\Documents\digital-pathology\data\slides\SlidesTest\B6-70275-Iba1.svs
+256
+256
+1
+0

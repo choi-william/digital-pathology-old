@@ -2,13 +2,13 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
 %INTERFACE Summary of this function goes here
 %   Detailed explanation goes here
     
-    if(isempty(imagePath))
+    if(~exist('imagePath','var'))
         [f,p] = uigetfile({'*.svs';'*.tif'},'Select the slide image file');
         imagePath = strcat(p,f);
     end
 
     global out_path;
-    if(isempty(outPath))
+    if(~exist('outPath','var'))
         out_path = uigetdir('','Choose output data destination');
     else
         out_path = outPath;
