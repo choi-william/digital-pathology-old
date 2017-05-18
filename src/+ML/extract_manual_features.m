@@ -42,6 +42,10 @@ function [ features ] = extract_manual_features( im )
                 flag = false;
                 break;
             end
+            if (any(isnan(point)))
+                flag = false;
+                break;
+            end
             if (binIm(point(1),point(2)) == 1)
                 flag = false;
                 break;

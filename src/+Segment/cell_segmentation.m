@@ -5,9 +5,11 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
 %
 
     if (nargin == 1) visual = 0; end
+    
+    thresh = (dpimage.avInt*0.3+25)/100;
 
     % Soma Segmentation
-    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 0, 0.75, 100);
+    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 0, thresh, 100);
     
     length = size(cell_list,2);
 

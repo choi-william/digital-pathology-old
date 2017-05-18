@@ -24,8 +24,9 @@ function [soma] = cnnTrainBox( soma )
     newim = imcrop(soma.referenceDPImage.image,[[L,T],R-L, B-T]);
     %newim = rgb2gray(newim);
     newim = newim(:,:,3);
-    newim = imadjust(newim,[0; mean(newim(:))/255],[0; 1]);
-    
+    if (mean(newim(:))~=0)
+        newim = imadjust(newim,[0; mean(newim(:))/255],[0; 1]);
+    end
     soma.cnnBox = newim;   
     
 end

@@ -1,4 +1,4 @@
-function [ output_args ] = analyze( dp )
+function [ output_args ] = analyze( dp,id_param )
     somaList = Segment.Soma.extract_soma(dp, 0, 0.8, 100);
     length = size(somaList,2);
     
@@ -8,7 +8,7 @@ function [ output_args ] = analyze( dp )
     
     %brings in 'data'
     data=[];
-    load('+Verify/+CreateData/classification_data.mat');
+    load('+Verify/+CreateData/classification_data_asma.mat');
     
     global P;
     P = [];
@@ -22,10 +22,6 @@ function [ output_args ] = analyze( dp )
     btn = uicontrol('Style', 'pushbutton', 'String', 'Save',...
         'Callback', @savePoints, 'HorizontalAlignment','center');
     
-    h = zeros(2, 1);
-    h(1) = plot(NaN,NaN,'cyan','MarkerSize',20);
-    h(2) = plot(NaN,NaN,'green','MarkerSize',20);
-    legend(h, 'regular','clump');
     
     fprintf('Image %s\n',dp.filename);
     
@@ -33,12 +29,12 @@ function [ output_args ] = analyze( dp )
         
         for j=1:size(P,1)
             if P(j,3) == 1 || P(j,3) == -1
-               data = [data; P(j,3) dp.id P(j,1) P(j,2)];  
+               data = [data; P(j,3) id_param P(j,1) P(j,2)];  
             end
         end
         
         close all;
-        save('+Verify/+CreateData/classification_data.mat','data');
+        save('+Verify/+CreateData/classification_data_asma.mat','data');
     end
     
     function clickPoint (objectHandle , eventData )

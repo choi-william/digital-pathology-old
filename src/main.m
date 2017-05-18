@@ -2,19 +2,19 @@
 run('init.m');
 
 
-%asma images
-im1 = DPImage('real',[dataPath '\subImage_test' '\807.tif']);
-im2 = DPImage('real',[dataPath '\subImage_test' '\692.tif']);
-im3 = DPImage('real',[dataPath '\subImage_test' '\1457.tif']);
+% %asma images
+% im1 = DPImage('real',[dataPath '\subImage_test' '\1250.tif']);
+% im2 = DPImage('real',[dataPath '\subImage_test' '\948.tif']);
+% im3 = DPImage('real',[dataPath '\subImage_test' '\912.tif']);
 
-%rachel images
-im4 = DPImage('real',[dataPath '\subImage_test' '\11476.tif']);
-im5 = DPImage('real',[dataPath '\subImage_test' '\14613.tif']);
-im6 = DPImage('real',[dataPath '\subImage_test' '\5623.tif']);
-
-Display.display_stages(im4);
-Display.display_stages(im5);
-Display.display_stages(im6);
+% %rachel images
+% im4 = DPImage('real',[dataPath '\subImage_test' '\11476.tif']);
+% im5 = DPImage('real',[dataPath '\subImage_test' '\14613.tif']);
+% im6 = DPImage('real',[dataPath '\subImage_test' '\5623.tif']);
+% 
+% Display.display_stages(im1);
+% Display.display_stages(im2);
+% Display.display_stages(im3);
 
 
 %DONT WORRY ABOUT THIS
@@ -22,7 +22,7 @@ Display.display_stages(im6);
 
 
 %%% IF YOU WANT TO RUN THE FULL ANALYSIS ON AN .SVS or .TIF IMAGE
-%pathology_analysis(0);
+pathology_analysis(0);
 
 
 %steps to running:

@@ -84,7 +84,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
     % Load classifier
 
-    file = load('+ML/classifier5.mat');
+    file = load('+ML/classifier_asma.mat');
     classifier = file.classifier;
 
     list = {};
@@ -102,8 +102,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 %             if (~predict_valid(classifier,dpcell))
 %                 dpcell.isFalsePositive = 1;
 %             end
-            
-            list{end+1} = dpcell;
+%             list{end+1} = dpcell;
 
         end
     end    

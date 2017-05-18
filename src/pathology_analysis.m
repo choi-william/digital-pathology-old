@@ -14,7 +14,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
         out_path = outPath;
     end
     
-    ROI.roi_finder( imagePath, out_path );
+    %ROI.roi_finder( imagePath, out_path );
     
     filePath = strcat([out_path , '/DP_Slide.mat']);
     load(filePath);
