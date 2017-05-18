@@ -51,6 +51,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     total = sum(status~=0)
     
     tic
+    brainSlide = imread(imagePath);
     parfor linInd=1:(numcols*numrows)   
         %j = ceil(linInd/numcols);
         %i = mod(linInd-1,numcol)+1;
@@ -68,8 +69,11 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
         end
 
         if (slide(linInd) == 1)
-            filename = [out_path '/BlockImg' '/' num2str(linInd) '.tif'];            
-            im = DPImage('real',filename);
+%             filename = [out_path '/BlockImg' '/' num2str(linInd) '.tif'];
+%             im=DPImage('real',filename);
+            im = DPImage('notAFile');
+            im.image = imcrop(brainSlide,[DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{1}(2),... 
+                DPslide(linInd).Pos{2}(1)-DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{2}(2)-DPslide(linInd).Pos{1}(2)]);
             [cell_count, average_fractal] = block_analysis( im, analysis_type, 0 );
             outputData1(linInd) = cell_count;
             outputData2(linInd) = average_fractal;
