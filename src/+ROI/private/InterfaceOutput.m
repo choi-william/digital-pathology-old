@@ -24,10 +24,10 @@ for slide_idx = 1:length(Slide)
 
     slidePath = interfacePath;
     
-    imgPath = strcat(slidePath,'/BlockImg');
-    if ~exist(imgPath, 'dir')
-        mkdir(imgPath);
-    end
+%     imgPath = strcat(slidePath,'/BlockImg');
+%     if ~exist(imgPath, 'dir')
+%         mkdir(imgPath);
+%     end
     blk_num = length(Slide{slide_idx}.blk_label);
     
     DPslide(blk_num) = struct(); DPslide(blk_num).Id = blk_num; %#ok<*SAGROW>
@@ -66,8 +66,8 @@ for slide_idx = 1:length(Slide)
         if (DPslide(blk_idx).Label ~= INVALID_BLK) && (DPslide(blk_idx).Label ~= GRAY_MATTER)
             blkCols = [Slide{slide_idx}.blk_ulc_x(y,x) , Slide{slide_idx}.blk_brc_x(y,x)]; 
             blkRows = [Slide{slide_idx}.blk_ulc_y(y,x) , Slide{slide_idx}.blk_brc_y(y,x)];
-            blk = imread(Slide{slide_idx}.ImgFile,'Index',scale_indx,'PixelRegion',{blkRows,blkCols});
-            imwrite(blk,[imgPath,'/',num2str(DPslide(blk_idx).Id),'.tif']);
+%             blk = imread(Slide{slide_idx}.ImgFile,'Index',scale_indx,'PixelRegion',{blkRows,blkCols});
+%             imwrite(blk,[imgPath,'/',num2str(DPslide(blk_idx).Id),'.tif']);
         end
         
         DPslide(blk_idx).SlideId = slide_idx;
