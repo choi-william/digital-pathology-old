@@ -94,15 +94,15 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         prepared = prepare_soma(DPCell([col,row],dpimage)); 
         for j=1:size(prepared,2)
             dpcell = prepared{j};            
-%             if (predict_valid(classifier,dpcell))
-%                 list{end+1} = dpcell;
-%             end
-            
-            %UNCOMMENT IF THIS STEP SHOULD BE VISUALIZED            
-            if (~predict_valid(classifier,dpcell))
-                dpcell.isFalsePositive = 1;
+            if (predict_valid(classifier,dpcell))
+                list{end+1} = dpcell;
             end
-            list{end+1} = dpcell;
+            
+%             %UNCOMMENT IF THIS STEP SHOULD BE VISUALIZED            
+%             if (~predict_valid(classifier,dpcell))
+%                 dpcell.isFalsePositive = 1;
+%             end
+%             list{end+1} = dpcell;
 
         end
     end    
