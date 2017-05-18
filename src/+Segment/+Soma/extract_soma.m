@@ -9,7 +9,9 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         %   Detailed explanation goes here
 
         % converting image to grayscale
-        grayIm = rgb2gray(dpimage.image);
+        %grayIm = rgb2gray(dpimage.image);
+        grayIm = dpimage.image;
+        grayIm = grayIm(:,:,3);
         %grayIm = imadjust(grayIm);
         %adjusted = imadjust(grayIm,[0; 0.5],[0; 1]);
         %adjusted = imsharpen(adjusted);
@@ -59,6 +61,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         subplot(2,2,2), imshow(mumfordIm);
         subplot(2,2,3), imshow(bwIm);
         subplot(2,2,4), imshow(finalIm);
+        
     elseif alg == 2
         
         grayIm = rgb2gray(dpimage.image);
@@ -81,25 +84,27 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
     % Load classifier
 
-    file = load('+ML/classifier3.mat');
+    file = load('+ML/classifier5.mat');
     classifier = file.classifier;
 
-    % Load MatConvNet network into a SeriesNetwork
-    cnnMatFile = '+ML/imagenet-caffe-alex.mat';
-    convnet = helperImportMatConvNet(cnnMatFile);
-        
-    
     list = {};
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i});
         
         prepared = prepare_soma(DPCell([col,row],dpimage)); 
         for j=1:size(prepared,2)
-            dpcell = prepared{j};
-            
-            if (predict_valid(convnet,classifier,dpcell,1))
+            dpcell = prepared{j};            
+            if (predict_valid(classifier,dpcell))
                 list{end+1} = dpcell;
             end
+            
+%             %UNCOMMENT IF THIS STEP SHOULD BE VISUALIZED            
+%             if (~predict_valid(classifier,dpcell))
+%                 dpcell.isFalsePositive = 1;
+%             end
+            
+            list{end+1} = dpcell;
+
         end
     end    
     dp = dpimage;

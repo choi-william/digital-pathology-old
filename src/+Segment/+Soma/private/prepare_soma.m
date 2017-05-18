@@ -3,7 +3,7 @@ function [dpsomas ] = prepare_soma( dpsoma )
 
         flag = 0;
         
-        MIN_CLUMP_AREA = 1500;
+        MIN_CLUMP_AREA = 1000;
 
         dpsoma = somaBoundBox(dpsoma,0); %adds box properties to the soma
 

@@ -17,6 +17,9 @@ classdef DPImage
         testPoints = 0;
         roiMask = 0;
         
+        %average intensity
+        avInt = 0;
+        
         %soma
         preThresh = 0;
         somaMask;
@@ -99,10 +102,20 @@ classdef DPImage
                    end
                 end
 
-                %TODO - devise a way to import metadata... As of now, the best
-                %way I can think of doing this is by having a map file in the
-                %data folder that contains all the metadata that the image
-                %cannot directly have.
+            obj.filename = filename;
+            obj.filepath = imPath;
+            obj.image = imread(imPath);
+            obj.image = obj.image(:,:,1:3);
+            
+            blue = obj.image(:,:,3);
+            obj.avInt = mean(blue(:));
+            
+            if (size(obj.image,2) > size(obj.image,1))
+               obj.image = permute(obj.image, [2 1 3]);
+               obj.roiMask = obj.roiMask';
+               if (size(obj.testPoints,2) == 2)
+                  obj.testPoints = [obj.testPoints(:,2), obj.testPoints(:,1)]; 
+               end
             end
         end
     end

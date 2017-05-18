@@ -15,7 +15,6 @@ function [ flag, somas ] = resolve_clump( dpcell )
 %     imshow(forshow);
 %     
 
-    
     Iobrcbr = imadjust(Iobrcbr);
     adjusted = imadjust(Iobrcbr,[0; 0.2],[0; 1]);
     out = imregionalmin(adjusted);
@@ -32,8 +31,8 @@ function [ flag, somas ] = resolve_clump( dpcell )
     for i=1:comp.NumObjects
         [row,col] = ind2sub(comp.ImageSize,comp.PixelIdxList{i}); 
         
-        row = row + dpcell.TL(2); %convert to image coordinates
-        col = col + dpcell.TL(1); %convert to image coordinates
+        row = row + dpcell.TL(2)-1; %convert to image coordinates
+        col = col + dpcell.TL(1)-1; %convert to image coordinates
 
         if (size(row,1) < 100)
            continue;  %too small- discard
@@ -45,10 +44,9 @@ function [ flag, somas ] = resolve_clump( dpcell )
         if (good == 0)
            continue; %not part of original soma
         end
-
+        
         soma = DPCell([col,row],dpcell.referenceDPImage);
         
-
         soma.isClump = 1;
         soma = prepare_soma(soma);
         somas{end+1} = soma{1};
