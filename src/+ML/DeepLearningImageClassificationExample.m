@@ -65,10 +65,10 @@
     % 'ObservationsIn' to 'columns' to match the arrangement used for training
     % features.
     
-    %classifier = fitcecoc(trainingFeatures, trainingLabels, ...
-    %    'Learners', 'Linear', 'Coding', 'onevsall', 'ObservationsIn', 'rows');
+    classifier = fitcecoc(trainingFeatures, trainingLabels, ...
+        'Learners', 'Linear', 'Coding', 'onevsall', 'ObservationsIn', 'rows');
     %classifier = fitensemble(trainingFeatures,trainingLabels,'AdaBoostM1',100,'tree', 'ObservationsIn', 'rows');
-    classifier = TreeBagger(100,trainingFeatures,trainingLabels,'oobpred','on','minleaf',1)
+    %classifier = TreeBagger(100,trainingFeatures,trainingLabels,'oobpred','on','minleaf',1)
     % Extract test features using the CNN
     testFeatures = activations(convnet, testSet, featureLayer, ...
         'MiniBatchSize',32, 'OutputAs', 'rows');

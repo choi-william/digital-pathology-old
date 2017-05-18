@@ -24,7 +24,7 @@ function [] = classification_trainer()
     for j=1:size(training,2)
         obj = training{j};
         trainingLabels{end+1,1} = obj.classification;
-        trainingFeatures = [trainingFeatures; double(obj.area) double(obj.thresh) double(obj.circularity)];
+        trainingFeatures = [trainingFeatures; double(obj.circularity)]; %not correct
     end
     trainingLabels = categorical(trainingLabels);
     

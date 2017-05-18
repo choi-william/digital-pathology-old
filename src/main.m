@@ -1,15 +1,20 @@
 
 run('init.m');
 
-%%% IF YOU WANT TO TEST A PARTICULAR BLOCK THAT YOU SAVED FROM THE
-%%% VISUALIZATION STEP
-% im1 = DPImage('real',[dataPath '/subImage_test' '/11476.tif']);
-% im2 = DPImage('real',[dataPath '/subImage_test' '/20685.tif']);
-% im3 = DPImage('real',[dataPath '/subImage_test' '/14613.tif']);
 
-% Display.display_stages(im1);
-% Display.display_stages(im2);
-% Display.display_stages(im3);
+%asma images
+im1 = DPImage('real',[dataPath '\subImage_test' '\807.tif']);
+im2 = DPImage('real',[dataPath '\subImage_test' '\692.tif']);
+im3 = DPImage('real',[dataPath '\subImage_test' '\1457.tif']);
+
+%rachel images
+im4 = DPImage('real',[dataPath '\subImage_test' '\11476.tif']);
+im5 = DPImage('real',[dataPath '\subImage_test' '\14613.tif']);
+im6 = DPImage('real',[dataPath '\subImage_test' '\5623.tif']);
+
+Display.display_stages(im4);
+Display.display_stages(im5);
+Display.display_stages(im6);
 
 
 %DONT WORRY ABOUT THIS
@@ -17,7 +22,7 @@ run('init.m');
 
 
 %%% IF YOU WANT TO RUN THE FULL ANALYSIS ON AN .SVS or .TIF IMAGE
-pathology_analysis(0);
+%pathology_analysis(0);
 
 
 %steps to running:

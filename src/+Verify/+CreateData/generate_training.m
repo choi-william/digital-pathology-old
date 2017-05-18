@@ -47,7 +47,8 @@ for i=1:size(dps,1)
         image_name = strcat(num2str(count),'.tif');
         count = count+1;
         
-        newim = rgb2gray(newim);
+        newim = newim(:,:,3);
+        %newim = rgb2gray(newim);
         
         newim = imadjust(newim,[0; mean(newim(:))/255],[0; 1]);
         

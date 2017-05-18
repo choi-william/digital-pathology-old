@@ -4,7 +4,7 @@ function [ output_args ] = visualize_slide( vis_type )
 %   vis_type = 2 cell morphology
     global out_path;
     if (isempty(out_path))
-        out_path = '../../data';
+        out_path = uigetdir('','Input data');
     end
     vis_path = strcat(out_path, '/visualization.mat');
     load(vis_path,'outputData1','outputData2'); %hardcoded right now

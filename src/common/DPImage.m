@@ -17,6 +17,9 @@ classdef DPImage
         testPoints = 0;
         roiMask = 0;
         
+        %average intensity
+        avInt = 0;
+        
         %soma
         preThresh = 0;
         somaMask;
@@ -85,7 +88,9 @@ classdef DPImage
             obj.filepath = imPath;
             obj.image = imread(imPath);
             obj.image = obj.image(:,:,1:3);
-        
+            
+            blue = obj.image(:,:,3);
+            obj.avInt = mean(blue(:));
             
             if (size(obj.image,2) > size(obj.image,1))
                obj.image = permute(obj.image, [2 1 3]);
