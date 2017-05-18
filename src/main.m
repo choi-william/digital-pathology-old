@@ -10,11 +10,11 @@ run('init.m');
 % %rachel images
 % im4 = DPImage('real',[dataPath '\subImage_test' '\11476.tif']);
 % im5 = DPImage('real',[dataPath '\subImage_test' '\14613.tif']);
-% im6 = DPImage('real',[dataPath '\subImage_test' '\5623.tif']);
+ im6 = DPImage('real',[dataPath '\subImage_test' '\1329.tif']);
 % 
 % Display.display_stages(im1);
 % Display.display_stages(im2);
-% Display.display_stages(im3);
+ Display.display_stages(im6);
 
 
 %DONT WORRY ABOUT THIS
@@ -22,7 +22,7 @@ run('init.m');
 
 
 %%% IF YOU WANT TO RUN THE FULL ANALYSIS ON AN .SVS or .TIF IMAGE
-pathology_analysis(0);
+%pathology_analysis(0);
 
 
 %steps to running:

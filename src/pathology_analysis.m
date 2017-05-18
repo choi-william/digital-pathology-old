@@ -73,7 +73,13 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
 %             im=DPImage('real',filename);
             im = DPImage('notAFile');
             im.image = imcrop(brainSlide,[DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{1}(2),... 
-                DPslide(linInd).Pos{2}(1)-DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{2}(2)-DPslide(linInd).Pos{1}(2)]);
+            DPslide(linInd).Pos{2}(1)-DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{2}(2)-DPslide(linInd).Pos{1}(2)]);
+            
+            %necessary for dynamic thresholding
+            %TODO, move this to extract_soma
+            blue = im.image(:,:,3);
+            im.avInt = mean(blue(:));
+            
             [cell_count, average_fractal] = block_analysis( im, analysis_type, 0 );
             outputData1(linInd) = cell_count;
             outputData2(linInd) = average_fractal;
@@ -85,17 +91,15 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     delete(gcp);
     
+    clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path
+    
     outputData1 = reshape(outputData1,[numrows, numcols]);
     outputData2 = reshape(outputData2,[numrows, numcols]);
+    im = imread(imagePath);
     
-    %path hardcoded at the moment TODO
-    vis_path = strcat([out_path , '/visualization.mat']);
-    save(vis_path,'outputData1','outputData2');
+    an_path = strcat([out_path , '/analysis.mat']);
+    save(an_path,'outputData1','outputData2','blockSize','im');  
     
-    imagesc(outputData1);
-    title('cell count');
-    
-    imagesc(outputData2);
-    title('average fractal');
+    disp('Analysis Complete');
 end
 

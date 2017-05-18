@@ -6,8 +6,8 @@ function [ output_args ] = visualize_slide( vis_type )
     if (isempty(out_path))
         out_path = uigetdir('','Input data');
     end
-    vis_path = strcat(out_path, '/visualization.mat');
-    load(vis_path,'outputData1','outputData2'); %hardcoded right now
+    vis_path = strcat(out_path, '/analysis.mat');
+    load(vis_path,'outputData1','outputData2','im','blockSize'); %hardcoded right now
     
     if vis_type == 1
         a = outputData1;
@@ -66,9 +66,10 @@ function [ output_args ] = visualize_slide( vis_type )
             set(handles.text1, 'String', ['(' num2str(curX) ', ' num2str(curY) ').'])
             
             axes(handles.axes2);
-            imagepath = strcat(out_path,'/BlockImg/',num2str(curY+(curX-1)*size(outputData1,1)), '.tif');
+            
+            currentIm = imcrop(im,[(curX-1)*blockSize,(curY-1)*blockSize,blockSize,blockSize]);
             if outputData1(curY,curX) >= 0
-                imshow(imagepath);
+                imshow(currentIm);
             else
                 imshow('../imunavail.png');
             end
