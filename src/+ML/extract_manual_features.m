@@ -3,12 +3,18 @@ function [ features ] = extract_manual_features( im )
     %format image
     grayIm = im(im~=255);
     binIm = imbinarize(im,254/255);
+    mask = binIm;
+    
+    newmask = imerode(binIm,strel('disk',1));
+    if (any(newmask(:)))
+       mask = newmask; 
+    end
     
     %calculate centroid
     sumR = 0; sumC = 0; count = 0;
-    for i=1:size(binIm,1)
-        for j=1:size(binIm,2)
-            if (binIm(i,j) == 1)
+    for i=1:size(mask,1)
+        for j=1:size(mask,2)
+            if (mask(i,j) == 1)
                 count = count+1;
                 sumR = sumR + i;
                 sumC = sumC + j;
@@ -19,9 +25,9 @@ function [ features ] = extract_manual_features( im )
     
     %calculate moment
     sq = 0;
-    for i=1:size(binIm,1)
-        for j=1:size(binIm,2)
-            if (binIm(i,j) == 1)
+    for i=1:size(mask,1)
+        for j=1:size(mask,2)
+            if (mask(i,j) == 1)
                 sq = sq + (i-centroid(1))^2 + (j-centroid(2))^2;
             end
         end
@@ -46,7 +52,7 @@ function [ features ] = extract_manual_features( im )
                 flag = false;
                 break;
             end
-            if (binIm(point(1),point(2)) == 1)
+            if (mask(point(1),point(2)) == 1)
                 flag = false;
                 break;
             end
@@ -54,8 +60,8 @@ function [ features ] = extract_manual_features( im )
     end
     
     %circularity
-    perim = bwperim(binIm);
-    circularity = sum(perim(:))/sum(binIm(:));
+    perim = bwperim(mask);
+    circularity = sum(perim(:))/sum(mask(:));
     
     %Discrete Cosine transform
     [f1,f2,f3,f4,f5,f6] = DCT(im);

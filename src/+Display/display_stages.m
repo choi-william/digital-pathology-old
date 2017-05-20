@@ -2,10 +2,10 @@ function [ output_args ] = display_stages( dp )
     figure;
     
  
-    thresh = (dp.avInt*0.3+25)/100;
+    thresh = (dp.avInt*0.3+25)/100 +0.05;
     
-    [somaList,dp] = Segment.Soma.extract_soma(dp, 0, thresh, 100);
-    totalIm = [dp.image dp.image repmat(dp.preThresh,1,1,3) repmat(dp.somaMask*255,1,1,3)];
+    [somaList,dp] = Segment.Soma.extract_soma(dp, 0, thresh, 80);
+    totalIm = [dp.image dp.image repmat(dp.preThresh,1,1,3) repmat(dp.rawThresh*255,1,1,3) repmat(dp.somaMask*255,1,1,3)];
     imshow(totalIm);
     hold on;
     length = size(somaList,2);

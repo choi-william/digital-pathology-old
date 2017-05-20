@@ -26,6 +26,8 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
         %THRESHOLD RESULT%
         somaIm = imbinarize(Iobrcbr,th);
+        
+        dpimage.rawThresh = somaIm;
 
         %Filter Image
         somaIm = Helper.sizeFilter(somaIm,lsb,100000000);
@@ -46,6 +48,8 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         % Global Thresholding 
         bwIm = imbinarize(mumfordIm, 0.3);
         
+        dpimage.rawThresh = bwIm;
+
         % Filtering by object size
         somaIm = Helper.sizeFilter(bwIm,lsb, 3000);
 
@@ -72,6 +76,8 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         %THRESHOLD RESULT%
         somaIm = imbinarize(manipulated,th);
         
+        dpimage.rawThresh = somaIm;
+
         %Filter Image
         somaIm = Helper.sizeFilter(somaIm,lsb,100000);
     else
@@ -84,7 +90,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
 
     % Load classifier
 
-    file = load('+ML/classifier_asma.mat');
+    file = load('+ML/classifier_asma_2.mat'); %TODO load only once
     classifier = file.classifier;
 
     list = {};

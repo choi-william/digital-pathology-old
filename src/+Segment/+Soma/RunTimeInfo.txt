@@ -1,0 +1,8 @@
+../data/slides/AlexBright256/
+C:\Users\alexkyriazis\Documents\digital-pathology\tif_09_6/20170518-1017
+0
+C:\Users\alexkyriazis\Downloads\Tac_EKO_CH Sh_170391-Image Export-09_s1.tif
+256
+256
+1
+0

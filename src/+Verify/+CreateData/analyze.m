@@ -1,5 +1,9 @@
 function [ output_args ] = analyze( dp,id_param )
-    somaList = Segment.Soma.extract_soma(dp, 0, 0.8, 100);
+
+
+    thresh = (dp.avInt*0.3+25)/100 +0.05;
+
+    somaList = Segment.Soma.extract_soma(dp, 0, 0.8, thresh);
     length = size(somaList,2);
     
     figure;

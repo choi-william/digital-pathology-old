@@ -22,6 +22,7 @@ classdef DPImage
         
         %soma
         preThresh = 0;
+        rawThresh;
         somaMask;
         
         %slide metadata

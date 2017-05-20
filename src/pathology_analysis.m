@@ -73,7 +73,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
 %             im=DPImage('real',filename);
             im = DPImage('notAFile');
             im.image = imcrop(brainSlide,[DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{1}(2),... 
-            DPslide(linInd).Pos{2}(1)-DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{2}(2)-DPslide(linInd).Pos{1}(2)]);
+                                DPslide(linInd).Pos{2}(1)-DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{2}(2)-DPslide(linInd).Pos{1}(2)]);
             
             %necessary for dynamic thresholding
             %TODO, move this to extract_soma
