@@ -101,6 +101,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         prepared = prepare_soma(DPCell([col,row],dpimage)); 
         for j=1:size(prepared,2)
             dpcell = prepared{j};            
+
 %             if (predict_valid(classifier,dpcell))
 %                 list{end+1} = dpcell;
 %             end

@@ -6,13 +6,16 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
         [f,p] = uigetfile({'*.*'},'Select the slide image file');
         imagePath = strcat(p,f);
     end
+    
+    [file,path] = uiputfile('*.mat','Save Analysis as');
 
     global out_path;
     if(~exist('outPath','var'))
-        out_path = uigetdir('','Choose output data destination');
+        %out_path = uigetdir('','Choose output data destination');
     else
         out_path = outPath;
     end
+    out_path = path;
     
     DPslide = ROI.roi_finder( imagePath, out_path );
     
@@ -84,15 +87,16 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     delete(gcp);
     
-    clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path DPslide
+    clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path file DPslide
+
     
     outputData1 = reshape(outputData1,[numrows, numcols]);
     outputData2 = reshape(outputData2,[numrows, numcols]);
     im = imread(imagePath);
     
-    an_path = strcat([out_path , '/analysis.mat']);
+    an_path = strcat([out_path , '/',file]);
     save(an_path,'outputData1','outputData2','blockSize','im', 'DPslide');  
-    
+
     disp('Analysis Complete');
 end
 

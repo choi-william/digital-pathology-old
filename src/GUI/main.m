@@ -93,9 +93,10 @@ clear all;
 run('../init.m');
 global out_path; 
 global outputData1; global outputData2; global im; global blockSize; global DPslide;
-out_path = uigetdir('','Input data');
 
-vis_path = strcat(out_path, '/analysis.mat');
+[file,path]=uigetfile('*.mat','Select analysis file');
+vis_path = strcat(path,file);
+
 load(vis_path,'outputData1','outputData2','im','blockSize', 'DPslide'); %hardcoded right now
 
 

@@ -2,6 +2,7 @@ function [ output_args ] = visualize_slide( vis_type )
 %VISUALIZE_CELLCOUNT Summary of this function goes here
 %   vis_type = 1 cell count
 %   vis_type = 2 cell morphology
+
 %     global out_path;
 %     if (isempty(out_path))
 %         out_path = uigetdir('','Input data');

@@ -36,7 +36,7 @@ run('init.m');
 % Display.display_stages(im9);
 % Display.display_stages(im10);
 
-%DONT WORRY ABOUT THIS
+%DONT WORRY ABOUT THIS%
 %run_all_files(0);
 
 %William Choi Test 

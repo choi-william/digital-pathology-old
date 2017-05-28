@@ -5,8 +5,13 @@
 %   Lap-Tak Chu
 
 clear; close all; clc;
+
+
 [fpath,~,~,~,~,~,scale_indx,~] = RunTimeInformation([],[],'r',0,0,0);
-load([fpath,'/TestingInfo']);
+
+
+global SLIDE_DATA;
+%load([fpath,'/TestingInfo']);
 
 global RESULTS_PATH
 
@@ -19,7 +24,7 @@ if ~exist(interfacePath, 'dir')
     mkdir(interfacePath);
 end
 
-for slide_idx = 1:length(Slide)
+for slide_idx = 1:length(SLIDE_DATA)
     % Make Directory For Slide and Images
 
     slidePath = interfacePath;
@@ -29,14 +34,14 @@ for slide_idx = 1:length(Slide)
 %         mkdir(imgPath);
 %     end
 
-    blk_num = length(Slide{slide_idx}.blk_label);
+    blk_num = length(SLIDE_DATA{slide_idx}.blk_label);
     
     DPslide(blk_num) = struct(); DPslide(blk_num).Id = blk_num; %#ok<*SAGROW>
     DPslide(blk_num).Pos = {[0,0];[0,0]};
     DPslide(blk_num).Label = 0; DPslide(blk_num).Region = ''; DPslide(blk_num).SlideId = '';
     
-    XX = size(Slide{slide_idx}.blk_brc_x,2);
-    YY = size(Slide{slide_idx}.blk_brc_y,1);
+    XX = size(SLIDE_DATA{slide_idx}.blk_brc_x,2);
+    YY = size(SLIDE_DATA{slide_idx}.blk_brc_y,1);
     
     % Block Processing
     if (PARALLEL_PROCESSING) % don't forget to switch FOR/PARFOR below
@@ -50,11 +55,11 @@ for slide_idx = 1:length(Slide)
         
         DPslide(blk_idx).Id = blk_idx;
         % Structure: { [x_ulc , y_ulc] ; [x_brc , y_brc] }
-        DPslide(blk_idx).Pos = {[Slide{slide_idx}.blk_ulc_x(y,x),Slide{slide_idx}.blk_ulc_y(y,x)],...
-                                [Slide{slide_idx}.blk_brc_x(y,x),Slide{slide_idx}.blk_brc_y(y,x)]}; 
+        DPslide(blk_idx).Pos = {[SLIDE_DATA{slide_idx}.blk_ulc_x(y,x),SLIDE_DATA{slide_idx}.blk_ulc_y(y,x)],...
+                                [SLIDE_DATA{slide_idx}.blk_brc_x(y,x),SLIDE_DATA{slide_idx}.blk_brc_y(y,x)]}; 
         %#ok<*PFBNS>
 
-        DPslide(blk_idx).Label = Slide{slide_idx}.blk_label(blk_idx);
+        DPslide(blk_idx).Label = SLIDE_DATA{slide_idx}.blk_label(blk_idx);
         switch DPslide(blk_idx).Label
             case INVALID_BLK
                 DPslide(blk_idx).Region = 'Glass';
@@ -65,8 +70,8 @@ for slide_idx = 1:length(Slide)
         end
 
         if (DPslide(blk_idx).Label ~= INVALID_BLK) && (DPslide(blk_idx).Label ~= GRAY_MATTER)
-            blkCols = [Slide{slide_idx}.blk_ulc_x(y,x) , Slide{slide_idx}.blk_brc_x(y,x)]; 
-            blkRows = [Slide{slide_idx}.blk_ulc_y(y,x) , Slide{slide_idx}.blk_brc_y(y,x)];
+            blkCols = [SLIDE_DATA{slide_idx}.blk_ulc_x(y,x) , SLIDE_DATA{slide_idx}.blk_brc_x(y,x)]; 
+            blkRows = [SLIDE_DATA{slide_idx}.blk_ulc_y(y,x) , SLIDE_DATA{slide_idx}.blk_brc_y(y,x)];
 %             blk = imread(Slide{slide_idx}.ImgFile,'Index',scale_indx,'PixelRegion',{blkRows,blkCols});
 %             imwrite(blk,[imgPath,'/',num2str(DPslide(blk_idx).Id),'.tif']);
         end
