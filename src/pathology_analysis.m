@@ -7,17 +7,14 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
         imagePath = strcat(p,f);
     end
     
-    [file,path] = uiputfile('*.mat','Save Analysis as');
-
-    global out_path;
     if(~exist('outPath','var'))
-        %out_path = uigetdir('','Choose output data destination');
+        [file,path] = uiputfile('*.mat','Save Analysis as');
+        an_path = strcat([path,file]);
     else
-        out_path = outPath;
+        an_path = outPath;
     end
-    out_path = path;
     
-    DPslide = ROI.roi_finder( imagePath, out_path );
+    DPslide = ROI.roi_finder(imagePath);
     
     sizeDPslide = size(DPslide,2);
     
@@ -37,7 +34,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     status = zeros(numrows*numcols,1);
 
-%     parpool;
+    parpool;
     
 
     %necessary for displaying count due to parallel nature
@@ -52,8 +49,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     tic
     brainSlide = imread(imagePath);
-    %par
-    for linInd=1:(numcols*numrows)   
+    parfor linInd=1:(numcols*numrows)   
         %j = ceil(linInd/numcols);
         %i = mod(linInd-1,numcol)+1;
 
@@ -91,14 +87,12 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
 %     delete(gcp);
     
-    clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path file DPslide
-
+    clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols an_path file DPslide
     
     outputData1 = reshape(outputData1,[numrows, numcols]);
     outputData2 = reshape(outputData2,[numrows, numcols]);
     im = imread(imagePath);
     
-    an_path = strcat([out_path , '/',file]);
     save(an_path,'outputData1','outputData2','blockSize','im', 'DPslide');  
 
     disp('Analysis Complete');

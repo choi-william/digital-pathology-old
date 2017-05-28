@@ -9,7 +9,7 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     thresh = (dpimage.avInt*0.3+25)/100;
 
     % Soma Segmentation
-    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 1, thresh, 80);
+    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 0, thresh, 80);
     
     length = size(cell_list,2);
 
