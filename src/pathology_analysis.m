@@ -50,9 +50,6 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     tic
     brainSlide = imread(imagePath);
     parfor linInd=1:(numcols*numrows)   
-        %j = ceil(linInd/numcols);
-        %i = mod(linInd-1,numcol)+1;
-
         slide(linInd) = DPslide(linInd).Label;
 
         if slide(linInd) == -99
@@ -85,7 +82,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     end
     toc
     
-%     delete(gcp);
+    delete(gcp);
     
     clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols an_path file DPslide
     
