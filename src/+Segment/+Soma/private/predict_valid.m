@@ -1,6 +1,6 @@
 function [ good ] = predict_valid(class,cell)
         good = 1;
-        %return;
+        return;
         %TODO MAKE CLASSIFIER FORMAT CONSISTENT
             
         I = cell.cnnBox;
