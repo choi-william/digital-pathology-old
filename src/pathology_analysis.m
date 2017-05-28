@@ -3,7 +3,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
 %   Detailed explanation goes here
     
     if(~exist('imagePath','var'))
-        [f,p] = uigetfile({'*.svs';'*.tif'},'Select the slide image file');
+        [f,p] = uigetfile({'*.*'},'Select the slide image file');
         imagePath = strcat(p,f);
     end
 
@@ -14,10 +14,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
         out_path = outPath;
     end
     
-    ROI.roi_finder( imagePath, out_path );
-    
-    filePath = strcat([out_path , '/DP_Slide.mat']);
-    load(filePath);
+    DPslide = ROI.roi_finder( imagePath, out_path );
     
     sizeDPslide = size(DPslide,2);
     
@@ -37,7 +34,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     status = zeros(numrows*numcols,1);
 
-    parpool;
+%     parpool;
     
 
     %necessary for displaying count due to parallel nature
@@ -52,7 +49,8 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     tic
     brainSlide = imread(imagePath);
-    parfor linInd=1:(numcols*numrows)   
+    %par
+    for linInd=1:(numcols*numrows)   
         %j = ceil(linInd/numcols);
         %i = mod(linInd-1,numcol)+1;
 
@@ -69,8 +67,6 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
         end
 
         if (slide(linInd) == 1)
-%             filename = [out_path '/BlockImg' '/' num2str(linInd) '.tif'];
-%             im=DPImage('real',filename);
             im = DPImage('notAFile');
             im.image = imcrop(brainSlide,[DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{1}(2),... 
                                 DPslide(linInd).Pos{2}(1)-DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{2}(2)-DPslide(linInd).Pos{1}(2)]);
@@ -85,20 +81,21 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
             outputData2(linInd) = average_fractal;
             
             fprintf('%d out of %d\n',status(linInd),total);
+            fprintf('cell count: %d\n',cell_count);
         end
     end
     toc
     
-    delete(gcp);
+%     delete(gcp);
     
-    clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path
+    clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path DPslide
     
     outputData1 = reshape(outputData1,[numrows, numcols]);
     outputData2 = reshape(outputData2,[numrows, numcols]);
     im = imread(imagePath);
     
     an_path = strcat([out_path , '/analysis.mat']);
-    save(an_path,'outputData1','outputData2','blockSize','im');  
+    save(an_path,'outputData1','outputData2','blockSize','im', 'DPslide');  
     
     disp('Analysis Complete');
 end

@@ -77,6 +77,8 @@ handles.visCount = 0;
 handles.visMorph = 0;
 guidata(hObject, handles);
 
+    
+
 
 % --- Outputs from this function are returned to the command line.
 function varargout = main_OutputFcn(hObject, eventdata, handles) 
@@ -89,6 +91,12 @@ function varargout = main_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 clear all;
 run('../init.m');
+global out_path; 
+global outputData1; global outputData2; global im; global blockSize; global DPslide;
+out_path = uigetdir('','Input data');
+
+vis_path = strcat(out_path, '/analysis.mat');
+load(vis_path,'outputData1','outputData2','im','blockSize', 'DPslide'); %hardcoded right now
 
 
 % --- Executes on button press in pushbutton1.
@@ -115,6 +123,7 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 axes(handles.axes1);
 visualize_slide(1);
 

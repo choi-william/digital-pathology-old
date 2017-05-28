@@ -28,6 +28,7 @@ for slide_idx = 1:length(Slide)
 %     if ~exist(imgPath, 'dir')
 %         mkdir(imgPath);
 %     end
+
     blk_num = length(Slide{slide_idx}.blk_label);
     
     DPslide(blk_num) = struct(); DPslide(blk_num).Id = blk_num; %#ok<*SAGROW>
@@ -80,8 +81,6 @@ for slide_idx = 1:length(Slide)
         delete(gcp); % matlabpool close;
     end % PARALLEL_PROCESSING
     
-    save([slidePath,'/DP_Slide'],'DPslide');
-    clear DPslide
     disp(['Finished Slide ',slide_idx,]);
 end
 

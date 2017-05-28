@@ -2,12 +2,14 @@ function [ output_args ] = visualize_slide( vis_type )
 %VISUALIZE_CELLCOUNT Summary of this function goes here
 %   vis_type = 1 cell count
 %   vis_type = 2 cell morphology
-    global out_path;
-    if (isempty(out_path))
-        out_path = uigetdir('','Input data');
-    end
-    vis_path = strcat(out_path, '/analysis.mat');
-    load(vis_path,'outputData1','outputData2','im','blockSize'); %hardcoded right now
+%     global out_path;
+%     if (isempty(out_path))
+%         out_path = uigetdir('','Input data');
+%     end
+%     vis_path = strcat(out_path, '/analysis.mat');
+%     load(vis_path,'outputData1','outputData2','im','blockSize', 'DPslide'); %hardcoded right now
+%     
+    global outputData1; global outputData2; global im; global blockSize; global DPslide;
     
     if vis_type == 1
         a = outputData1;
@@ -67,7 +69,11 @@ function [ output_args ] = visualize_slide( vis_type )
             
             axes(handles.axes2);
             
-            currentIm = imcrop(im,[(curX-1)*blockSize,(curY-1)*blockSize,blockSize,blockSize]);
+            ySize = size(outputData1,1);
+            linInd = (curX-1)*ySize +curY;
+            currentIm = imcrop(im,[DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{1}(2),... 
+                                    DPslide(linInd).Pos{2}(1)-DPslide(linInd).Pos{1}(1), DPslide(linInd).Pos{2}(2)-DPslide(linInd).Pos{1}(2)]);
+                                
             if outputData1(curY,curX) >= 0
                 imshow(currentIm);
             else

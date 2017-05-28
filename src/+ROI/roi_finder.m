@@ -1,4 +1,4 @@
-function [] = roi_finder( file_path, analysis_output_path )
+function [dpslide] = roi_finder( file_path, analysis_output_path )
 
     global TEST_PATH  RESULTS_PATH; 
     
@@ -12,7 +12,10 @@ function [] = roi_finder( file_path, analysis_output_path )
     
     Run;
     
-    clear;
-    close all;
+    % InterfaceOutput within Run creates DPslide 
+    dpslide = DPslide;
+    
+    clearvars -except dpslide
+    close all
 end
 
