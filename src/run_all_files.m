@@ -13,7 +13,7 @@ function [ output_args ] = run_all_files( analysis_type )
     outPath = uigetdir('','Choose the folder to output the results.');
     
     for i=1:size(imageList,1)
-        saveDir = strcat(outPath,'/',imageList(i).name);
+        saveDir = strcat(outPath,'/','analysis_',imageList(i).name);
         pathology_analysis(analysis_type, strcat(imageList(i).folder,'/',imageList(i).name), saveDir);
     end
 end

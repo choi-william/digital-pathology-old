@@ -19,20 +19,10 @@ PARALLEL_PROCESSING = true; % for parallel processing. also need to switch FOR/P
 INVALID_BLK = -99;
 GRAY_MATTER = 0;
 
-interfacePath = RESULTS_PATH;
-if ~exist(interfacePath, 'dir')
-    mkdir(interfacePath);
-end
 
 for slide_idx = 1:length(SLIDE_DATA)
     % Make Directory For Slide and Images
 
-    slidePath = interfacePath;
-    
-%     imgPath = strcat(slidePath,'/BlockImg');
-%     if ~exist(imgPath, 'dir')
-%         mkdir(imgPath);
-%     end
 
     blk_num = length(SLIDE_DATA{slide_idx}.blk_label);
     
