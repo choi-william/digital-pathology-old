@@ -1,7 +1,7 @@
 ../data/slides/AlexBright256/
-C:\Users\alexkyriazis\Documents\digital-pathology\output4/20170519-1316
+C:\Users\alexkyriazis\Documents\digital-pathology\tif_09_10\/20170527-1711
 11
-C:\Users\alexkyriazis\Downloads\testbox.tif
+C:\Users\alexkyriazis\Downloads\Tac_EKO_CH Sh_170391-Image Export-09_s1.tif
 256
 256
 1

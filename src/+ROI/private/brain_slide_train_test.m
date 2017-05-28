@@ -42,11 +42,15 @@ MARKER_CLASS = single(-98);
 INVALID_CLASS = single(-99);
 % end define constants
 
-SlideListMat = dir([SLIDE_DIR,'*',POSTFIX_MAT]); for k = 1:length(SlideListMat), SlideListMat(k).name = SlideListMat(k).name(1:(end-length(POSTFIX_MAT))); end, SlideListMat = {SlideListMat.name}';
-SlideListSvs = dir([SLIDE_DIR,'*',POSTFIX_SVS]); for k = 1:length(SlideListSvs), SlideListSvs(k).name = SlideListSvs(k).name(1:(end-length(POSTFIX_SVS))); end, SlideListSvs = {SlideListSvs.name}';
-SlideListXml = dir([SLIDE_DIR,'*',POSTFIX_XML]); for k = 1:length(SlideListXml), SlideListXml(k).name = SlideListXml(k).name(1:(end-length(POSTFIX_XML))); end, SlideListXml = {SlideListXml.name}';
-SlideId = SlideListMat; % SlideListSvs( ismember(SlideListSvs,SlideListXml) & ismember(SlideListSvs,SlideListMat) ); % slides that have .svs, .xml and .mat files...
-slide_num = length(SlideId); % single slide
+% SlideListMat = dir([SLIDE_DIR,'*',POSTFIX_MAT]); for k = 1:length(SlideListMat), SlideListMat(k).name = SlideListMat(k).name(1:(end-length(POSTFIX_MAT))); end, SlideListMat = {SlideListMat.name}';
+% SlideListSvs = dir([SLIDE_DIR,'*',POSTFIX_SVS]); for k = 1:length(SlideListSvs), SlideListSvs(k).name = SlideListSvs(k).name(1:(end-length(POSTFIX_SVS))); end, SlideListSvs = {SlideListSvs.name}';
+% SlideListXml = dir([SLIDE_DIR,'*',POSTFIX_XML]); for k = 1:length(SlideListXml), SlideListXml(k).name = SlideListXml(k).name(1:(end-length(POSTFIX_XML))); end, SlideListXml = {SlideListXml.name}';
+% SlideId = SlideListMat; % SlideListSvs( ismember(SlideListSvs,SlideListXml) & ismember(SlideListSvs,SlideListMat) ); % slides that have .svs, .xml and .mat files...
+% slide_num = length(SlideId); % single slide
+
+trainData = load('+ROI/trainBright.mat'); 
+trainData = trainData.train;
+slide_num = length(trainData);
 
 % load data
 blk_class = cell(slide_num,1);
@@ -57,7 +61,8 @@ blk_patient = cell(slide_num,1);
 
 for slide_indx = 1:slide_num
     disp(['Loading slide ',num2str(slide_indx),'/',num2str(slide_num)]);
-    Slide{slide_indx} = load([SLIDE_DIR,'/',SlideId{slide_indx},POSTFIX_MAT],'blk_*','ImgFile','res_scale_*');
+    %Slide{slide_indx} = load([SLIDE_DIR,'/',SlideId{slide_indx},POSTFIX_MAT],'blk_*','ImgFile','res_scale_*');
+    Slide{slide_indx} = trainData{slide_indx};
     
     blk_class{slide_indx} = single(Slide{slide_indx}.blk_class(:)); % cast to single to save memory
     blk_feat{slide_indx}  = single(Slide{slide_indx}.blk_feat); % cast to single to save memory

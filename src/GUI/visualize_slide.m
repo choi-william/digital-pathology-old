@@ -2,11 +2,10 @@ function [ output_args ] = visualize_slide( vis_type )
 %VISUALIZE_CELLCOUNT Summary of this function goes here
 %   vis_type = 1 cell count
 %   vis_type = 2 cell morphology
-    global out_path;
-    if (isempty(out_path))
-        out_path = uigetdir('','Input data');
-    end
-    vis_path = strcat(out_path, '/analysis.mat');
+
+
+    [file,path]=uigetfile('*.mat','Select analysis file');
+    vis_path = strcat(path,file);
     load(vis_path,'outputData1','outputData2','im','blockSize'); %hardcoded right now
     
     if vis_type == 1

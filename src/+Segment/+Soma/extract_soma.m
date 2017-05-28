@@ -48,6 +48,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         % Global Thresholding 
         bwIm = imbinarize(mumfordIm, 0.3);
         
+        dpimage.preThresh = mumfordIm;
         dpimage.rawThresh = bwIm;
 
         % Filtering by object size
@@ -104,11 +105,11 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
                 list{end+1} = dpcell;
             end
             
-%             %UNCOMMENT IF THIS STEP SHOULD BE VISUALIZED            
-%             if (~predict_valid(classifier,dpcell))
-%                 dpcell.isFalsePositive = 1;
-%             end
-%             list{end+1} = dpcell;
+            %UNCOMMENT IF THIS STEP SHOULD BE VISUALIZED            
+            if (~predict_valid(classifier,dpcell))
+                dpcell.isFalsePositive = 1;
+            end
+            list{end+1} = dpcell;
 
         end
     end    

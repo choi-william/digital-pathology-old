@@ -33,7 +33,7 @@ run('init.m');
 % Display.display_stages(im8);
 % Display.display_stages(im9);
 
-%DONT WORRY ABOUT THIS
+%DONT WORRY ABOUT THIS%
 %run_all_files(0);
 
 

@@ -161,8 +161,25 @@ Slide.Img.ImgFullSize = [full_img_size_x, full_img_size_y];
 Slide.Img.ResScale = [res_scale_x; res_scale_y];
 Slide.Img.ScaleIndx = SCALE_INDX_PROCESS; % = 1 full_scale_indx
 
-global RESULTS_PATH;
-save(strcat(RESULTS_PATH,'/features.mat'),'blk_*','ImgFile','res_scale_*');
+
+global FEATURE_INFO;
+FEATURE_INFO.blk_vec_x = blk_vec_x;
+FEATURE_INFO.blk_vec_y = blk_vec_y;
+FEATURE_INFO.blk_ulc_x = blk_ulc_x;
+FEATURE_INFO.blk_ulc_y = blk_ulc_y;
+FEATURE_INFO.blk_brc_x = blk_brc_x;
+FEATURE_INFO.blk_brc_y = blk_brc_y;
+FEATURE_INFO.blk_num_x = blk_num_x;
+FEATURE_INFO.blk_num_y = blk_num_y;  
+FEATURE_INFO.blk_feat = blk_feat;
+FEATURE_INFO.blk_class = blk_class; 
+FEATURE_INFO.blk_num = blk_num; 
+FEATURE_INFO.res_scale_x = res_scale_x; 
+FEATURE_INFO.res_scale_y = res_scale_y; 
+FEATURE_INFO.ImgFile = ImgFile; 
+
+%global RESULTS_PATH;
+%save(strcat(RESULTS_PATH,'/features.mat'),'blk_*','ImgFile','res_scale_*');
 disp('Finished!');
 
 % plot class image...

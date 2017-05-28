@@ -1,4 +1,4 @@
-clear; clc;
+clc;
 % University of British Columbia, Vancouver, 2017
 %   Dr. Guy Nir
 %   Shahriar Noroozi Zadeh
@@ -41,7 +41,7 @@ POSTFIX_SVS = '.tif';
 POSTFIX_XML = '.xml';
 
 
-load([RESULTS_PATH,'/training.mat']);
+%load([RESULTS_PATH,'/training.mat']);
 
 % if exist([fpath,'/TrainingInfo.mat'],'file')
 %     load([fpath,'/TrainingInfo']);
@@ -66,10 +66,11 @@ blk_test_feat = cell(slide_num,1);
 blk_test_slide = cell(slide_num,1);
 blk_patient = cell(slide_num,1);
 
+global FEATURE_INFO;    
 for slide_indx = 1:slide_num
     disp(['Loading slide ',num2str(slide_indx),'/',num2str(slide_num)]);
-    
-    Slide{slide_indx} = load(strcat(RESULTS_PATH,'/features.mat'));
+
+    Slide{slide_indx} = FEATURE_INFO;
     
     blk_class{slide_indx} = single(Slide{slide_indx}.blk_class(:)); % cast to single to save memory
     blk_test_feat{slide_indx}  = single(Slide{slide_indx}.blk_feat); % cast to single to save memory

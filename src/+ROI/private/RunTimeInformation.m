@@ -54,7 +54,7 @@ function [fpath, NumSVSslides, trainDirectory, testDirectory, Blk_X, Blk_Y, scl,
         fprintf(fid,'%d\n',scale);
         fprintf(fid,'%d\n',NumTestSlides);
         fclose(fid);
-        mkdir(fpath);
+        %mkdir(fpath);
         
     elseif (mode == 'r')
         fid = fopen('RunTimeInfo.txt', 'r');
