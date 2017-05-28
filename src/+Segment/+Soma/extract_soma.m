@@ -43,7 +43,7 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         
         % Mumford-Shah smoothing
         mumfordIm = smooth_ms(grayIm, 0.6, 300);
-        figure, imshow(mumfordIm);
+%         figure, imshow(mumfordIm);
 
         % Global Thresholding 
         bwIm = imbinarize(mumfordIm, 0.3);
@@ -55,17 +55,17 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         somaIm = Helper.sizeFilter(bwIm,lsb, 3000);
 
         % Resulting binary image of the soma
-        figure, imshow(somaIm);
+%         figure, imshow(somaIm);
 
         % Soma image overlayed with the original grayscale image
         finalIm = imoverlay(grayIm, imcomplement(somaIm),'yellow');
-        figure, imshow(finalIm);
-
-        figure;
-        subplot(2,2,1), imshow(input_image);
-        subplot(2,2,2), imshow(mumfordIm);
-        subplot(2,2,3), imshow(bwIm);
-        subplot(2,2,4), imshow(finalIm);
+%         figure, imshow(finalIm);
+% 
+%         figure;
+%         subplot(2,2,1), imshow(input_image);
+%         subplot(2,2,2), imshow(mumfordIm);
+%         subplot(2,2,3), imshow(bwIm);
+%         subplot(2,2,4), imshow(finalIm);
         
     elseif alg == 2
         
@@ -101,9 +101,10 @@ function [list,dp] = extract_soma( dpimage, alg , th, lsb )
         prepared = prepare_soma(DPCell([col,row],dpimage)); 
         for j=1:size(prepared,2)
             dpcell = prepared{j};            
-            if (predict_valid(classifier,dpcell))
-                list{end+1} = dpcell;
-            end
+
+%             if (predict_valid(classifier,dpcell))
+%                 list{end+1} = dpcell;
+%             end
             
             %UNCOMMENT IF THIS STEP SHOULD BE VISUALIZED            
             if (~predict_valid(classifier,dpcell))
