@@ -89,7 +89,6 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path file DPslide
 
-    
     outputData1 = reshape(outputData1,[numrows, numcols]);
     outputData2 = reshape(outputData2,[numrows, numcols]);
     im = imread(imagePath);
