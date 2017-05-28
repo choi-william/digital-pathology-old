@@ -34,7 +34,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     status = zeros(numrows*numcols,1);
 
-%     parpool;
+    parpool;
     
 
     %necessary for displaying count due to parallel nature
@@ -49,11 +49,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     tic
     brainSlide = imread(imagePath);
-    %par
-    for linInd=1:(numcols*numrows)   
-        %j = ceil(linInd/numcols);
-        %i = mod(linInd-1,numcol)+1;
-
+    parfor linInd=1:(numcols*numrows)   
         slide(linInd) = DPslide(linInd).Label;
 
         if slide(linInd) == -99
@@ -86,7 +82,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     end
     toc
     
-%     delete(gcp);
+    delete(gcp);
     
     clearvars -except outputData1 outputData2 imagePath blockSize numrows numcols out_path DPslide
     
