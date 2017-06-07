@@ -1,3 +1,12 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% An AlexNet CNN model traininer that uses AlexNet for feature extraction
+% then trains an SVM for binary classification. As an input this takes
+% images that are already classified into two classes by folder name.
+
+
 %function DeepLearningImageClassificationExample
     out_path = uigetdir(dataPath,'Choose training folder');
 

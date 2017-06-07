@@ -1,3 +1,9 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% The cost function by which the gradient descent operates
+
 function [score] = cost( dps, P )
     score = 0;
     

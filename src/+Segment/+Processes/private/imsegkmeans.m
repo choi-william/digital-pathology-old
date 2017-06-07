@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% <No description yet>
+%
+
 function [ bwIm ] = imsegkmeans( image, nColors )
 % INPUT - rgb image to be segmented
 

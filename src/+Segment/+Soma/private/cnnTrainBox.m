@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Generates a box around the cell center that will be the input to a CNN
+%
+
 function [soma] = cnnTrainBox( soma )
 
     sub = soma.referenceDPImage.image;

@@ -1,3 +1,17 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% This file creates ready to use classification training data of cells
+% (true positive or false positive)
+
+% A repository of cell images based on the
+% manual classification training performed in analyze.m is generated. 
+% It reads out the output file created from analyze.m and generates all the
+% cell images so they can be trained in a CNN or another classifcation framework.
+
+%Note: make sure that the loaded classification data is the desired data
+
 box_side = 20;
 
 global dataPath;

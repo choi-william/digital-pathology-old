@@ -1,3 +1,9 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+%main - a visualisation tool to view calculated data of full brain slide
+
 function varargout = main(varargin)
 % MAIN MATLAB code for main.fig
 %      MAIN, by itself, creates a new MAIN or raises the existing

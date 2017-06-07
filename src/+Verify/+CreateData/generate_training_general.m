@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Does the exact same thing as generate_training.m, I forget why this was
+% created
+
 box_side = 20;
 
 global dataPath;

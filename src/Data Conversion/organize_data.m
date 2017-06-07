@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+%one time use that converts the original unorganized files into an
+%organized format with metadata that we could use. Probably no longer
+%needed.
 
 path = uigetdir('../../data/images','Open folder to organize');
 out_path = uigetdir('../../data/output','Choose destination');

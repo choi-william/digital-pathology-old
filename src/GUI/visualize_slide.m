@@ -1,3 +1,9 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+%visualize_slide - visualizes data
+
 function [ output_args ] = visualize_slide( vis_type )
 %VISUALIZE_CELLCOUNT Summary of this function goes here
 %   vis_type = 1 cell count

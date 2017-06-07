@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% A representation of an entire analyzed image and its properties
+
+
 classdef DPImage
     % Digital Pathology Image (DPImage)
     %   A representation of an image relevant to this project that 
@@ -5,25 +12,25 @@ classdef DPImage
     
     properties
         image = 0 %raw image data (3D array)
-        flipped = 0;
+        flipped = 0; %boolean representing whether image is flipped or not
         
         %file metadata
         filename
         filepath
-        id
+        id %unique identifier in our image naming system
         originalName
 
         %verification data
-        testPoints = 0;
-        roiMask = 0;
+        testPoints = 0; %list of coordinate of cells for training data
+        roiMask = 0; %an ROI mask that covers the image (for training)
         
         %average intensity
         avInt = 0;
         
         %soma
-        preThresh = 0;
+        preThresh = 0; %after smoothing and before binarizing
         rawThresh;
-        somaMask;
+        somaMask; %binarized version of image
         
         %slide metadata
         mag %image magnification (multiplication factor)
@@ -34,8 +41,8 @@ classdef DPImage
         group
         
         %injury parameters
-        elapsedTime %elapsed time since injury (hours)
-        impactEnergy %injury impact energy (J)
+        elapsedTime %elapsed time since injury (hours) (unimplemented)
+        impactEnergy %injury impact energy (J) (unimplemented)
     end
     
     methods

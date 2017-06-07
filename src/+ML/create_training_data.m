@@ -1,3 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% OUTDATED - this creates training data images and puts them in separate
+% folders based on training data from the lab. This training data is not
+% too good and does not lead to good classification. 
+
 function [] = create_training_data()
 
     global dataPath;

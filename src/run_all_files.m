@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+%run_all_files - a batch processing script to perform analysis on multiple
+%   brain slides
+
 function [ output_args ] = run_all_files( analysis_type )
 %RUN_ALL_FILES Summary of this function goes here
 %   Detailed explanation goes here

@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+%integrates generated microglia position data into the correct folders so
+%it can be used for training
+
 path = uigetdir('../../data/images','Open folder to integrate');
 
 out_path = uigetdir('Open output folder to modify');

@@ -1,3 +1,12 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% The main acting algorithm that actually segments the cell bodies.
+%
+% Generates seeds for multithresholding
+%
+
 function returnBlock = generate_seeds(block_struct) 
     imageData = block_struct.data;
     mask = imageData(:,:,1);

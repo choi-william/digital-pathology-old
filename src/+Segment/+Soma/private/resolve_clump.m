@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Separates a large clump of cells into its constituent cells
+%
+
 function [ flag, somas ] = resolve_clump( dpcell )
 
     somas = 0;

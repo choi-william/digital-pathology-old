@@ -1,3 +1,13 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Extracts a list of useful features that is currently (as of June 2017)
+% the best method of classifying false positives and true positives.
+%
+% Classification Training occurs in Verify.CreateData.train_classifier.m
+%
+
 function [ features ] = extract_manual_features( im )   
 
     %format image

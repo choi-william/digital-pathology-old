@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% The main entry point into process (cell branch) segmentation. Uses
+% multithresholding techniques
+
 function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 %CELL_SEGMENTATION Summary of this function goes here
 %   dpsoma - input soma object

@@ -1,3 +1,9 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Visualizes the segmentation process (untested in later builds)
+
 function [ output_args ] = display_soma_seg( dpims )
 
     for k=1:size(dpims,2)

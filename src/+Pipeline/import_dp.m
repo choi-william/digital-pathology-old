@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Interface to import DPImages by name and query
+%
+
 function [ dpims ] = import_dp(varargin)
 
     p = inputParser;

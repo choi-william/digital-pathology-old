@@ -1,3 +1,14 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Opens a user interface that allows one to manually select microglia on
+% DPImages so that they can be used for training data for CNNs or other
+% classification frameworks
+
+%NOTE: the file to read and write to should be modified
+
+
 function [ output_args ] = analyze( dp,id_param )
 
 

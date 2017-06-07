@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Extracts cell morphology features from a list of cells that have
+% undergone process segmentation
+
 function [dpcell_list] = feature_analysis( dpcell_list )
 %
 %   Handles cell analysis following soma segmentation

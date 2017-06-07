@@ -1,3 +1,12 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Custom made gradient descent model used to optimize parameters. If you
+% are going to use this, make sure you have a good understanding of the
+% parameters and that you correctly set the cost function in the private
+% folder
+
 function [P_f, C ] = learn(iterations, step_length, bounds, p_jump, P_o )
 
     %iterations is number of iterations

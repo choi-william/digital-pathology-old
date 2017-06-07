@@ -1,5 +1,12 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
 
-    %brings in 'data'
+% See AnalyzeNew.m's description. This generalizes the process a little
+% more by allowing to pull images from a custom directory **specificed
+% below in path** rather than the regular directory where the images are
+% found.
+
 data=[];
 load('+Verify/+CreateData/classification_data_asma.mat');
 if (isempty(data))

@@ -1,3 +1,9 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Performs a skeleton analysis to obtain some useful morphology features
+
 function [ numEndpoint, numJunc, skelIm ] = skeleton_analysis( bwIm )
 %
 % Skeleton Analysis

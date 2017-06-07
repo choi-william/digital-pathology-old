@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% OUTDATED - previously this found all the soma centroids in an image
+% and outputted them as a list
+
 function [ point_array ] = convert_soma_data( im )
 
     point_array = [];

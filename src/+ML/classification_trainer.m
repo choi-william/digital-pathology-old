@@ -1,3 +1,12 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% OUTDATED - Trains a classifier based on some features we thought could be useful for
+% classifying cells as false positive and true positive. Make sure that
+% load_training_features() is pulling the right stuff
+%
+
 function [] = classification_trainer()
 
     list = load_training_features();

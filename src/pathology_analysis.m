@@ -1,6 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+%pathology_analysis - the main entry point for performing an analysis on a
+%brain slide
+
 function [] = pathology_analysis(analysis_type, imagePath, outPath)
-%INTERFACE Summary of this function goes here
-%   Detailed explanation goes here
     
     if(~exist('imagePath','var'))
         [f,p] = uigetfile({'*.*'},'Select the slide image file');

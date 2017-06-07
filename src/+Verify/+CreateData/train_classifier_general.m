@@ -1,3 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Same as train_classifier.m (see that description) except that it pulls
+% DPImages from a custom directory rather than the standard DPImage
+% location.
+
 box_side = 20;
 
 load('+Verify/+CreateData/classification_data_asma.mat');

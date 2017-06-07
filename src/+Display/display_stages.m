@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Displays several steps of the segmentation process in one image.
+%
+
 function [ output_args ] = display_stages( dp )
     figure;
     thresh = (dp.avInt*0.3+25)/100;

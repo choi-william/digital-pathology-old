@@ -1,5 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
 % creates an image, and allows a user to generate an array of points that
-% define microlgia locations
+% define microlgia locations. Serves as a stand alone tool that can be used
+% with integrate.m to quickly generate microglia training data
 
 close all;
 clear;

@@ -1,3 +1,12 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% A preparation that all cells go through after they are discovered. This
+% sets some key properties in the class that are important for further
+% analysis
+%
+
 function [dpsomas ] = prepare_soma( dpsoma )
 
 

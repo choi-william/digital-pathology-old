@@ -1,6 +1,6 @@
 
 run('init.m');
-
+example_script
 
 % %asma images
 % im1 = DPImage('real',[dataPath '\subImage_test' '\1250.tif']);
@@ -57,7 +57,7 @@ run('init.m');
 % Display.display_stages(im008);
 
 %%% IF YOU WANT TO RUN THE FULL ANALYSIS ON AN .SVS or .TIF IMAGE
-pathology_analysis(0);
+%pathology_analysis(0);
 
 
 %steps to running:

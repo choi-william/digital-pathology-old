@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% A function that classifies the cell based on the passed in model
+%
+
 function [ good ] = predict_valid(class,cell)
         good = 1;
         return;

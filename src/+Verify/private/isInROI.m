@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Determines if the point is in the region of interest (ROI) which is
+% defined as a boolean mask.
+
 function [ res ] = isInROI( point,ROI )
     point = round(point);
     if (point(2) > size(ROI,1))

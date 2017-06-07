@@ -1,3 +1,13 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Grabs the classification training data saved from analyze.m, calculates
+% the features from each image and trains a model to classify. The features
+% used for classification are extracted based on ML.
+
+%Note: make sure that the load(**.mat) is as desired
+
 box_side = 20;
 
 load('+Verify/+CreateData/classification_data.mat');

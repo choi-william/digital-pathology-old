@@ -1,3 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Visualizes some visual cell features that we thought were relevant. Make
+% sure that load_training_features is pulling the right stuff
+%
+
 function [] = analyze_features()
 %ANALYZE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here

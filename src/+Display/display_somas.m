@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Displays subimages of cells in the somaList array
+%
+
 function [] = display_somas( somaList )
     %Displays soma subarray
 

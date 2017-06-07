@@ -1,3 +1,9 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+%block_analysis - performs microglia analysis on a particular DPImage
+
 function [cell_count, average_fractal] = block_analysis( dpimage, analysis_type, visual )
 %PATHOLOGY_ANALYSIS Summary of this function goes here
 %   analysis_type = 0 cell count & cell morphology
