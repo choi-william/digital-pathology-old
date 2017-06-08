@@ -9,7 +9,7 @@
 %NOTE: the file to read and write to should be modified
 
 
-function [ output_args ] = analyze( dp,id_param )
+function [ output_args ] = manual_label( dp,id_param )
 
 
     thresh = (dp.avInt*0.3+25)/100 +0.05;
@@ -23,7 +23,7 @@ function [ output_args ] = analyze( dp,id_param )
     
     %brings in 'data'
     data=[];
-    load('+Verify/+CreateData/classification_data_asma.mat');
+    load('+ML/+CreateData/classification_data_asma.mat');
     
     global P;
     P = [];
@@ -49,7 +49,7 @@ function [ output_args ] = analyze( dp,id_param )
         end
         
         close all;
-        save('+Verify/+CreateData/classification_data_asma.mat','data');
+        save('+ML/+CreateData/classification_data_asma.mat','data');
     end
     
     function clickPoint (objectHandle , eventData )

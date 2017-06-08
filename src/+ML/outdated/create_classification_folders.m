@@ -5,8 +5,7 @@
 % OUTDATED - this creates training data images and puts them in separate
 % folders based on training data from the lab. This training data is not
 % too good and does not lead to good classification. 
-
-function [] = create_training_data()
+function [] = create_classification_folders()
 
     global dataPath;
     out_path = uigetdir(dataPath,'Choose destination');

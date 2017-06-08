@@ -11,20 +11,26 @@
 %being saved to
 
 %NOTE: the file that you are loading here should be the same file you are
-%saving to in Verify.CreateData.analyze(im)
+%saving to in Verify.CreateData.manual_label(im)
+
 
 data=[];
-load('+Verify/+CreateData/classification_data_asma.mat');
-
+load('+ML/+CreateData/classification_data_asma.mat');
 if (isempty(data))
     used = [];
 else
     used = unique(data(:,2));
 end
 
-remaining = setdiff(goodIms,used);
+path = ['../' 'tif_09_1' '/BlockImg']; %CHANGE THIS
+files = dir(path);
 
-randInd = ceil(rand*size(remaining,2));
 
-im = Pipeline.import_dp('ids',randInd);
-Verify.CreateData.analyze(im);
+num = files(randi(length(files))).name(1:end-4);
+while (ismember(str2num(num),used))
+    num = files(randi(length(files))).name(1:end-4);
+end
+
+
+im = DPImage('real',[path '/' num '.tif']);
+ML.CreateData.manual_label(im,str2num(num));

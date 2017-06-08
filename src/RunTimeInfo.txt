@@ -1,7 +1,7 @@
 ../data/slides/AlexBright256/
-20170527-2031
+20170607-2323
 11
-C:\Users\alexkyriazis\Downloads\testbox.tif
+C:\Users\alexkyriazis\Documents\digital-pathology\data\subImage_test\5623.tif
 256
 256
 1

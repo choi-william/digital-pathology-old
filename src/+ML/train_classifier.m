@@ -2,25 +2,26 @@
 %   Alex Kyriazis
 %   William Choi
 
-% Grabs the classification training data saved from analyze.m, calculates
-% the features from each image and trains a model to classify. The features
-% used for classification are extracted based on ML.
-
-%Note: make sure that the load(**.mat) is as desired
+% Based on training data manually created in +CreateData, this script finds
+% all those cells, extracts all their features and generates a
+% classification model that can be used to predict whether future cells are
+% false positive or false negative
 
 box_side = 20;
 
-load('+Verify/+CreateData/classification_data.mat');
+load('+ML/+CreateData/classification_data_asma.mat');
 
 count = 1;
 dps = unique(data(:,2));
+
+in_path = uigetdir(dataPath,'Choose input folder');
 
 
 newList=[];
 for i=1:size(dps,1)
     dpnum = dps(i);
-    dpim = Pipeline.import_dp('ids',dpnum);
-    
+    dpim = DPImage('real',[in_path '/' num2str(dpnum) '.tif']); %%fix this
+
     cells = data((data(:,2) == dpnum),:);
     
     

@@ -1,29 +1,15 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The entry point to running the software is to call:
 
-### What is this repository for? ###
+pathology_analysis(0) %for single image selection analysis
+run_all_files(0); %to batch process images in a directory
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+There are lots of files in the src/ that are not necessary for running
+the project, but are for behind the scenes file manipulation, classification
+training, etc. 
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+To accompany the project, there is a directory of brain slides we were given
+from the lab. Certain functions in src/ are programmed to pull from this data
+which lived in /data/output/ . For access to these data files, please email
+adkyriazis@gmail.com
