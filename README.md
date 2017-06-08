@@ -2,6 +2,7 @@
 
 
 ----USING THE PROJECT----
+
 The entry point to running the software is to call:
 
 pathology_analysis(0) 
@@ -13,6 +14,7 @@ Performs the pathology_analysis() procedure but with a batch of images in the sa
 Once you have an analysis file, GUI/main can be run which will prompt for the file. The microglia can properties can then be visualized.
 
 ----DEVELOPER NOTES----
+
 There are lots of files in the src/ that are not necessary for running the project, but are for behind the scenes file manipulation, classification training, etc. 
 
 To accompany the project, there is a directory of brain slides we were given from the lab. Certain functions in src/ are programmed to pull from this data which lived in /data/output/ . These files will be uploaded to a TBD drive.
