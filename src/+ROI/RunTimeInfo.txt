@@ -1,8 +1,0 @@
-../data/slides/AlexBright256/
-/Users/WilliamChoi/Desktop/ENPH459/digital-pathology/data/20170429-1040
-0
-/Users/WilliamChoi/Desktop/ENPH459/digital-pathology/data/B6-70275-Iba1.svs
-256
-256
-1
-0

@@ -69,3 +69,5 @@ if isInterfacing
     %CREATES DIRECTORY STRUCTURE
     InterfaceOutput;
 end
+
+delete('RunTimeInfo.txt');
