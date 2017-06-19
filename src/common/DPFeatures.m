@@ -1,3 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% A structure containing feature vectors that are relevant for
+% classification
+
+
 classdef DPFeatures
     % defines a soma's defining features
     

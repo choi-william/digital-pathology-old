@@ -1,3 +1,14 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Takes a DPImage (warning, it must have training data before calling) and
+% checks how our algorithm performs on it. A score is assigned.
+
+% This may be a little outdated now. Originally this acted on DPImages that
+% had training data from the Wellington Lab. Unfortunately this training
+% data turned out to be bad so it is not so helpful. 
+
 function [ score ] = evaluate_soma(dpimage,shouldPlot)
     % Performs a comparison between automatic soma segmentation and manual soma
     % segmentation

@@ -1,3 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% A more specific binary search algorithm that deals with the pixelList
+% coordinate list format that is used in other files
+
+
 function [bool] = pixelListBinarySearch( pList, p )
     
     a = Helper.BinarySearch(pList(:,1),p(1));

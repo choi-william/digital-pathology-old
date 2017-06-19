@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Performs a binary search on an array
+
+
 function [ind] = BinarySearch(arr,val)
 
     dim = find(size(arr)==max(size(arr)));

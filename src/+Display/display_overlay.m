@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Displays border around cells in dpimage
+%
+
 function [] = displayOverlay(dp)
     boundaries = bwperim(dp.somaMask);
     boundaries = imdilate(boundaries,strel('disk',1));

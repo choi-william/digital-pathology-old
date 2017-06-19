@@ -1,3 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Sets the 'subimage' property of the cell by dynamically determining a
+% bounding box around the cell based on its size.
+%
+
 function [soma] = somaBoundBox( soma, basicOrAdvanced )
 
     %0 is basic, 1 is advanced

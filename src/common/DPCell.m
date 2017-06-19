@@ -1,22 +1,29 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% A representation of a cell and all its properties
+
+
 classdef DPCell
     % Digital Pathology Cell (DPImage)
     %   A Cell Representation
     
     properties
-        pixelList 
+        pixelList %list of pixels that belong to this cell (dpimage referenced)
 
-        referenceDPImage
+        referenceDPImage %the DP image this belongs to
 
-        TL %top left coordinate of subImage box wrt dpiamge. In (x,y)
-        subImage
-        oImage %ocbrc image
-        rCentroid
+        TL %top left coordinate of subImage box wrt dpimage. In (x,y)
+        subImage %a smaller cropping of the cell out of the DPImage
+        oImage %image after a step of smoothing
+        rCentroid %relative centroid of the subImage in the DPImage
         
-        cnnBox
+        cnnBox %box around cell created for CNN
 
-        area
-        preThreshIntensity
-        circularity
+        area %are of cell
+        preThreshIntensity %intensity at the centroid of the cell before thresholding
+        circularity %circularity of cell (currently unimplemented)
 
         isClump = 0;  % true if the component contains multiple cells
 

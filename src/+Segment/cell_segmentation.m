@@ -1,3 +1,14 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+
+% Main entry point into the cell segmentation process. The result of this
+% is a setting of the internal properties of dpimage to reflect the new
+% information gathered about the cells.
+
+% The critical parameters that must be modified are the calls to 
+% Segment.Soma.extract_soma() below
+
 function [ cell_list ] = cell_segmentation( dpimage, visual )
 %CELL_SEGMENTATION Summary of this function goes here
 %   Handles cell segmentation; soma segmentation followed by processes
@@ -9,7 +20,7 @@ function [ cell_list ] = cell_segmentation( dpimage, visual )
     thresh = (dpimage.avInt*0.3+25)/100;
 
     % Soma Segmentation
-    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 0, thresh, 80);
+    [cell_list,dp] = Segment.Soma.extract_soma(dpimage, 1, thresh, 80);
     
     length = size(cell_list,2);
 

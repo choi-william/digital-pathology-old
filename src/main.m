@@ -1,6 +1,4 @@
-
 run('init.m');
-
 
 % %asma images
 % im1 = DPImage('real',[dataPath '\subImage_test' '\1250.tif']);
@@ -59,7 +57,6 @@ run_all_files(0);
 %%% IF YOU WANT TO RUN THE FULL ANALYSIS ON AN .SVS or .TIF IMAGE
 % pathology_analysis(0);
 
-
 %steps to running:
 %
 % run the analysis above ^^^^
@@ -74,16 +71,6 @@ run_all_files(0);
 % move those two files into /data, and run +GUI/main.m to visualize the
 % analysis
 
-
-%TODO:::::
-% -optimize the analysis runtime by not rereading every block image file
-% from disk. Analysis can be done during the white matter classification
-% code.
-%
-% -optimize classification by not using CNNs (Alex will do this)
-%
-% -streamline program so that the GUI visualization code is performed
-% immediately after analysis
 
 
 

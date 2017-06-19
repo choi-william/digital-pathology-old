@@ -1,3 +1,11 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Displays positions of cells extracted by extract_soma with the parameters
+% below
+%
+
 function [] = display_soma_points(dp)
 
     somaList = Segment.Soma.extract_soma(dp, 0, 0.8, 100);

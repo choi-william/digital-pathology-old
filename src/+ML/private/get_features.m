@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% Finds features based on extraction performed in DPFeatures
+%
+
 function [] = get_features( dpimages )
 %DISTINGUISH Summary of this function goes here
 %   Detailed explanation goes here

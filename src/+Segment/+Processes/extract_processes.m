@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+%
+% A sandbox to experiment with different branch segmenting algorithms 
+%
+
 function bwIm = extract_processes( soma_image, options )
 %EXTRACTPROCESSES Summary of this function goes here
 %   Detailed explanation goes here

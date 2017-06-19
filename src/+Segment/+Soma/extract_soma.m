@@ -1,7 +1,12 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
 % 
+% The main acting algorithm that actually segments the cell bodies.
+%
 % dpimage - image object
 % alg - algorithm type parameter. 0 for opening and closing by
-% reconstruction. 1 for mumford-shah.
+% reconstruction. 1 for mumford-shah, 2 for multithresholding (untested)
 %
 function [list,dp] = extract_soma( dpimage, alg , th, lsb )
     if alg == 0

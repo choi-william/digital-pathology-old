@@ -1,3 +1,10 @@
+% University of British Columbia, Vancouver, 2017
+%   Alex Kyriazis
+%   William Choi
+% 
+% A supporting function that crops the passed in image
+%
+
 function [ cropim, rowCoord, colCoord ] = crop_image( matrix, row, col, offset )
 %CUTIMAGE Summary of this function goes here
 %   Detailed explanation goes here
