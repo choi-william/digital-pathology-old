@@ -34,7 +34,7 @@ function [] = pathology_analysis(analysis_type, imagePath, outPath)
     
     status = zeros(numrows*numcols,1);
 
-    parpool;
+%     parpool;
     
 
     %necessary for displaying count due to parallel nature

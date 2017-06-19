@@ -49,17 +49,21 @@ function [ bwIm ] = process_segmentation( rgbCellImage, cellCentroid )
 
     % Determining the level at which soma appears
     firstSomaLevel = find(numCountedObjects > 0, 1, 'first');
-    lastSomaLevel = firstSomaLevel;
-    for i = firstSomaLevel+1:backgroundLevel
-        if numCountedObjects(i) == numCountedObjects(lastSomaLevel)
-            lastSomaLevel = i;
+    if firstSomaLevel >= backgroundLevel
+        somaLevel = backgroundLevel;
+    else
+        lastSomaLevel = firstSomaLevel;
+        for i = firstSomaLevel+1:backgroundLevel
+            if numCountedObjects(i) == numCountedObjects(lastSomaLevel)
+                lastSomaLevel = i;
+            end
+            if lastSomaLevel == backgroundLevel
+                lastSomaLevel = round((firstSomaLevel+backgroundLevel)/2); % could potentially be changed
+            end
         end
-        if lastSomaLevel == backgroundLevel
-            lastSomaLevel = round((firstSomaLevel+backgroundLevel)/2); % could potentially be changed
-        end
+        somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
     end
 
-    somaLevel = round((firstSomaLevel + lastSomaLevel)/2);
 
 
 % % % % % % %     
